@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+# Mierda puta de Raul
+.idea/
+cmake-build-debug/
