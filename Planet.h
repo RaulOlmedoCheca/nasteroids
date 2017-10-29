@@ -1,18 +1,14 @@
 #ifndef NASTEROIDS_PLANET_H
 #define NASTEROIDS_PLANET_H
 
-#include "Point.h"
+#include "Body.h"
 
-class Planet : private Point {
+class Planet : public Body {
 private:
-    double m;
 
 public:
-    void setM(double y);
 
-    double getM(void);
-
-    Planet(double x, double y, double m) : Point(getX(), getY()) {}
+    Planet(double posX, double posY, double mass) : Body(getPosX(), getPosY(), getMass()) {}
 
 };
 

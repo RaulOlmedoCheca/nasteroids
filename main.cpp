@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
-#include "Point.h"
+#include "Body.h"
 #include "Planet.h"
 
 #define GRAVITY 6.674e-5
@@ -16,7 +16,7 @@
 
 // INFO: The Point & distance classes are implemented natively in C++, maybe we could reuse them
 
-double distance(Point a, Point b);
+double distance(Body a, Body b);
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
@@ -52,7 +52,9 @@ int main(int argc, char const *argv[]) {
 
     /*** TEST -see if Planet class inherits from Point the x and y methods  ***/
 
-    planet1 = Planet ();
+    auto* planet = new Planet(22.4, 24.0, 10.04);
+
+    planet.getPosX();
 
 
     return 0;
@@ -60,11 +62,11 @@ int main(int argc, char const *argv[]) {
 
 /**
  * This function returns the distance between the @param a and @param b
- * @param a point object
- * @param b point object
+ * @param a body object
+ * @param b body object
  * @return double distance
  */
-double distance(Point a, Point b) {
+double distance(Body a, Body b) {
     return sqrt(pow((a.getX() - b.getX()), 2) + pow((a.getY() - b.getY()), 2));
 }
 

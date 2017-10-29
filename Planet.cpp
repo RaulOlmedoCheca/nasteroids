@@ -1,21 +1,7 @@
 #include "Planet.h"
 
-/**
- *
- * @param y
- */
-void Planet::setM(double y) {
-    this->m = m;
+Planet::Planet(double posX, double posY, double mass) : Body(posX, posY, mass) {
+    setPosX(posX);
+    setPosY(posY);
 }
 
-/**
- *
- * @return
- */
-double Planet::getM(void) {
-    return m;
-}
-
-Planet::Planet(double x, double y, double m) : Point(getX(), getY()) {
-
-}
