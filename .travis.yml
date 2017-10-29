@@ -8,10 +8,3 @@ before_script:
     - cmake ..
       
 script: make
-
-addons:
-    apt:
-      packages:
-        - cmake
-      sources:
-        - kalakris-cmake
