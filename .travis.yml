@@ -8,3 +8,6 @@ before_script:
     - cmake ..
       
 script: make
+
+notifications:
+    slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
