@@ -2,6 +2,7 @@
 #include <cmath>
 #include <random>
 #include "Point.h"
+#include "Planet.h"
 
 #define GRAVITY 6.674e-5
 #define TIME_INTERVAL 0.1
@@ -22,6 +23,13 @@ bool checkParameters(int numberOfParameters, char const *parameters[]);
 int main(int argc, char const *argv[]) {
     using namespace std;
 
+    /* USEFUL INFO */
+    // argv[1] = num_asteroids
+    // argv[2] = num_iterations
+    // argv[3] = num_planets
+    // argv[4] = pos_ray
+    // argv[5] = seed
+
     // Check input
     if (!checkParameters(argc, argv)) {
         //INFO: commented because it is incomplete
@@ -41,6 +49,11 @@ int main(int argc, char const *argv[]) {
     std::cout << ydist(re) << std::endl;
     std::cout << mdist(re) << std::endl;
     /**************************************************************/
+
+    /*** TEST -see if Planet class inherits from Point the x and y methods  ***/
+
+    planet1 = Planet ();
+
 
     return 0;
 }
