@@ -1,6 +1,8 @@
+# nasteroids
+
 [![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=development)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
 
-# nasteroids
+Final Project of ARCOS
 
 # TODO:
 + Dividir (encapsular) los objetos en diferentes archivos para clarificar el codigo (he leido algo 
