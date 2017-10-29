@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=development)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
 
-#nasteroids
+# nasteroids
 
 # TODO:
 + Dividir (encapsular) los objetos en diferentes archivos para clarificar el codigo (he leido algo 
