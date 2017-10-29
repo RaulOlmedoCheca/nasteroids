@@ -4,7 +4,7 @@
 
 Final Project of ARCOS
 
-# TODO:
+## TODO:
 + Dividir (encapsular) los objetos en diferentes archivos para clarificar el codigo (he leido algo 
 de hacer header files)
 + Mirar el metodo de la distancia implementado porque hay que hacer historias locas con distribuciones normales  
@@ -16,7 +16,7 @@ de hacer header files)
     + Rayo
 
 ***
-# Documentation
+## Documentation
 
 ### Parameters of the program: 
 **num_asteroids:** is an integer number, greater or equal than 0, which indicates the number of asteroids 
