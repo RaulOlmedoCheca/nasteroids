@@ -37,12 +37,11 @@ int main(int argc, char const *argv[]) {
         //INFO: commented because it is incomplete
         //return -1;
     }
-
     int num_asteroids = std::stoi(argv[1]);
     int num_iterations = std::stoi(argv[2]);
     int num_planets = std::stoi(argv[3]);
-    int pos_array = std::stoi(argv[4]);
-    unsigned int seed = std::stoi(argv[5]); //FIXME: cast to unsigned int instead of int
+    int pos_ray = std::stoi(argv[4]);
+    unsigned int seed = (unsigned int) std::stoi(argv[5]);
 
     generateBodies(num_asteroids, num_planets, seed);
 
@@ -82,25 +81,26 @@ void generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int see
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
+    // INFO: lo mismo una doubly linked list renta aqui para una performance :cohete:
+    // FIXME: no se por que cojones no se puede meter una variable aqui, estalla porque dice que no lo puede hacer en runtime
+    // sin embargo pones un numero a pincho y si tira
+    Asteroid *asteroids[numberOfAsteroids];
+    Planet *planets[numberOfPlanets];
+
     for (int i = 0; i < numberOfAsteroids; ++i) {
-        // Instantiate the object getting xdist(re), ydist(re) and mdist(re)
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0);
     }
 
     for (int j = 0; j < numberOfPlanets; ++j) {
-        // Instantiate the object getting the planets on the maps sides (the mass is multiplied by 10)
+        planets[j] = new Planet(xdist(re), ydist(re), mdist(re) * 10);
     }
 
-    /*** TEST -see if Planet class inherits from Body the getPosX and getPosY methods-  ***/
-
-    /* ERROR: This way of creating an object has the scope of the function, we want to create it globally to
-     * be able to use them in other functions */
-    Planet *planet = new Planet(22.4, 0, 10.04);
-
-    planet->getPosX();
-
-    Asteroid *asteroid = new Asteroid(50.45, 24.0, 10.04, 0);
-
-    asteroid->setPosX(23.89);
+    /* To access the functions inside an instance of a class
+     *
+     * Planet *planet = new Planet(22.4, 0, 10.04);
+     * planet->getPosX();
+     *
+     * */
 }
 
 /**
