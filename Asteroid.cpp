@@ -1,7 +1,7 @@
 #include "Asteroid.h"
 
 /**
- *
+ * TODO:
  * @param velocity
  */
 void Asteroid::setVelocity(double velocity) {
@@ -9,7 +9,7 @@ void Asteroid::setVelocity(double velocity) {
 }
 
 /**
- *
+ * TODO:
  * @return
  */
 double Asteroid::getVelocity() {
@@ -17,7 +17,7 @@ double Asteroid::getVelocity() {
 }
 
 /**
- *
+ * TODO:
  * @param posX
  * @param posY
  * @param mass

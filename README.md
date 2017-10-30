@@ -5,15 +5,11 @@
 Final Project of ARCOS
 
 ## TODO:
-+ Dividir (encapsular) los objetos en diferentes archivos para clarificar el codigo (he leido algo 
-de hacer header files)
-+ Mirar el metodo de la distancia implementado porque hay que hacer historias locas con distribuciones normales  
 + Posibles objetos: 
-    + Punto
-    + Espacio
-    + Asteroide
-    + Planeta
-    + Rayo
+    + Body
+    + Asteroid
+    + Planet
+    + Ray
 
 ***
 ## Documentation
@@ -54,7 +50,9 @@ floating point numbers, 3 decimals must be printed.
  normal_distribution<double> mdist{mass, sdm};
  ```
  
- Me quede en el 2.2.2/2.2.3
+Formulas used:
+
+
  
  
  

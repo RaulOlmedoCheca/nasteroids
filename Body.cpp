@@ -59,7 +59,7 @@ Body::Body(double posX, double posY, double mass) {
 }
 
 /**
- *
+ * TODO:
  */
 Body::~Body() {
     // TODO: implementamos destructores?
