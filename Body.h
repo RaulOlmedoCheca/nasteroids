@@ -2,12 +2,14 @@
 #define NASTEROIDS_POINT_H
 
 class Body {
+
 private:
     double posX;
     double posY;
     double mass;
 
 public:
+
     void setPosX(double posX);
 
     void setPosY(double posY);
@@ -20,7 +22,8 @@ public:
 
     Body(double posX, double posY, double mass);
 
-    virtual ~Body();
+    ~Body(); // TODO: implementamos destructores?
+
 };
 
 #endif //NASTEROIDS_POINT_H

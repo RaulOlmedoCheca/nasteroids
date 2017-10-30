@@ -3,6 +3,7 @@
 #include <random>
 #include "Body.h"
 #include "Planet.h"
+#include "Asteroid.h"
 
 #define GRAVITY 6.674e-5
 #define TIME_INTERVAL 0.1
@@ -52,10 +53,16 @@ int main(int argc, char const *argv[]) {
 
     /*** TEST -see if Planet class inherits from Point the x and y methods  ***/
 
-    auto* planet = new Planet(22.4, 24.0, 10.04);
+    Planet* planet = new Planet(22.4, 0, 10.04);
 
-    planet.getPosX();
+    planet->getPosX();
 
+    Asteroid* asteroid = new Asteroid(50.45, 24.0, 10.04, 0);
+
+    std::cout << asteroid->getPosX() << std::endl;
+    asteroid->setPosX(23.89);
+    std::cout << asteroid->getPosX() << std::endl;
+    std::cout << asteroid->getVelocity() << std::endl;
 
     return 0;
 }
@@ -67,7 +74,7 @@ int main(int argc, char const *argv[]) {
  * @return double distance
  */
 double distance(Body a, Body b) {
-    return sqrt(pow((a.getX() - b.getX()), 2) + pow((a.getY() - b.getY()), 2));
+    return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
 /**

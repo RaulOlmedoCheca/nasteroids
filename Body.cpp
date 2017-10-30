@@ -1,3 +1,4 @@
+#include <iostream>
 #include "Body.h"
 
 /**
@@ -47,11 +48,19 @@ double Body::getMass() {
  * @param mass
  */
 Body::Body(double posX, double posY, double mass) {
-    this->posX = posX;
-    this->posY = posY;
-    this->mass = mass;
+    if (posX < 0 || posY < 0 || mass < 0) {
+        std::cerr << "Error: negative value in one of the fields" << std::endl;
+    } else {
+        this->posX = posX;
+        this->posY = posY;
+        this->mass = mass;
+    }
+
 }
 
+/**
+ *
+ */
 Body::~Body() {
-
+    // TODO: implementamos destructores?
 }

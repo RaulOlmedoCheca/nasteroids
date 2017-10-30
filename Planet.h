@@ -4,11 +4,11 @@
 #include "Body.h"
 
 class Planet : public Body {
-private:
 
 public:
+    // TODO: override setters to avoid changing the position to a planet
 
-    Planet(double posX, double posY, double mass) : Body(getPosX(), getPosY(), getMass()) {}
+    Planet(double posX, double posY, double mass);
 
 };
 
