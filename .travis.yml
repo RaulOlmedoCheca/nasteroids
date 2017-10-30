@@ -10,4 +10,4 @@ before_script:
 script: make
 
 notifications:
-    slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
+    #slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
