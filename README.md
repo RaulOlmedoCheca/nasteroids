@@ -1,6 +1,6 @@
 # nasteroids
 
-[![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=development)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
+[![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=tramadol-by-raul)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
 
 Final Project of ARCOS
 
@@ -113,11 +113,4 @@ floating point numbers, 3 decimals must be printed.
  normal_distribution<double> mdist{mass, sdm};
  ```
  
-Formulas used:
-
-
- 
- 
- 
- //TODO:
  
