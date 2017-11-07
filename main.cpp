@@ -19,15 +19,15 @@
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
-void generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed);
+Body** generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed);
 
 double computeDistance(Body a, Body b);
 
-double computeAngleOfInfluence(Asteroid a, Body b);
+double computeAngleOfInfluence(Body a, Body b);
 
 double computeAcceleration();
 
-std::tuple<double, double> computeAttractionForce(Asteroid a, Body b);
+double computeAttractionForce(Body a, Body b);
 
 int main(int argc, char const *argv[]) {
     using namespace std;
@@ -37,13 +37,25 @@ int main(int argc, char const *argv[]) {
         //INFO: commented because it is incomplete
         //return -1;
     }
-    int num_asteroids = std::stoi(argv[1]);
-    int num_iterations = std::stoi(argv[2]);
-    int num_planets = std::stoi(argv[3]);
-    int pos_ray = std::stoi(argv[4]);
-    unsigned int seed = (unsigned int) std::stoi(argv[5]);
+    const int num_asteroids = stoi(argv[1]);
+    const int num_iterations = stoi(argv[2]);
+    const int num_planets = stoi(argv[3]);
+    //const int pos_ray = stoi(argv[4]);
+    const unsigned int seed = (unsigned int) stoi(argv[5]);
 
-    generateBodies(num_asteroids, num_planets, seed);
+    // Get the array that contains the array of asteroids and planets (bodies[0] = *asteroids[], bodies[1] = *planets[])
+    Body **bodies = generateBodies(num_asteroids, num_planets, seed);
+
+
+    for (int i = 0; i < num_iterations; ++i) {
+        for (int j = 0; j < num_asteroids; ++j) {
+            for (int k = 0; k < num_planets; ++k) {
+                computeAttractionForce(bodies[0][j], bodies[1][k]);
+            }
+        }
+    }
+
+
 
 
     return 0;
@@ -73,17 +85,15 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
  * @param numberOfAsteroids
  * @param numberOfPlanets
  * @param seed
+ * @return
  */
-void generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed) {
+Body** generateBodies(const int numberOfAsteroids, const int numberOfPlanets, const unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
     std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-    // INFO: lo mismo una doubly linked list renta aqui para una performance :cohete:
-    // FIXME: no se por que cojones no se puede meter una variable aqui, estalla porque dice que no lo puede hacer en runtime
-    // sin embargo pones un numero a pincho y si tira
     Asteroid *asteroids[numberOfAsteroids];
     Planet *planets[numberOfPlanets];
 
@@ -101,6 +111,13 @@ void generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int see
      * planet->getPosX();
      *
      * */
+
+    // INFO: this code snippet may be wrong
+    Body **bodies[numberOfAsteroids+numberOfPlanets];
+    *bodies[0] = *asteroids;
+    *bodies[1] = *planets;
+
+    return *bodies;
 }
 
 /**
@@ -119,7 +136,8 @@ double computeDistance(Body a, Body b) {
  * @param b
  * @return
  */
-double computeAngleOfInfluence(Asteroid a, Body b) {
+double computeAngleOfInfluence(Body a, Body b) {
+    // INFO: take care of the case of computing two planet's angle of influence ????
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
     if (slope < -1 || slope > 1) {
         slope = slope - trunc(slope);
@@ -134,17 +152,15 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
  * @param b
  * @return
  */
-std::tuple<double, double> computeAttractionForce(Asteroid a, Body b) {
+double computeAttractionForce(Body a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
-    // INFO: do we create a variable for the mass in each object?
-    // INFO: maybe we should add an acceleration or force exerted field to the asteroid instead of the velocity
     double forceInXAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
     double forceInYAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
 
     /* TODO: Apply the force positively for a and negatively for b, an element wont exert force to himself,
      * take care of the case in which the b Body is a planet */
 
-    return std::make_tuple(forceInXAxis, forceInYAxis);
+    return forceInXAxis*forceInYAxis;
 }
