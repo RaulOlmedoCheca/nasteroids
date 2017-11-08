@@ -70,10 +70,9 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
 
 /**
  * TODO:
- * @param numberOfAsteroids
- * @param numberOfPlanets
+ * @param asteroids
+ * @param planets
  * @param seed
- * @return
  */
 void generateBodies(std::vector<Asteroid *> asteroids, std::vector<Planet *> planets, unsigned int seed){
     // Random distributions
