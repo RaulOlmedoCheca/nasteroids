@@ -19,7 +19,7 @@
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
-std::vector<std::vector<Body *> > generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed);
+void generateBodies(std::vector<Asteroid *> asteroids, std::vector<Planet *> planets, unsigned int seed);
 
 double computeDistance(Body a, Body b);
 
@@ -39,8 +39,11 @@ int main(int argc, char const *argv[]) {
     //const int pos_ray = stoi(argv[4]);
     const unsigned int seed = (unsigned int) stoi(argv[5]);
 
-    // Get the array that contains the array of asteroids and planets (bodies[0] = *asteroids[], bodies[1] = *planets[])
-    std::vector<std::vector<Body *> > bodies = generateBodies(num_asteroids, num_planets, seed);
+    std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
+    std::vector<Planet *> planets((unsigned long) num_planets);
+
+    // FIXME: pasar por referencia los valores en lugar de por valor
+    generateBodies(asteroids, planets, seed);
 
 
     return 0;
@@ -72,36 +75,20 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
  * @param seed
  * @return
  */
-std::vector<std::vector<Body *> > generateBodies(const int numberOfAsteroids, const int numberOfPlanets, const unsigned int seed) {
+void generateBodies(std::vector<Asteroid *> asteroids, std::vector<Planet *> planets, unsigned int seed){
     // Random distributions
     std::default_random_engine re{seed};
     std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-    std::vector<Asteroid *> asteroids((unsigned long) numberOfAsteroids);
-    std::vector<Planet *> planets((unsigned long) numberOfPlanets);
-
-    for (int i = 0; i < numberOfAsteroids; ++i) {
+    for (unsigned long i = 0; i < asteroids.size(); ++i) {
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0);
     }
 
-    for (int j = 0; j < numberOfPlanets; ++j) {
+    for (unsigned long j = 0; j < planets.size(); ++j) {
         planets[j] = new Planet(xdist(re), ydist(re), mdist(re) * 10);
     }
-
-    /** Esta mierda si funciona, es un array de arrays de punteros a objetos Asteroid
-     * std::vector< std::vector<Asteroid*> > bodies(2);
-     * bodies[0] = asteroids;
-     *
-     * Ahora, cuando intento usar la superclase, estalla al no poder convertir el tipo de puntero
-     **/
-
-    std::vector<std::vector<Body *> > bodies(2);
-    bodies[0] = asteroids;
-    bodies[1] = planets;
-
-    return bodies;
 
 }
 
