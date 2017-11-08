@@ -19,7 +19,7 @@
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
-std::vector<Body*> generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed);
+std::vector<std::vector<Body *> > generateBodies(int numberOfAsteroids, int numberOfPlanets, unsigned int seed);
 
 double computeDistance(Body a, Body b);
 
@@ -40,10 +40,7 @@ int main(int argc, char const *argv[]) {
     const unsigned int seed = (unsigned int) stoi(argv[5]);
 
     // Get the array that contains the array of asteroids and planets (bodies[0] = *asteroids[], bodies[1] = *planets[])
-    std::vector<Body*> bodies = generateBodies(num_asteroids, num_planets, seed);
-
-
-
+    std::vector<std::vector<Body *> > bodies = generateBodies(num_asteroids, num_planets, seed);
 
 
     return 0;
@@ -75,35 +72,37 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
  * @param seed
  * @return
  */
-std::vector<Body*> generateBodies(const int numberOfAsteroids, const int numberOfPlanets, const unsigned int seed) {
+std::vector<std::vector<Body *> > generateBodies(const int numberOfAsteroids, const int numberOfPlanets, const unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
     std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-
-    std::vector<Asteroid*> asteroids((unsigned long) numberOfAsteroids);
-    std::vector<Planet*> planets((unsigned long) numberOfAsteroids);
+    std::vector<Asteroid *> asteroids((unsigned long) numberOfAsteroids);
+    std::vector<Planet *> planets((unsigned long) numberOfPlanets);
 
     for (int i = 0; i < numberOfAsteroids; ++i) {
-        asteroids.push_back(new Asteroid(xdist(re), ydist(re), mdist(re), 0));
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0);
     }
 
     for (int j = 0; j < numberOfPlanets; ++j) {
-        planets.push_back(new Planet(xdist(re), ydist(re), mdist(re) * 10));
+        planets[j] = new Planet(xdist(re), ydist(re), mdist(re) * 10);
     }
 
-    /* To access the functions inside an instance of a class
+    /** Esta mierda si funciona, es un array de arrays de punteros a objetos Asteroid
+     * std::vector< std::vector<Asteroid*> > bodies(2);
+     * bodies[0] = asteroids;
      *
-     * Planet *planet = new Planet(22.4, 0, 10.04);
-     * planet->getPosX();
-     *
-     * */
-    std::vector<std::vector<Body*> > bodies((unsigned long) numberOfAsteroids + numberOfPlanets);
-    bodies.push_back(asteroids);
+     * Ahora, cuando intento usar la superclase, estalla al no poder convertir el tipo de puntero
+     **/
+
+    std::vector<std::vector<Body *> > bodies(2);
+    bodies[0] = asteroids;
+    bodies[1] = planets;
 
     return bodies;
+
 }
 
 /**
@@ -149,7 +148,7 @@ double computeAttractionForce(Body a, Body b) {
     /* TODO: Apply the force positively for a and negatively for b, an element wont exert force to himself,
      * take care of the case in which the b Body is a planet */
 
-    return forceInXAxis*forceInYAxis;
+    return forceInXAxis * forceInYAxis;
 }
 /* INFO: functions to implement: computePosition() in the main calls computeVelocity() which calls computeAcceleration()
  * that finally calls computeAttractionForce()
