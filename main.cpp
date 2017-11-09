@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <random>
-#include "Body.h"
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -9,8 +8,6 @@
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
 void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed);
-
-void applyReboundEffect(Asteroid a);
 
 int main(int argc, char const *argv[]) {
     using namespace std;
@@ -67,7 +64,7 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
     for (unsigned long i = 0; i < asteroids.size(); ++i) {
-        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0);
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
 
     for (unsigned long j = 0; j < planets.size(); ++j) {
@@ -76,10 +73,3 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
 
 }
 
-/**
- *
- * @param a
- */
-void applyReboundEffect(Asteroid a){
-    //a.set
-}

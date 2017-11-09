@@ -8,7 +8,7 @@
  * @param b body object
  * @return double distance
  */
-double computeDistance(Body a, Body b) {
+double Computations::computeDistance(Body a, Body b) {
     return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
@@ -18,7 +18,7 @@ double computeDistance(Body a, Body b) {
  * @param b
  * @return
  */
-double computeAngleOfInfluence(Body a, Body b) {
+double Computations::computeAngleOfInfluence(Body a, Body b) {
     // INFO: take care of the case of computing two planet's angle of influence ????
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
     if (slope < -1 || slope > 1) {
@@ -34,7 +34,7 @@ double computeAngleOfInfluence(Body a, Body b) {
  * @param b
  * @return
  */
-double computeAttractionForce(Body a, Body b) {
+double Computations::computeAttractionForce(Body a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
@@ -46,4 +46,33 @@ double computeAttractionForce(Body a, Body b) {
      * take care of the case in which the b Body is a planet */
 
     return forceInXAxis * forceInYAxis;
+}
+
+/**
+ * TODO:
+ * @param a
+ */
+void Computations::computeReboundEffect(Asteroid a) {
+    double posX = a.getPosX();
+    double posY = a.getPosY();
+
+    if (posX <= 0) {
+        a.setPosX(posX - 2);
+        a.setVelocityX(a.getVelocityX() * -1);
+
+    } else if (posX >= SPACE_WIDTH) {
+        a.setPosX(SPACE_WIDTH - 2);
+        a.setVelocityX(a.getVelocityX() * -1);
+
+    } else if (posY <= 0) {
+        a.setPosY(posY - 2);
+        a.setVelocityX(a.getVelocityY() * -1);
+
+    } else if (posY >= SPACE_HEIGHT) {
+        a.setPosY(SPACE_HEIGHT - 2);
+        a.setVelocityX(a.getVelocityY() * -1);
+
+    } else {
+        // The asteroid is not in a border, do nothing
+    }
 }

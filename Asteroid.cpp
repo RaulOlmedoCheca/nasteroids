@@ -2,18 +2,34 @@
 
 /**
  * TODO:
- * @param velocity
+ * @param velocityX
  */
-void Asteroid::setVelocity(double velocity) {
-    this->velocity = velocity;
+void Asteroid::setVelocityX(double velocityX) {
+    this->velocityX = velocityX;
+}
+
+/**
+ * TODO:
+ * @param velocityY
+ */
+void Asteroid::setVelocityY(double velocityY) {
+    this->velocityY = velocityY;
 }
 
 /**
  * TODO:
  * @return
  */
-double Asteroid::getVelocity() {
-    return velocity;
+double Asteroid::getVelocityX() {
+    return velocityX;
+}
+
+/**
+ * TODO:
+ * @return
+ */
+double Asteroid::getVelocityY() {
+    return velocityY;
 }
 
 /**
@@ -23,6 +39,7 @@ double Asteroid::getVelocity() {
  * @param mass
  * @param velocity
  */
-Asteroid::Asteroid(double posX, double posY, double mass, double velocity) : Body(posX, posY, mass) {
-    this->velocity = velocity;
+Asteroid::Asteroid(double posX, double posY, double mass, double velocityX, double velocityY) : Body(posX, posY, mass) {
+    this->velocityX = velocityX;
+    this->velocityY = velocityY;
 }

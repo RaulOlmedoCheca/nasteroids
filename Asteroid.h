@@ -6,15 +6,20 @@
 class Asteroid : public Body {
 
 private:
-    double velocity;
+    double velocityX;
+    double velocityY;
 
 public:
 
-    void setVelocity(double velocity);
+    void setVelocityX(double velocityX);
 
-    double getVelocity();
+    void setVelocityY(double velocityY);
 
-    Asteroid(double posX, double posY, double mass, double velocity);
+    double getVelocityX();
+
+    double getVelocityY();
+
+    Asteroid(double posX, double posY, double mass, double velocityX, double velocityY);
 
 };
 
