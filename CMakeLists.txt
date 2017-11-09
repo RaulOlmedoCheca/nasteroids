@@ -5,5 +5,5 @@ set(CMAKE_CXX_STANDARD 14)
 #set(CMAKE_BUILD_TYPE Release) INFO: uncomment this to test performance, leave it commented otherwise
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Wno-deprecated -Werror -pedantic -pedantic-errors")
 
-set(SOURCE_FILES main.cpp Body.cpp Body.h Planet.h Asteroid.h Planet.cpp Asteroid.cpp)
+set(SOURCE_FILES main.cpp Body.cpp Body.h Planet.h Asteroid.h Planet.cpp Asteroid.cpp Computations.h Computations.cpp Constants.h)
 add_executable(nasteroids ${SOURCE_FILES})

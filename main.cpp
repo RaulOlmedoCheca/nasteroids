@@ -4,26 +4,13 @@
 #include "Body.h"
 #include "Planet.h"
 #include "Asteroid.h"
-
-#define GRAVITY 6.674e-5
-#define TIME_INTERVAL 0.1
-#define MINIMUM_DISTANCE 2.0
-#define SPACE_WIDTH 200
-#define SPACE_HEIGHT 200
-#define RAY_WIDTH 4
-#define MASS 1000
-#define SD_MASS 50
-#define PARAMETERS_REQUIRED 5
-
-// INFO: Lo del body y asteroid hay que revisarlo porque peta aun usando un cast
+#include "Constants.h"
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
 void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed);
 
-double computeDistance(Body a, Body b);
-
-double computeAngleOfInfluence(Body a, Body b);
+void applyReboundEffect(Asteroid a);
 
 int main(int argc, char const *argv[]) {
     using namespace std;
@@ -42,7 +29,6 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets);
 
-    // FIXME: pasar por referencia los valores en lugar de por valor
     generateBodies(asteroids, planets, seed);
 
     return 0;
@@ -91,52 +77,9 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
 }
 
 /**
- * This function returns the distance between the @param a and @param b
- * @param a body object
- * @param b body object
- * @return double distance
- */
-double computeDistance(Body a, Body b) {
-    return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
-}
-
-/**
- * TODO:
+ *
  * @param a
- * @param b
- * @return
  */
-double computeAngleOfInfluence(Body a, Body b) {
-    // INFO: take care of the case of computing two planet's angle of influence ????
-    double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
-    if (slope < -1 || slope > 1) {
-        slope = slope - trunc(slope);
-    }
-    double alfa = atan(slope);
-    return alfa;
+void applyReboundEffect(Asteroid a){
+    //a.set
 }
-
-/**
- * TODO:
- * @param a
- * @param b
- * @return
- */
-double computeAttractionForce(Body a, Body b) {
-    double distance = computeDistance(a, b);
-    double alfa = computeAngleOfInfluence(a, b);
-
-    double forceInXAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
-    double forceInYAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
-
-    /*** THIS IS IMPORTANT ***/
-    /* TODO: Apply the force positively for a and negatively for b, an element wont exert force to himself,
-     * take care of the case in which the b Body is a planet */
-
-    return forceInXAxis * forceInYAxis;
-}
-/* INFO: functions to implement: computePosition() in the main calls computeVelocity() which calls computeAcceleration()
- * that finally calls computeAttractionForce()
- * Hay un puto lio con las componentes para empezar, y luego cuando se calcula la fuerza de atraccion hay que aplicarla
- * tambien al otro objeto, no tengo nada claro como implementar esto*/
-
