@@ -3,8 +3,9 @@
 
 #include "Body.h"
 #include "Asteroid.h"
+#include "Planet.h"
 
-class Computations {
+struct Computations {
 
 public:
 
@@ -12,9 +13,15 @@ public:
 
     double computeAngleOfInfluence(Asteroid a, Body b);
 
-    double computeAttractionForce(Asteroid a, Body b);
+    double* computeAttractionForce(Asteroid a, Body b);
 
     void computeReboundEffect(Asteroid a);
+
+    void computePosition(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
+
+    void computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
+
+    double* computeAcceleration(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
 };
 
 #endif //NASTEROIDS_COMPUTATIONS_H

@@ -1,4 +1,5 @@
 #include <cmath>
+#include <vector>
 #include "Computations.h"
 #include "Constants.h"
 
@@ -33,18 +34,20 @@ double Computations::computeAngleOfInfluence(Asteroid a, Body b) {
  * @param b
  * @return
  */
-double Computations::computeAttractionForce(Asteroid a, Body b) {
+double* Computations::computeAttractionForce(Asteroid a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
-    double forceInXAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
-    double forceInYAxis = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
+    auto* forces = new double[2];
+
+    forces[0] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
+    forces[1] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
 
     /*** THIS IS IMPORTANT ***/
     /* TODO: Apply the force positively for a and negatively for b, an element wont exert force to himself,
      * take care of the case in which the b Body is a planet */
 
-    return forceInXAxis * forceInYAxis;
+    return forces;
 }
 
 /**
@@ -74,4 +77,34 @@ void Computations::computeReboundEffect(Asteroid a) {
     } else {
         // The asteroid is not in a border, do nothing
     }
+}
+
+void Computations::computePosition(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
+    computeVelocity(a, asteroids, planets);
+
+    a.setPosX(a.getPosX() + a.getVelocityX() * TIME_INTERVAL);
+    a.setPosY(a.getPosY() + a.getVelocityY() * TIME_INTERVAL);
+}
+
+void Computations::computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
+    // TODO: compute the acceleration
+    double accelerationX = (computeAcceleration(a, asteroids, planets))[0];
+    double accelerationY = (computeAcceleration(a, asteroids, planets))[1];
+
+    a.setVelocityX(a.getVelocityX() + accelerationX * TIME_INTERVAL);
+    a.setVelocityY(a.getVelocityY() + accelerationY * TIME_INTERVAL);
+}
+
+double* Computations::computeAcceleration(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
+    auto* accelerations = new double[2];
+
+    for (auto &asteroid : asteroids) {
+        accelerations[0] += (computeAttractionForce(a, asteroid) / a.getMass())[0];
+    }
+
+    for (auto &planet : planets) {
+        accelerations[1] += (computeAttractionForce(a, planet) / a.getMass())[1];
+    }
+
+    return accelerations;
 }
