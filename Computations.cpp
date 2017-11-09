@@ -8,7 +8,7 @@
  * @param b body object
  * @return double distance
  */
-double Computations::computeDistance(Body a, Body b) {
+double Computations::computeDistance(Asteroid a, Body b) {
     return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
@@ -18,8 +18,7 @@ double Computations::computeDistance(Body a, Body b) {
  * @param b
  * @return
  */
-double Computations::computeAngleOfInfluence(Body a, Body b) {
-    // INFO: take care of the case of computing two planet's angle of influence ????
+double Computations::computeAngleOfInfluence(Asteroid a, Body b) {
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
     if (slope < -1 || slope > 1) {
         slope = slope - trunc(slope);
@@ -34,7 +33,7 @@ double Computations::computeAngleOfInfluence(Body a, Body b) {
  * @param b
  * @return
  */
-double Computations::computeAttractionForce(Body a, Body b) {
+double Computations::computeAttractionForce(Asteroid a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 

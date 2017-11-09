@@ -8,11 +8,11 @@ class Computations {
 
 public:
 
-    double computeDistance(Body a, Body b);
+    double computeDistance(Asteroid a, Body b);
 
-    double computeAngleOfInfluence(Body a, Body b);
+    double computeAngleOfInfluence(Asteroid a, Body b);
 
-    double computeAttractionForce(Body a, Body b);
+    double computeAttractionForce(Asteroid a, Body b);
 
     void computeReboundEffect(Asteroid a);
 };
