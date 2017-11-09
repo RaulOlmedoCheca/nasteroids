@@ -63,12 +63,12 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-    for (unsigned long i = 0; i < asteroids.size(); ++i) {
-        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+    for (auto &asteroid : asteroids) {
+        asteroid = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
 
-    for (unsigned long j = 0; j < planets.size(); ++j) {
-        planets[j] = new Planet(xdist(re), ydist(re), mdist(re) * 10);
+    for (auto &planet : planets) {
+        planet = new Planet(xdist(re), ydist(re), mdist(re) * 10);
     }
 
 }
