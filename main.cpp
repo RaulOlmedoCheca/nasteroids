@@ -181,7 +181,6 @@ void computePosition(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector
 }
 
 void computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
-    // TODO: compute the acceleration
     double accelerationX = (computeAcceleration(a, asteroids, planets))[0];
     double accelerationY = (computeAcceleration(a, asteroids, planets))[1];
 
