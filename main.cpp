@@ -19,7 +19,7 @@
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
-void generateBodies(std::vector<Asteroid *> asteroids, std::vector<Planet *> planets, unsigned int seed);
+void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed);
 
 double computeDistance(Body a, Body b);
 
@@ -44,7 +44,6 @@ int main(int argc, char const *argv[]) {
 
     // FIXME: pasar por referencia los valores en lugar de por valor
     generateBodies(asteroids, planets, seed);
-
 
     return 0;
 }
@@ -74,7 +73,7 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
  * @param planets
  * @param seed
  */
-void generateBodies(std::vector<Asteroid *> asteroids, std::vector<Planet *> planets, unsigned int seed){
+void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed){
     // Random distributions
     std::default_random_engine re{seed};
     std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
