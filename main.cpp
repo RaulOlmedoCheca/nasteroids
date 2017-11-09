@@ -5,25 +5,23 @@
 #include "Asteroid.h"
 #include "Constants.h"
 
-/******/
 double computeDistance(Asteroid a, Body b);
 
 double computeAngleOfInfluence(Asteroid a, Body b);
 
-double* computeAttractionForce(Asteroid a, Body b);
+std::vector<double> computeAttractionForce(Asteroid a, Body b);
 
 void computeReboundEffect(Asteroid a);
 
-void computePosition(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
+void computePosition(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
-void computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
+void computeVelocity(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
-double* computeAcceleration(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets);
-/******/
+std::vector<double> computeAcceleration(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
 bool checkParameters(int numberOfParameters, char const *parameters[]);
 
-void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed);
+void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
 int main(int argc, char const *argv[]) {
     using namespace std;
@@ -79,7 +77,7 @@ bool checkParameters(int numberOfParameters, char const *parameters[]) {
  * @param planets
  * @param seed
  */
-void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets, unsigned int seed){
+void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
     std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
@@ -90,6 +88,7 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
         asteroid = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
 
+    // ERROR: the planet generated is not on an axis
     for (auto &planet : planets) {
         planet = new Planet(xdist(re), ydist(re), mdist(re) * 10);
     }
@@ -97,6 +96,7 @@ void generateBodies(std::vector<Asteroid *>& asteroids, std::vector<Planet *>& p
 }
 
 /********/
+// CHECK: ¿Se puede meter toda esta morralla en otro lado?
 /**
  * This function returns the distance between the @param a and @param b
  * @param a body object
@@ -128,18 +128,19 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
  * @param b
  * @return
  */
-double* computeAttractionForce(Asteroid a, Body b) {
+std::vector<double> computeAttractionForce(Asteroid a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
-    auto* forces = new double[2];
+    std::vector<double> forces(2);
 
     forces[0] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
     forces[1] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
 
     /*** THIS IS IMPORTANT ***/
-    /* TODO: Apply the force positively for a and negatively for b, an element wont exert force to himself,
-     * take care of the case in which the b Body is a planet */
+    /* TODO: Apply the force positively for a and negatively for b
+     * CHECK: an element wont exert force to himself
+     * TODO: take care of the case in which the b Body is a planet */
 
     return forces;
 }
@@ -173,14 +174,26 @@ void computeReboundEffect(Asteroid a) {
     }
 }
 
-void computePosition(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
+/**
+ * TODO:
+ * @param a
+ * @param asteroids
+ * @param planets
+ */
+void computePosition(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     computeVelocity(a, asteroids, planets);
 
     a.setPosX(a.getPosX() + a.getVelocityX() * TIME_INTERVAL);
     a.setPosY(a.getPosY() + a.getVelocityY() * TIME_INTERVAL);
 }
 
-void computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
+/**
+ * TODO:
+ * @param a
+ * @param asteroids
+ * @param planets
+ */
+void computeVelocity(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     double accelerationX = (computeAcceleration(a, asteroids, planets))[0];
     double accelerationY = (computeAcceleration(a, asteroids, planets))[1];
 
@@ -188,17 +201,29 @@ void computeVelocity(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector
     a.setVelocityY(a.getVelocityY() + accelerationY * TIME_INTERVAL);
 }
 
-double* computeAcceleration(Asteroid a, std::vector<Asteroid *>& asteroids, std::vector<Planet *>& planets){
-    auto* accelerations = new double[2];
+/**
+ * TODO:
+ * @param a
+ * @param asteroids
+ * @param planets
+ * @return
+ */
+std::vector<double> computeAcceleration(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
+    std::vector<double> accelerations(2);
 
     for (auto &asteroid : asteroids) {
-        // FIXME:
-        accelerations[0] += (computeAttractionForce(a, *asteroid))[0] / a.getMass();
+        if (computeDistance(a, *asteroid) > MINIMUM_DISTANCE) {
+            // CHECK: "Slicing object from type 'Asteroid' to 'Body' discards 16 bytes of state", aun asi parece que no peta
+            accelerations[0] += (computeAttractionForce(a, *asteroid))[0] / a.getMass();
+            accelerations[1] += (computeAttractionForce(a, *asteroid))[1] / a.getMass();
+        }
     }
 
     for (auto &planet : planets) {
-        // FIXME:
-        accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
+        if (computeDistance(a, *planet) > MINIMUM_DISTANCE) {
+            accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
+            accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
+        }
     }
 
     return accelerations;
