@@ -10,9 +10,9 @@ private:
 
 public:
 
-    void setPosX(double posX);
+    virtual void setPosX(double posX);
 
-    void setPosY(double posY);
+    virtual void setPosY(double posY);
 
     double getPosX(void);
 

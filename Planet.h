@@ -6,7 +6,10 @@
 class Planet : public Body {
 
 public:
-    // TODO: override setters to avoid changing the position to a planet
+
+    void setPosX(double posX) override;
+
+    void setPosY(double posY) override;
 
     Planet(double posX, double posY, double mass);
 
