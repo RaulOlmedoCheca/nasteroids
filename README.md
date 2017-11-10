@@ -1,7 +1,7 @@
 # nasteroids
 
-[![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=tramadol-by-raul)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/69636e6f7d144bccbd8a37e5e3108de1)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RaulOlmedoCheca/nasteroids&amp;utm_campaign=Badge_Grade)
+[![Build Status](https://travis-ci.com/RaulOlmedoCheca/nasteroids.svg?token=FAmyHcKt9Zn9dEwKo3Ts&branch=master)](https://travis-ci.com/RaulOlmedoCheca/nasteroids)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0d6ab79e59ee46b5b4470cfba011a96a)](https://www.codacy.com?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=RaulOlmedoCheca/nasteroids&amp;utm_campaign=Badge_Grade)
 
 Final Project of ARCOS
 
