@@ -93,20 +93,30 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 }
 
 void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, const int pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, std::vector<Laser *> &lasers){
-//convert each float number to 3 digit decimal
+float x;
+float y;
+float mass;
 std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
 outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray seed << "\n" << std::endl;
 //write asteroids
 for(int i = 0; i < num_asteroids; ++i){
-  outfile_init << asteroid[i].xdist << " " << asteroid[i].ydist << " " << asteroid[i].mdist << "\n" << std::endl;
+   x = (roundf(asteroid[i].getPosX()*1000)/1000);
+   y = (roundf(asteroid[i].getPosY()*1000)/1000);
+   mass = (roundf(asteroid[i].getMass()*1000)/1000);
+   outfile_init << x << " " << y << " " << mass << "\n" << std::endl;
 }
 //write planets
 for(int i = 0; i < num_planets; ++i){
-  outfile_init << planet[i].xdist << " " << planet[i].ydist << " " << planet[i].mdist << "\n" << std::endl;
+  x = (roundf(planet[i].getPosX()*1000)/1000);
+  y = (roundf(planet[i].getPosY()*1000)/1000);
+  mass = (roundf(planet[i].getMass()*1000)/1000);
+  outfile_init << x << " " << y << " " << mass << "\n" << std::endl;
 }
 //write laser position
- outfile_init << laser.xdist << " " << laser.ydist << "\n" << std::endl;
+  x = (roundf(laser.getPosX()*1000)/1000);
+  y = (roundf(laser.getPosY()*1000)/1000);
+  outfile_init << x << " " << y << "\n" << std::endl;
  //close the file
  outfile_init.close();
 }
