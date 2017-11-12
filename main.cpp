@@ -54,7 +54,7 @@ int main(int argc, char const *argv[]) {
  * @param parameters pointer to the array with the parameters
  * @return false if error, true if none
  */
-bool checkParametersNumbers(int numberOfParameters, char const *parameters[]) {
+bool checkParametersNumber(int numberOfParameters, char const *parameters[]) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
         std::cerr << parameters[0] << ": Wrong arguments.\nCorrect use:\n" << parameters[0]
         << "num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
