@@ -77,7 +77,7 @@ float checkFloat(char const *arg) {
   try {
     return std::stof(arg);
   }
-  catch (const std::invalid_argument& ia) {
+  catch (...) {
     std::cerr << "Invalid argument"<<'\n';
     return -1;
   }
