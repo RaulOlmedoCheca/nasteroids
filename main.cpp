@@ -7,7 +7,7 @@
 #include "Constants.h"
 #include "Computations.h"
 
-bool checkParametersNumber(int numberOfParameters, char const *parameters[]);
+bool checkParametersNumber(int numberOfParameters);
 
 int checkInteger(char const *arg);
 
@@ -17,7 +17,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 
 int main(int argc, char const *argv[]) {
     // Check input parameters
-    if(!checkParametersNumber(argc, argv)){
+    if(!checkParametersNumber(argc)){
       return -1;
     }
 
@@ -39,47 +39,50 @@ int main(int argc, char const *argv[]) {
         }
     }
 
-    std::cout << "Testing..." << '\n';
-    std::cout << num_planets << '\n';
-    std::cout << num_iterations << '\n';
-    std::cout << pos_ray << '\n';
-    std::cout << seed << '\n';
-
     return 0;
 }
 
 /**
  * This function checks the parameters used in the call to the program
  * @param numberOfParameters int number of parameters
- * @param parameters pointer to the array with the parameters
  * @return false if error, true if none
  */
-bool checkParametersNumber(int numberOfParameters, char const *parameters[]) {
+bool checkParametersNumber(int numberOfParameters) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << parameters[0] << ": Wrong arguments.\nCorrect use:\n" << parameters[0]
-        << "num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+        << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
     return true;
 }
 
+/**
+ * This function checks expected integer arguments 
+ * @param arg char const* argument integer value
+ * @return integer value, exits with error code -1 if error
+ */
 int checkInteger(char const *arg) {
   try {
     return std::stoi(arg);
   }
   catch (...) {
     std::cerr << "Invalid argument"<<'\n';
-    return -1;
+    std::exit(-1);
   }
 }
 
+/**
+ * This function checks expected float arguments 
+ * @param arg char const* argument float value
+ * @return value in float, exits with error code -1 if error
+ */
 float checkFloat(char const *arg) {
   try {
     return std::stof(arg);
   }
   catch (...) {
     std::cerr << "Invalid argument"<<'\n';
-    return -1;
+    std::exit(-1);
   }
 }
 
