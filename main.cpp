@@ -7,7 +7,7 @@
 #include "Constants.h"
 #include "Computations.h"
 
-bool checkParametersNumber(int numberOfParameters, char const *parameters[]);
+bool checkParameters(int numberOfParameters, char const *parameters[]);
 
 int checkInteger(char const *arg);
 
@@ -17,7 +17,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 
 int main(int argc, char const *argv[]) {
     // Check input parameters
-    if(!checkParametersNumber(argc, argv)){
+    if(!checkParameters(argc, argv)){
       return -1;
     }
 
