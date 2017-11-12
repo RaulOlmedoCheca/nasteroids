@@ -9,5 +9,10 @@ before_script:
       
 script: make
 
+after_success: 
+    - ./nasteroids 0 0
+    - ./nasteroids 0 0 0 0 0
+    - ./nasteroids 1 2 3 4.65 876
+
 notifications:
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
