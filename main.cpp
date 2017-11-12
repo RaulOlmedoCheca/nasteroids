@@ -1,28 +1,31 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <string>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
 #include "Computations.h"
 
-bool checkParameters(int numberOfParameters, char const *parameters[]);
+bool checkParametersNumber(int numberOfParameters, char const *parameters[]);
+
+int checkInteger(char const *arg);
+
+float checkFloat(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
 int main(int argc, char const *argv[]) {
-    using namespace std;
-
     // Check input parameters
-    if (!checkParameters(argc, argv)) {
-        //INFO: commented because it is incomplete
-        //return -1;
+    if(!checkParametersNumber(argc, argv)){
+      return -1;
     }
-    int num_asteroids = stoi(argv[1]);
-    const int num_iterations = stoi(argv[2]);
-    int num_planets = stoi(argv[3]);
-    //float pos_ray = stof(argv[4]);
-    const unsigned int seed = (unsigned int) stoi(argv[5]);
+
+    const int num_asteroids = checkInteger(argv[1]);
+    const int num_iterations = checkInteger(argv[2]);
+    const int num_planets = checkInteger(argv[3]);
+    const float pos_ray = checkFloat(argv[4]);
+    const unsigned int seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets);
@@ -36,6 +39,12 @@ int main(int argc, char const *argv[]) {
         }
     }
 
+    std::cout << "Testing..." << '\n';
+    std::cout << num_planets << '\n';
+    std::cout << num_iterations << '\n';
+    std::cout << pos_ray << '\n';
+    std::cout << seed << '\n';
+
     return 0;
 }
 
@@ -46,16 +55,32 @@ int main(int argc, char const *argv[]) {
  * @return false if error, true if none
  */
 bool checkParameters(int numberOfParameters, char const *parameters[]) {
-    //TODO: handle all possible inputs
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << "Wrong number of parameters\n" << std::endl;
+        std::cerr << parameters[0] << ": Wrong arguments.\nCorrect use:\n" << parameters[0]
+        << "num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
-    for (int i = 0; i < numberOfParameters; ++i) {
-        std::cout << parameters[0] << std::endl;
-    }
     return true;
+}
 
+int checkInteger(char const *arg) {
+  try {
+    return std::stoi(arg);
+  }
+  catch (const std::invalid_argument& ia) {
+    std::cerr << "Invalid argument: " << ia.what() << '\n';
+    return -1;
+  }
+}
+
+float checkFloat(char const *arg) {
+  try {
+    return std::stof(arg);
+  }
+  catch (const std::invalid_argument& ia) {
+    std::cerr << "Invalid argument: " << ia.what() << '\n';
+    return -1;
+  }
 }
 
 /**
