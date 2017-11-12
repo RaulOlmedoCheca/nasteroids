@@ -18,10 +18,10 @@ int main(int argc, char const *argv[]) {
         //INFO: commented because it is incomplete
         //return -1;
     }
-    const int num_asteroids = stoi(argv[1]);
+    int num_asteroids = stoi(argv[1]);
     const int num_iterations = stoi(argv[2]);
-    const int num_planets = stoi(argv[3]);
-    //const int pos_ray = stoi(argv[4]);
+    int num_planets = stoi(argv[3]);
+    //float pos_ray = stof(argv[4]);
     const unsigned int seed = (unsigned int) stoi(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
