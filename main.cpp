@@ -67,8 +67,8 @@ int checkInteger(char const *arg) {
   try {
     return std::stoi(arg);
   }
-  catch (const std::invalid_argument& ia) {
-    std::cerr << "Invalid argument: " << ia.what() << '\n';
+  catch (...) {
+    std::cerr << "Invalid argument"<<'\n';
     return -1;
   }
 }
@@ -78,7 +78,7 @@ float checkFloat(char const *arg) {
     return std::stof(arg);
   }
   catch (const std::invalid_argument& ia) {
-    std::cerr << "Invalid argument: " << ia.what() << '\n';
+    std::cerr << "Invalid argument"<<'\n';
     return -1;
   }
 }
