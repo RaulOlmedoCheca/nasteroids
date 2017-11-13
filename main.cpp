@@ -98,7 +98,7 @@ double y;
 double mass;
 std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
-outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray seed << std::endl;
+outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed << std::endl;
 //write asteroids
 for(int i = 0; i < num_asteroids; ++i){  // for (auto i : num_asteroids) { & we could skip argument 1
    x = (round(asteroid[i]->getPosX()*1000)/1000);
