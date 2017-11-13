@@ -6,23 +6,25 @@
 #include "Constants.h"
 #include "Computations.h"
 
-bool checkParameters(int numberOfParameters, char const *parameters[]);
+bool checkParametersNumber(int numberOfParameters);
+
+int checkInteger(char const *arg);
+
+double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
 int main(int argc, char const *argv[]) {
-    using namespace std;
-
     // Check input parameters
-    if (!checkParameters(argc, argv)) {
-        //INFO: commented because it is incomplete
-        //return -1;
+    if(!checkParametersNumber(argc)){
+      return -1;
     }
-    int num_asteroids = stoi(argv[1]);
-    const int num_iterations = stoi(argv[2]);
-    int num_planets = stoi(argv[3]);
-    //float pos_ray = stof(argv[4]);
-    const unsigned int seed = (unsigned int) stoi(argv[5]);
+
+    const int num_asteroids = checkInteger(argv[1]);
+    const int num_iterations = checkInteger(argv[2]);
+    const int num_planets = checkInteger(argv[3]);
+    const double pos_ray = checkDouble(argv[4]);
+    const unsigned int seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets);
@@ -42,20 +44,45 @@ int main(int argc, char const *argv[]) {
 /**
  * This function checks the parameters used in the call to the program
  * @param numberOfParameters int number of parameters
- * @param parameters pointer to the array with the parameters
  * @return false if error, true if none
  */
-bool checkParameters(int numberOfParameters, char const *parameters[]) {
-    //TODO: handle all possible inputs
+bool checkParametersNumber(int numberOfParameters) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << "Wrong number of parameters\n" << std::endl;
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+        << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
-    for (int i = 0; i < numberOfParameters; ++i) {
-        std::cout << parameters[0] << std::endl;
-    }
     return true;
+}
 
+/**
+ * This function checks expected integer arguments 
+ * @param arg char const* argument integer value
+ * @return integer value, exits with error code -1 if error
+ */
+int checkInteger(char const *arg) {
+  try {
+    return std::stoi(arg);
+  }
+  catch (...) {
+    std::cerr << "Invalid argument"<<'\n';
+    std::exit(-1);
+  }
+}
+
+/**
+ * This function checks expected double arguments 
+ * @param arg char const* argument double value
+ * @return value in double, exits with error code -1 if error
+ */
+double checkDouble(char const *arg) {
+  try {
+    return std::stod(arg);
+  }
+  catch (...) {
+    std::cerr << "Invalid argument"<<'\n';
+    std::exit(-1);
+  }
 }
 
 /**
