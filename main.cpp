@@ -21,11 +21,11 @@ int main(int argc, char const *argv[]) {
     int num_asteroids = stoi(argv[1]);
     const int num_iterations = stoi(argv[2]);
     int num_planets = stoi(argv[3]);
-    //float pos_ray = stof(argv[4]);
+    float pos_ray = stof(argv[4]);
     const unsigned int seed = (unsigned int) stoi(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
-    std::vector<Planet *> planets((unsigned long) num_planets);
+    std::vector<Planet *> planets((unsigned long) num_planets); 
 
     generateBodies(asteroids, planets, seed);
 
@@ -33,11 +33,31 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
+	    cout << "Position of asteroid: " << j << " " << asteroids[j].getPosX() << " " << asteroids[j].getPosY() << endl;
+            destroyerOfWorlds(pos_ray, asteroids);
         }
     }
-	int o;
+
+    for (int i = 0; i < num_iterations; ++i) {
+        for (int j = 0; j < num_asteroids; ++j) {
+	    cout << "Position of asteroid: " << j << " " << asteroids[j].getPosX() << " " << asteroids[j].getPosY() << endl;
+        }
+    }
 
     return 0;
+}
+
+/**
+ * This function destroys an asteroid in positionY
+ * @param position of the ray int pos
+ * @param parameters pointer to the array with the asteroids
+ */
+void destroyerOfWorlds(float pos, vector<Asteroid *> asteroids){ 
+  for(int i=0; i<asteroids.size(); i++){
+    if(asteroids[i].getPosY() < pos + (RAY_WIDTH/2) && androids[i].getPosY() > pos - (RAY_WIDTH/2)){
+	asteroids[i].erase(asteroids[i].begin() + i);
+    }
+  }
 }
 
 /**
