@@ -14,7 +14,7 @@ bool checkParameters(int numberOfParameters, char const *parameters[]);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
-void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, const int pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, std::vector<Laser *> &lasers);
+void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
 int main(int argc, char const *argv[]) {
     using namespace std;
@@ -27,7 +27,7 @@ int main(int argc, char const *argv[]) {
     int num_asteroids = stoi(argv[1]);
     const int num_iterations = stoi(argv[2]);
     int num_planets = stoi(argv[3]);
-    //float pos_ray = stof(argv[4]);
+    double pos_ray = stod(argv[4]);
     const unsigned int seed = (unsigned int) stoi(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
@@ -36,7 +36,7 @@ int main(int argc, char const *argv[]) {
     generateBodies(asteroids, planets, seed);
 
 
-    generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets, laser);
+    generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
         for (int j = 0; j < num_asteroids; ++j) {
@@ -92,31 +92,32 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 
 }
 
-void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, const int pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, std::vector<Laser *> &lasers){
-float x;
-float y;
-float mass;
+void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets){
+double x;
+double y;
+double mass;
 std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
-outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray seed << "\n" << std::endl;
+outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray seed << std::endl;
 //write asteroids
-for(int i = 0; i < num_asteroids; ++i){
-   x = (roundf(asteroid[i].getPosX()*1000)/1000);
-   y = (roundf(asteroid[i].getPosY()*1000)/1000);
-   mass = (roundf(asteroid[i].getMass()*1000)/1000);
-   outfile_init << x << " " << y << " " << mass << "\n" << std::endl;
+for(int i = 0; i < num_asteroids; ++i){  // for (auto i : num_asteroids) { & we could skip argument 1
+   x = (round(asteroid[i]->getPosX()*1000)/1000);
+   y = (round(asteroid[i]->getPosY()*1000)/1000);
+   mass = (round(asteroid[i]->getMass()*1000)/1000);
+   outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write planets
-for(int i = 0; i < num_planets; ++i){
-  x = (roundf(planet[i].getPosX()*1000)/1000);
-  y = (roundf(planet[i].getPosY()*1000)/1000);
-  mass = (roundf(planet[i].getMass()*1000)/1000);
-  outfile_init << x << " " << y << " " << mass << "\n" << std::endl;
+for(int i = 0; i < num_planets; ++i){ // for (auto i : num_planets) {  & we could skip argument 3
+  x = (round(planet[i]->getPosX()*1000)/1000);
+  y = (round(planet[i]->getPosY()*1000)/1000);
+  mass = (round(planet[i]->getMass()*1000)/1000);
+  outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write laser position
-  x = (roundf(laser.getPosX()*1000)/1000);
-  y = (roundf(laser.getPosY()*1000)/1000);
-  outfile_init << x << " " << y << "\n" << std::endl;
+  x = 0.000; // position x of the laser will always be 0
+  y = (round(laser*1000)/1000);
+  outfile_init << x << " " << y << std::endl;
+
  //close the file
  outfile_init.close();
 }
