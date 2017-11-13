@@ -54,7 +54,7 @@ int main(int argc, char const *argv[]) {
  * @param position of the ray int pos
  * @param parameters pointer to the array with the asteroids
  */
-void destroyerOfWorlds(float pos, vector<Asteroid *> asteroids){ 
+void destroyerOfWorlds(double pos, vector<Asteroid *> asteroids){ 
   for(int i=0; i<asteroids.size(); i++){
     if(asteroids[i].getPosY() < pos + (RAY_WIDTH/2) && androids[i].getPosY() > pos - (RAY_WIDTH/2)){
 	asteroids[i].erase(asteroids[i].begin() + i);
