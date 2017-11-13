@@ -1,0 +1,3 @@
+/users/alumnos-15-16/a0346140/nasteroids/build/CMakeFiles/rebuild_cache.dir
+/users/alumnos-15-16/a0346140/nasteroids/build/CMakeFiles/edit_cache.dir
+/users/alumnos-15-16/a0346140/nasteroids/build/CMakeFiles/nasteroids.dir

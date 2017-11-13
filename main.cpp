@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <vector>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -13,6 +14,8 @@ int checkInteger(char const *arg);
 double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
+
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
 
 int main(int argc, char const *argv[]) {
     // Check input parameters
@@ -35,17 +38,10 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
-	    cout << "Position of asteroid: " << j << " " << asteroids[j].getPosX() << " " << asteroids[j].getPosY() << endl;
+	    std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
             destroyerOfWorlds(pos_ray, asteroids);
         }
     }
-
-    for (int i = 0; i < num_iterations; ++i) {
-        for (int j = 0; j < num_asteroids; ++j) {
-	    cout << "Position of asteroid: " << j << " " << asteroids[j].getPosX() << " " << asteroids[j].getPosY() << endl;
-        }
-    }
-
     return 0;
 }
 
@@ -54,10 +50,10 @@ int main(int argc, char const *argv[]) {
  * @param position of the ray int pos
  * @param parameters pointer to the array with the asteroids
  */
-void destroyerOfWorlds(double pos, vector<Asteroid *> asteroids){ 
-  for(int i=0; i<asteroids.size(); i++){
-    if(asteroids[i].getPosY() < pos + (RAY_WIDTH/2) && androids[i].getPosY() > pos - (RAY_WIDTH/2)){
-	asteroids[i].erase(asteroids[i].begin() + i);
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids){ 
+  for(unsigned int i=0; i<asteroids.size(); i++){
+    if(asteroids[i]->getPosY() < pos + (RAY_WIDTH/2) && asteroids[i]->getPosY() > pos - (RAY_WIDTH/2)){
+	asteroids.erase(asteroids.begin() + i);
     }
   }
 }
