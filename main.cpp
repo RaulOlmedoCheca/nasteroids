@@ -116,9 +116,11 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
             case 2:
                 planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
                 determineAxis++;
+                break;
             case 3:
                 planet = new Planet(0, ydist(re), mdist(re) * 10);
-                determineAxis++;
+                determineAxis = 0;
+                break;
             default:
                 std::cerr << "Something went really wrong" << std::endl;
         }
