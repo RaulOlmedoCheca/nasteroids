@@ -35,6 +35,7 @@ int main(int argc, char const *argv[]) {
             computeReboundEffect(*asteroids[j]);
         }
     }
+	int o;
 
     return 0;
 }
