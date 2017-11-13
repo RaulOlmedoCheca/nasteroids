@@ -10,7 +10,7 @@ bool checkParametersNumber(int numberOfParameters);
 
 int checkInteger(char const *arg);
 
-float checkFloat(char const *arg);
+double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
@@ -23,8 +23,8 @@ int main(int argc, char const *argv[]) {
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
-    const float pos_ray = checkFloat(argv[4]);
-    const unsigned auto seed = (unsigned int) checkInteger(argv[5]);
+    const double pos_ray = checkDouble(argv[4]);
+    const unsigned int seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets);
@@ -71,13 +71,13 @@ int checkInteger(char const *arg) {
 }
 
 /**
- * This function checks expected float arguments 
- * @param arg char const* argument float value
- * @return value in float, exits with error code -1 if error
+ * This function checks expected double arguments 
+ * @param arg char const* argument double value
+ * @return value in double, exits with error code -1 if error
  */
-float checkFloat(char const *arg) {
+double checkDouble(char const *arg) {
   try {
-    return std::stof(arg);
+    return std::stod(arg);
   }
   catch (...) {
     std::cerr << "Invalid argument"<<'\n';
