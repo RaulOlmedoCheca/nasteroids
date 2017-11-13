@@ -16,6 +16,8 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 
 void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
+void generateFinalFile(std::vector<Asteroid *> &asteroids);
+
 int main(int argc, char const *argv[]) {
     using namespace std;
 
@@ -44,6 +46,9 @@ int main(int argc, char const *argv[]) {
             computeReboundEffect(*asteroids[j]);
         }
     }
+
+    //after all iteration and when everything is de puta madre
+    generateFinalFile(asteroids);
 
     return 0;
 }
@@ -100,14 +105,14 @@ std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
 outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed << std::endl;
 //write asteroids
-for(int i = 0; i < num_asteroids; ++i){  // for (auto i : num_asteroids) { & we could skip argument 1
+for(int i = 0; i < num_asteroids; ++i){  // for (auto i : asteroid) { & we could skip argument 1
    x = (round(asteroid[i]->getPosX()*1000)/1000);
    y = (round(asteroid[i]->getPosY()*1000)/1000);
    mass = (round(asteroid[i]->getMass()*1000)/1000);
    outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write planets
-for(int i = 0; i < num_planets; ++i){ // for (auto i : num_planets) {  & we could skip argument 3
+for(int i = 0; i < num_planets; ++i){ // for (auto i : planet) {  & we could skip argument 3
   x = (round(planet[i]->getPosX()*1000)/1000);
   y = (round(planet[i]->getPosY()*1000)/1000);
   mass = (round(planet[i]->getMass()*1000)/1000);
@@ -120,4 +125,24 @@ for(int i = 0; i < num_planets; ++i){ // for (auto i : num_planets) {  & we coul
 
  //close the file
  outfile_init.close();
+}
+
+
+void generateFinalFile(std::vector<Asteroid *> &asteroids){
+  double x;
+  double y;
+  double velX;
+  double velY;
+  std::ofstream outfile_final ("out.tx");
+  //write asteroids
+  for (auto i : asteroid) { // for(int i = 0; i < num_asteroids; ++i){
+     x = (round(asteroid[i]->getPosX()*1000)/1000);
+     y = (round(asteroid[i]->getPosY()*1000)/1000);
+     velX = (round(asteroid[i]->getVelocityX()*1000)/1000);
+     velY = (round(asteroid[i]->getVelocityY()*1000)/1000);
+     outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
+  }
+   //close the file
+   outfile_final.close();
+
 }
