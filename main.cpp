@@ -1,7 +1,6 @@
 #include <iostream>
 #include <cmath>
 #include <random>
-#include <string>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -25,7 +24,7 @@ int main(int argc, char const *argv[]) {
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
     const float pos_ray = checkFloat(argv[4]);
-    const unsigned int seed = (unsigned int) checkInteger(argv[5]);
+    const unsigned auto seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets);
