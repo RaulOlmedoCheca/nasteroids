@@ -90,7 +90,6 @@ int checkInteger(char const *arg) {
 	if(std::stoi(arg) < 0) {
             std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
                       << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-            std::cerr << "Invalid argument" << '\n';
 	    std::exit(-1);
 	}
 	return std::stoi(arg);
@@ -98,7 +97,6 @@ int checkInteger(char const *arg) {
     catch (...) {
         std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
                   << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-        std::cerr << "Invalid argument" << '\n';
         std::exit(-1);
     }
 }
