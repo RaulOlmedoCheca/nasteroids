@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <vector>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -22,6 +23,8 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
 
 void generateFinalFile(std::vector<Asteroid *> &asteroids);
 
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
+
 int main(int argc, char const *argv[]) {
     // Check input parameters
     if (!checkParametersNumber(argc)) {
@@ -35,7 +38,7 @@ int main(int argc, char const *argv[]) {
     const auto seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
-    std::vector<Planet *> planets((unsigned long) num_planets);
+    std::vector<Planet *> planets((unsigned long) num_planets); 
 
     generateBodies(asteroids, planets, seed);
 
@@ -46,6 +49,8 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
+            std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
+            destroyerOfWorlds(pos_ray, asteroids);
         }
     }
 
@@ -53,6 +58,19 @@ int main(int argc, char const *argv[]) {
     generateFinalFile(asteroids);
 
     return 0;
+}
+
+/**
+ * This function destroys an asteroid in positionY
+ * @param position of the ray int pos
+ * @param parameters pointer to the array with the asteroids
+ */
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids){ 
+  for(unsigned int i=0; i<asteroids.size(); i++){
+    if(asteroids[i]->getPosY() < pos + (RAY_WIDTH/2) && asteroids[i]->getPosY() > pos - (RAY_WIDTH/2)){
+	asteroids.erase(asteroids.begin() + i);
+    }
+  }
 }
 
 /**
@@ -76,10 +94,16 @@ bool checkParametersNumber(int numberOfParameters) {
  */
 int checkInteger(char const *arg) {
     try {
-        return std::stoi(arg);
+	if(std::stoi(arg) < 0) {
+            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+	    std::exit(-1);
+	}
+	return std::stoi(arg);
     }
     catch (...) {
-        std::cerr << "Invalid argument" << '\n';
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
@@ -91,10 +115,16 @@ int checkInteger(char const *arg) {
  */
 double checkDouble(char const *arg) {
     try {
+	if(std::stod(arg) < 0) {
+            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+	    std::exit(-1);
+	}
         return std::stod(arg);
     }
     catch (...) {
-        std::cerr << "Invalid argument" << '\n';
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
