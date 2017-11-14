@@ -16,6 +16,7 @@ CMakeFiles/nasteroids.dir/Computations.cpp.o: ../Constants.h
 CMakeFiles/nasteroids.dir/Computations.cpp.o: ../Planet.h
 
 CMakeFiles/nasteroids.dir/Planet.cpp.o: ../Body.h
+CMakeFiles/nasteroids.dir/Planet.cpp.o: ../Constants.h
 CMakeFiles/nasteroids.dir/Planet.cpp.o: ../Planet.cpp
 CMakeFiles/nasteroids.dir/Planet.cpp.o: ../Planet.h
 

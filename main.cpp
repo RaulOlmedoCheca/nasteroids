@@ -19,15 +19,15 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
 
 int main(int argc, char const *argv[]) {
     // Check input parameters
-    if(!checkParametersNumber(argc)){
-      return -1;
+    if (!checkParametersNumber(argc)) {
+        return -1;
     }
 
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
     const double pos_ray = checkDouble(argv[4]);
-    const unsigned int seed = (unsigned int) checkInteger(argv[5]);
+    const auto seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
     std::vector<Planet *> planets((unsigned long) num_planets); 
@@ -38,10 +38,18 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
-	    std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
-            destroyerOfWorlds(pos_ray, asteroids);
+	    destroyerOfWorlds(pos_ray, asteroids);
         }
     }
+
+    for (int k = 0; k < num_planets; ++k) {
+        std::cout << "Planets: " << planets[k]->getPosX() << " " << planets[k]->getPosY() << std::endl;
+    }
+  
+    for (int l = 0; l < num_asteroids; ++l) {
+        std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
+    } 
+   
     return 0;
 }
 
@@ -66,7 +74,7 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids){
 bool checkParametersNumber(int numberOfParameters) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
         std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-        << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
     return true;
@@ -78,13 +86,13 @@ bool checkParametersNumber(int numberOfParameters) {
  * @return integer value, exits with error code -1 if error
  */
 int checkInteger(char const *arg) {
-  try {
-    return std::stoi(arg);
-  }
-  catch (...) {
-    std::cerr << "Invalid argument"<<'\n';
-    std::exit(-1);
-  }
+    try {
+        return std::stoi(arg);
+    }
+    catch (...) {
+        std::cerr << "Invalid argument" << '\n';
+        std::exit(-1);
+    }
 }
 
 /**
@@ -93,13 +101,13 @@ int checkInteger(char const *arg) {
  * @return value in double, exits with error code -1 if error
  */
 double checkDouble(char const *arg) {
-  try {
-    return std::stod(arg);
-  }
-  catch (...) {
-    std::cerr << "Invalid argument"<<'\n';
-    std::exit(-1);
-  }
+    try {
+        return std::stod(arg);
+    }
+    catch (...) {
+        std::cerr << "Invalid argument" << '\n';
+        std::exit(-1);
+    }
 }
 
 /**
@@ -118,10 +126,30 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     for (auto &asteroid : asteroids) {
         asteroid = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
-
-    // ERROR: the planet generated is not on an axis
+    int determineAxis = 0;
     for (auto &planet : planets) {
-        planet = new Planet(xdist(re), ydist(re), mdist(re) * 10);
+        // TODO: Revisar que los planetas esten bien generados de acuerdo con el paper
+        switch (determineAxis) {
+            case 0:
+                planet = new Planet(xdist(re), 0, mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 1:
+                planet = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 2:
+                planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 3:
+                planet = new Planet(0, ydist(re), mdist(re) * 10);
+                determineAxis = 0;
+                break;
+            default:
+                std::cerr << "Something went really wrong" << std::endl;
+        }
+
     }
 
 }
