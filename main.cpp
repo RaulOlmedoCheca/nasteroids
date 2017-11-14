@@ -38,17 +38,18 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
-	    destroyerOfWorlds(pos_ray, asteroids);
+            std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
+            destroyerOfWorlds(pos_ray, asteroids);
         }
     }
 
-    for (int k = 0; k < num_planets; ++k) {
-        std::cout << "Planets: " << planets[k]->getPosX() << " " << planets[k]->getPosY() << std::endl;
-    }
-  
-    for (int l = 0; l < num_asteroids; ++l) {
-        std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
-    } 
+//    for (int k = 0; k < num_planets; ++k) {
+//        std::cout << "Planets: " << planets[k]->getPosX() << " " << planets[k]->getPosY() << std::endl;
+//    }
+//
+//    for (int l = 0; l < num_asteroids; ++l) {
+//        std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
+//    }
    
     return 0;
 }
