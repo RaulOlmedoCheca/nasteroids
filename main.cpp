@@ -2,6 +2,7 @@
 #include <cmath>
 #include <random>
 #include <vector>
+#include <chrono>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -18,6 +19,10 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
 
 int main(int argc, char const *argv[]) {
+    using clk = std::chrono::high_resolution_clock;
+
+    auto t1 = clk::now();
+
     // Check input parameters
     if (!checkParametersNumber(argc)) {
         return -1;
@@ -49,7 +54,10 @@ int main(int argc, char const *argv[]) {
     for (int l = 0; l < num_asteroids; ++l) {
         std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
     } 
-   
+    
+    auto t2 = clk::now();
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
+    std::cout << "Time = " << diff.count() << "ms" << std::endl; 
     return 0;
 }
 
