@@ -181,11 +181,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids){
   double velY;
   std::ofstream outfile_final ("out.tx");
   //write asteroids
-  for (auto i : asteroids) { // for(int i = 0; i < num_asteroids; ++i){
-     x = (round(asteroids[i]->getPosX()*1000)/1000);
-     y = (round(asteroids[i]->getPosY()*1000)/1000);
-     velX = (round(asteroids[i]->getVelocityX()*1000)/1000);
-     velY = (round(asteroids[i]->getVelocityY()*1000)/1000);
+  for (auto &asteroid : asteroids) { // for(int i = 0; i < num_asteroids; ++i){
+     x = (round(asteroid->getPosX()*1000)/1000);
+     y = (round(asteroid->getPosY()*1000)/1000);
+     velX = (round(asteroid->getVelocityX()*1000)/1000);
+     velY = (round(asteroid->getVelocityY()*1000)/1000);
      outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
   }
    //close the file
