@@ -181,6 +181,7 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids){
   double velY;
   std::ofstream outfile_final ("out.tx");
   //write asteroids
+
   for (auto &asteroid : asteroids) {
      x = (trunc((asteroid->getPosX())*1000)/1000);
      y = (trunc((asteroid->getPosY())*1000)/1000);
