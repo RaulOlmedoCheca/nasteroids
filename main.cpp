@@ -151,17 +151,17 @@ std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
 outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed << std::endl;
 //write asteroids
-for(int i = 0; i < num_asteroids; ++i){  // for (auto i : asteroids) { & we could skip argument 1
-   x = (round(asteroids[i]->getPosX()*1000)/1000);
-   y = (round(asteroids[i]->getPosY()*1000)/1000);
-   mass = (round(asteroids[i]->getMass()*1000)/1000);
+for(int i = 0; i < num_asteroids; ++i){  // for (auto &asteroid : asteroids) { & we could skip argument 1
+   x = (trunc((asteroids[i]->getPosX())*1000)/1000);
+   y = (trunc((asteroids[i]->getPosY())*1000)/1000);
+   mass = (trunc((asteroids[i]->getMass())*1000)/1000);
    outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write planets
 for(int i = 0; i < num_planets; ++i){ // for (auto i : planets) {  & we could skip argument 3
-  x = (round(planets[i]->getPosX()*1000)/1000);
-  y = (round(planets[i]->getPosY()*1000)/1000);
-  mass = (round(planets[i]->getMass()*1000)/1000);
+  x = (trunc((planets[i]->getPosX())*1000)/1000);
+  y = (trunc((planets[i]->getPosY())*1000)/1000);
+  mass = (trunc((planets[i]->getMass())*1000)/1000);
   outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write pos_ray position
@@ -181,11 +181,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids){
   double velY;
   std::ofstream outfile_final ("out.tx");
   //write asteroids
-  for (auto i : asteroids) { // for(int i = 0; i < num_asteroids; ++i){
-     x = (round(asteroids[i]->getPosX()*1000)/1000);
-     y = (round(asteroids[i]->getPosY()*1000)/1000);
-     velX = (round(asteroids[i]->getVelocityX()*1000)/1000);
-     velY = (round(asteroids[i]->getVelocityY()*1000)/1000);
+  for (auto &asteroid : asteroids) {
+     x = (trunc((asteroid->getPosX())*1000)/1000);
+     y = (trunc((asteroid->getPosY())*1000)/1000);
+     velX = (trunc((asteroid->getVelocityX())*1000)/1000);
+     velY = (trunc((asteroid->getVelocityY())*1000)/1000);
      outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
   }
    //close the file
