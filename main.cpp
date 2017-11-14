@@ -151,22 +151,22 @@ std::ofstream outfile_init ("init_conf.txt");
 //write arguments in the first line of the file
 outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed << std::endl;
 //write asteroids
-for(int i = 0; i < num_asteroids; ++i){  // for (auto i : asteroid) { & we could skip argument 1
-   x = (round(asteroid[i]->getPosX()*1000)/1000);
-   y = (round(asteroid[i]->getPosY()*1000)/1000);
-   mass = (round(asteroid[i]->getMass()*1000)/1000);
+for(int i = 0; i < num_asteroids; ++i){  // for (auto i : asteroids) { & we could skip argument 1
+   x = (round(asteroids[i]->getPosX()*1000)/1000);
+   y = (round(asteroids[i]->getPosY()*1000)/1000);
+   mass = (round(asteroids[i]->getMass()*1000)/1000);
    outfile_init << x << " " << y << " " << mass << std::endl;
 }
 //write planets
-for(int i = 0; i < num_planets; ++i){ // for (auto i : planet) {  & we could skip argument 3
-  x = (round(planet[i]->getPosX()*1000)/1000);
-  y = (round(planet[i]->getPosY()*1000)/1000);
-  mass = (round(planet[i]->getMass()*1000)/1000);
+for(int i = 0; i < num_planets; ++i){ // for (auto i : planets) {  & we could skip argument 3
+  x = (round(planets[i]->getPosX()*1000)/1000);
+  y = (round(planets[i]->getPosY()*1000)/1000);
+  mass = (round(planets[i]->getMass()*1000)/1000);
   outfile_init << x << " " << y << " " << mass << std::endl;
 }
-//write laser position
-  x = 0.000; // position x of the laser will always be 0
-  y = (round(laser*1000)/1000);
+//write pos_ray position
+  x = 0.000; // position x of the pos_ray will always be 0
+  y = (round(pos_ray*1000)/1000);
   outfile_init << x << " " << y << std::endl;
 
  //close the file
@@ -181,11 +181,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids){
   double velY;
   std::ofstream outfile_final ("out.tx");
   //write asteroids
-  for (auto i : asteroid) { // for(int i = 0; i < num_asteroids; ++i){
-     x = (round(asteroid[i]->getPosX()*1000)/1000);
-     y = (round(asteroid[i]->getPosY()*1000)/1000);
-     velX = (round(asteroid[i]->getVelocityX()*1000)/1000);
-     velY = (round(asteroid[i]->getVelocityY()*1000)/1000);
+  for (auto i : asteroids) { // for(int i = 0; i < num_asteroids; ++i){
+     x = (round(asteroids[i]->getPosX()*1000)/1000);
+     y = (round(asteroids[i]->getPosY()*1000)/1000);
+     velX = (round(asteroids[i]->getVelocityX()*1000)/1000);
+     velY = (round(asteroids[i]->getVelocityY()*1000)/1000);
      outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
   }
    //close the file
