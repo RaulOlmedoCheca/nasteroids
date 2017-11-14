@@ -33,12 +33,12 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
  * @param b
  * @return
  */
-std::vector<double> computeAttractionForce(Asteroid a, Body b) {
+std::vector<double> computeAttractionForce(Asteroid &a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
     std::vector<double> forces(2);
-
+    // CHECK: vector forces[i]
     forces[0] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
     forces[1] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
 
@@ -85,7 +85,7 @@ void computeReboundEffect(Asteroid a) {
  * @param asteroids
  * @param planets
  */
-void computePosition(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
+void computePosition(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     computeVelocity(a, asteroids, planets);
 
     a.setPosX(a.getPosX() + a.getVelocityX() * TIME_INTERVAL);
@@ -98,7 +98,7 @@ void computePosition(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector
  * @param asteroids
  * @param planets
  */
-void computeVelocity(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
+void computeVelocity(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     double accelerationX = (computeAcceleration(a, asteroids, planets))[0];
     double accelerationY = (computeAcceleration(a, asteroids, planets))[1];
 
@@ -113,7 +113,7 @@ void computeVelocity(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector
  * @param planets
  * @return
  */
-std::vector<double> computeAcceleration(Asteroid a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
+std::vector<double> computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     std::vector<double> accelerations(2);
 
     for (auto &asteroid : asteroids) {
