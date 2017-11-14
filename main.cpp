@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cmath>
 #include <random>
+#include <vector>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -14,6 +15,8 @@ double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
+
 int main(int argc, char const *argv[]) {
     // Check input parameters
     if (!checkParametersNumber(argc)) {
@@ -23,11 +26,11 @@ int main(int argc, char const *argv[]) {
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
-    //const double pos_ray = checkDouble(argv[4]);
+    const double pos_ray = checkDouble(argv[4]);
     const auto seed = (unsigned int) checkInteger(argv[5]);
 
     std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
-    std::vector<Planet *> planets((unsigned long) num_planets);
+    std::vector<Planet *> planets((unsigned long) num_planets); 
 
     generateBodies(asteroids, planets, seed);
 
@@ -35,10 +38,32 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
+	    destroyerOfWorlds(pos_ray, asteroids);
         }
     }
 
+    for (int k = 0; k < num_planets; ++k) {
+        std::cout << "Planets: " << planets[k]->getPosX() << " " << planets[k]->getPosY() << std::endl;
+    }
+  
+    for (int l = 0; l < num_asteroids; ++l) {
+        std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
+    } 
+   
     return 0;
+}
+
+/**
+ * This function destroys an asteroid in positionY
+ * @param position of the ray int pos
+ * @param parameters pointer to the array with the asteroids
+ */
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids){ 
+  for(unsigned int i=0; i<asteroids.size(); i++){
+    if(asteroids[i]->getPosY() < pos + (RAY_WIDTH/2) && asteroids[i]->getPosY() > pos - (RAY_WIDTH/2)){
+	asteroids.erase(asteroids.begin() + i);
+    }
+  }
 }
 
 /**
