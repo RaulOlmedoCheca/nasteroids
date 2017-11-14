@@ -1,4 +1,5 @@
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <random>
 #include <vector>
@@ -15,6 +16,10 @@ int checkInteger(char const *arg);
 double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
+
+void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
+
+void generateFinalFile(std::vector<Asteroid *> &asteroids);
 
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
 
@@ -39,25 +44,24 @@ int main(int argc, char const *argv[]) {
 
     generateBodies(asteroids, planets, seed);
 
+
+    generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
+
     for (int i = 0; i < num_iterations; ++i) {
         for (int j = 0; j < num_asteroids; ++j) {
             computePosition(*asteroids[j], asteroids, planets);
             computeReboundEffect(*asteroids[j]);
-	    destroyerOfWorlds(pos_ray, asteroids);
+            std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
+            destroyerOfWorlds(pos_ray, asteroids);
         }
     }
-
-    for (int k = 0; k < num_planets; ++k) {
-        std::cout << "Planets: " << planets[k]->getPosX() << " " << planets[k]->getPosY() << std::endl;
-    }
-  
-    for (int l = 0; l < num_asteroids; ++l) {
-        std::cout << "Position of asteroid: " << l << " " << asteroids[l]->getPosX() << " " << asteroids[l]->getPosY() << std::endl;
-    } 
     
+    generateFinalFile(asteroids);
+  
     auto t2 = clk::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
     std::cout << "Time = " << diff.count() << "ms" << std::endl; 
+  
     return 0;
 }
 
@@ -98,7 +102,6 @@ int checkInteger(char const *arg) {
 	if(std::stoi(arg) < 0) {
             std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
                       << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-            std::cerr << "Invalid argument" << '\n';
 	    std::exit(-1);
 	}
 	return std::stoi(arg);
@@ -106,7 +109,6 @@ int checkInteger(char const *arg) {
     catch (...) {
         std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
                   << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-        std::cerr << "Invalid argument" << '\n';
         std::exit(-1);
     }
 }
@@ -173,5 +175,56 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
         }
 
     }
+
+}
+
+void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets){
+double x;
+double y;
+double mass;
+std::ofstream outfile_init ("init_conf.txt");
+//write arguments in the first line of the file
+outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed << std::endl;
+//write asteroids
+for(int i = 0; i < num_asteroids; ++i){  // for (auto &asteroid : asteroids) { & we could skip argument 1
+   x = (trunc((asteroids[i]->getPosX())*1000)/1000);
+   y = (trunc((asteroids[i]->getPosY())*1000)/1000);
+   mass = (trunc((asteroids[i]->getMass())*1000)/1000);
+   outfile_init << x << " " << y << " " << mass << std::endl;
+}
+//write planets
+for(int i = 0; i < num_planets; ++i){ // for (auto i : planets) {  & we could skip argument 3
+  x = (trunc((planets[i]->getPosX())*1000)/1000);
+  y = (trunc((planets[i]->getPosY())*1000)/1000);
+  mass = (trunc((planets[i]->getMass())*1000)/1000);
+  outfile_init << x << " " << y << " " << mass << std::endl;
+}
+//write pos_ray position
+  x = 0.000; // position x of the pos_ray will always be 0
+  y = (round(pos_ray*1000)/1000);
+  outfile_init << x << " " << y << std::endl;
+
+ //close the file
+ outfile_init.close();
+}
+
+
+void generateFinalFile(std::vector<Asteroid *> &asteroids){
+  double x;
+  double y;
+  double velX;
+  double velY;
+  std::ofstream outfile_final ("out.tx");
+  //write asteroids
+
+  for (auto &asteroid : asteroids) {
+     x = (trunc((asteroid->getPosX())*1000)/1000);
+     y = (trunc((asteroid->getPosY())*1000)/1000);
+     velX = (trunc((asteroid->getVelocityX())*1000)/1000);
+     velY = (trunc((asteroid->getVelocityY())*1000)/1000);
+     outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
+  }
+   //close the file
+   outfile_final.close();
 
 }
