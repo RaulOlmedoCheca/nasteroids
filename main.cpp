@@ -1,7 +1,9 @@
 #include <iostream>
+#include <fstream>
 #include <cmath>
 #include <random>
-#include <fstream>
+#include <vector>
+#include <chrono>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -23,6 +25,10 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids);
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
 
 int main(int argc, char const *argv[]) {
+    using clk = std::chrono::high_resolution_clock;
+
+    auto t1 = clk::now();
+
     // Check input parameters
     if (!checkParametersNumber(argc)) {
         return -1;
@@ -52,9 +58,12 @@ int main(int argc, char const *argv[]) {
         }
     }
 
-    // After all iteration and when everything is de puta madre
     generateFinalFile(asteroids);
-
+  
+    auto t2 = clk::now();
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
+    std::cout << "Time = " << diff.count() << "ms" << std::endl; 
+  
     return 0;
 }
 
