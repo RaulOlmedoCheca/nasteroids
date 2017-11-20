@@ -21,6 +21,7 @@ after_success:
     - ./nasteroid-base 5 2 1 50.5 2000
     - diff init_conf.txt build/init.conf.txt
     - diff out.txt build/out.txt
+    - strings /usr/lib/libstdc++.so.6 | grep GLIBC
 
 notifications:
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
