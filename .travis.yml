@@ -15,5 +15,12 @@ after_success:
     - ./nasteroids 1 2 3 4.65 876
     - ./nasteroids a 4 as 3 d
 
+    # Test that the values are equal than the base ones
+    - ./nasteroids 5 2 1 50.5 2000
+    - cd ..
+    - ./nasteroids-base 5 2 1 50.5 2000
+    - diff init_conf.txt build/init.conf.txt
+    - diff out.txt build/out.txt
+
 notifications:
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
