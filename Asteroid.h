@@ -21,8 +21,6 @@ public:
 
     Asteroid(double posX, double posY, double mass, double velocityX, double velocityY);
 
-    //virtual ~Asteroid();
-
 };
 
 #endif //NASTEROIDS_ASTEROID_H
