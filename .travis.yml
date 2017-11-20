@@ -32,13 +32,9 @@
 
      # Test that the values are equal than the base ones
      - ./nasteroids 5 2 1 50.5 2000
-     - ls
      - cd ..
-     - ls
      - ./nasteroid-base 5 2 1 50.5 2000
-     - ls
-     - gcc --version
-     - diff init_conf.txt build/init.conf.txt
+     - diff init_conf.txt build/init_conf.txt
      - diff out.txt build/out.txt
 
   notifications:
