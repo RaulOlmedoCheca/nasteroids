@@ -137,7 +137,7 @@ double checkDouble(char const *arg) {
 }
 
 /**
- * TODO:
+ * Generate the bodies according to the parameters given as input on the program
  * @param asteroids
  * @param planets
  * @param seed
@@ -154,7 +154,6 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     }
     int determineAxis = 0;
     for (auto &planet : planets) {
-        // TODO: Revisar que los planetas esten bien generados de acuerdo con el paper
         switch (determineAxis) {
             case 0:
                 planet = new Planet(0, ydist(re), mdist(re) * 10);
