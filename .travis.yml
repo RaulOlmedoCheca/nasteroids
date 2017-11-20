@@ -1,19 +1,47 @@
-language: cpp
+  language: cpp
+  matrix:
+    include:
+      # Works on Precise and Trusty
+      - os: linux
+        addons:
+          apt:
+            sources:
+              - ubuntu-toolchain-r-test
+            packages:
+              - g++-6
+        env:
+          - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+          # Set number of threads for OpenMP //CHECK:
+          - OMP_NUM_THREADS
 
-compiler: gcc
+  before_install:
+    - eval "${MATRIX_EVAL}"
 
-before_script:
-    - mkdir build
-    - cd build
-    - cmake ..
-      
-script: make
+  before_script:
+      - mkdir build
+      - cd build
+      - cmake ..
 
-after_success:
-    - ./nasteroids 0 0		
-    - ./nasteroids 0 0 0 0 0		
-    - ./nasteroids 1 2 3 4.65 876
-    - ./nasteroids a 4 as 3 d
+  script: make
 
-notifications:
+  after_success:
+     - ./nasteroids 0 0
+     - ./nasteroids 0 0 0 0 0
+     - ./nasteroids 1 2 3 4.65 876
+     - ./nasteroids a 4 as 3 d
+
+     ## Structure of a test in travis ##
+     # - ./nasteroids X Y Z A B
+     # - cd ..
+     # - ./nasteroids-base X Y Z A B
+     # - ./deploy-test-script.sh
+
+     # Test that the values are equal than the base ones
+     - ./nasteroids 5 2 1 50.5 2000
+     - cd ..
+     - ./nasteroid-base 5 2 1 50.5 2000
+     - ./deploy-test-script.sh
+
+  notifications:
+    email: false
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos

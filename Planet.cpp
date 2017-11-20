@@ -2,17 +2,27 @@
 #include "Planet.h"
 #include "Constants.h"
 
+/**
+ * Overrides parent function to avoid changing the x component of the position of the planet once created
+ * @param posX
+ */
 void Planet::setPosX(double posX) {
-    std::cerr << "Error: the position" << posX << "cannot replace the previous position, planets do not move" << std::endl;
+    std::cerr << "Error: the position" << posX << "cannot replace the previous position, planets do not move"
+              << std::endl;
 }
 
+/**
+ * Overrides parent function to avoid changing the y component of the position of the planet once created
+ * @param posY
+ */
 void Planet::setPosY(double posY) {
-    std::cerr << "Error: the position" << posY << "cannot replace the previous position, planets do not move" << std::endl;
+    std::cerr << "Error: the position" << posY << "cannot replace the previous position, planets do not move"
+              << std::endl;
 
 }
 
 /**
- * TODO:
+ * Creates a Planet object
  * @param posX
  * @param posY
  * @param mass

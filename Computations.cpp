@@ -3,20 +3,20 @@
 #include "Constants.h"
 
 /**
- * This function returns the distance between the @param a and @param b
+ * Returns the distance between the @param a and @param b
  * @param a body object
  * @param b body object
- * @return double distance
+ * @return distance
  */
 double computeDistance(Asteroid a, Body b) {
     return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
 /**
- * TODO:
+ * Returns the angle of influence between @param a and @param b
  * @param a
  * @param b
- * @return
+ * @return angle of influence
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
@@ -28,10 +28,10 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
 }
 
 /**
- * TODO:
+ * Returns the attraction force exerted between @param a and @param b
  * @param a
  * @param b
- * @return
+ * @return vector with the two components of the force with [0] being the x axis and [1] being the y axis
  */
 std::vector<double> computeAttractionForce(Asteroid &a, Body b) {
     double distance = computeDistance(a, b);
@@ -51,7 +51,7 @@ std::vector<double> computeAttractionForce(Asteroid &a, Body b) {
 }
 
 /**
- * TODO:
+ * Applies the rebound effect to the @param a once checked if necessary
  * @param a
  */
 void computeReboundEffect(Asteroid a) {
@@ -80,7 +80,8 @@ void computeReboundEffect(Asteroid a) {
 }
 
 /**
- * TODO:
+ * Computes the position of the @param a regarding the vector with the Asteroids @param asteroids and
+ * the vector with the Planets @param planets
  * @param a
  * @param asteroids
  * @param planets
@@ -93,7 +94,8 @@ void computePosition(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vecto
 }
 
 /**
- * TODO:
+ * Computes the velocity of the @param a regarding the vector with the Asteroids @param asteroids and
+ * the vector with the Planets @param planets storing it in @param a fields
  * @param a
  * @param asteroids
  * @param planets
@@ -107,13 +109,15 @@ void computeVelocity(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vecto
 }
 
 /**
- * TODO:
+ * Computes the acceleration of the @param a regarding the vector with the Asteroids @param asteroids and
+ * the vector with the Planets @param planets
  * @param a
  * @param asteroids
  * @param planets
- * @return
+ * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
  */
-std::vector<double> computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
+std::vector<double>
+computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
     std::vector<double> accelerations(2);
 
     for (auto &asteroid : asteroids) {
@@ -125,10 +129,8 @@ std::vector<double> computeAcceleration(Asteroid &a, std::vector<Asteroid *> &as
     }
 
     for (auto &planet : planets) {
-        if (computeDistance(a, *planet) > MINIMUM_DISTANCE) {
-            accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
-            accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
-        }
+        accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
+        accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
     }
 
     return accelerations;

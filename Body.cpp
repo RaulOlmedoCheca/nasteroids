@@ -2,7 +2,7 @@
 #include "Body.h"
 
 /**
- * TODO:
+ * Sets the x component of the position of the Object
  * @param posX
  */
 void Body::setPosX(double posX) {
@@ -10,7 +10,7 @@ void Body::setPosX(double posX) {
 }
 
 /**
- * TODO:
+ * Sets the y component of the position of the Object
  * @param posY
  */
 void Body::setPosY(double posY) {
@@ -18,7 +18,7 @@ void Body::setPosY(double posY) {
 }
 
 /**
- * TODO:
+ * Gets the x component of the position of the Object
  * @return
  */
 double Body::getPosX() {
@@ -26,7 +26,7 @@ double Body::getPosX() {
 }
 
 /**
- * TODO:
+ * Gets the y component of the position of the Object
  * @return
  */
 double Body::getPosY() {
@@ -34,7 +34,7 @@ double Body::getPosY() {
 }
 
 /**
- * TODO:
+ * Gets the mass of the Object
  * @return
  */
 double Body::getMass() {
@@ -42,7 +42,7 @@ double Body::getMass() {
 }
 
 /**
- * TODO:
+ * Creates a Body object (Asteroid or Planet)
  * @param posX
  * @param posY
  * @param mass{} */

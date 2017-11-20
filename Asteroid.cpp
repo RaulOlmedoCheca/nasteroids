@@ -2,7 +2,7 @@
 #include <iostream>
 
 /**
- * TODO:
+ * Sets the x component of the velocity of the Asteroid object
  * @param velocityX
  */
 void Asteroid::setVelocityX(double velocityX) {
@@ -10,7 +10,7 @@ void Asteroid::setVelocityX(double velocityX) {
 }
 
 /**
- * TODO:
+ * Sets the y component of the velocity of the Asteroid object
  * @param velocityY
  */
 void Asteroid::setVelocityY(double velocityY) {
@@ -18,7 +18,7 @@ void Asteroid::setVelocityY(double velocityY) {
 }
 
 /**
- * TODO:
+ * Gets the x component of the velocity of the Asteroid object
  * @return
  */
 double Asteroid::getVelocityX() {
@@ -26,7 +26,7 @@ double Asteroid::getVelocityX() {
 }
 
 /**
- * TODO:
+ * Gets the y component of the velocity of the Asteroid object
  * @return
  */
 double Asteroid::getVelocityY() {
@@ -34,7 +34,7 @@ double Asteroid::getVelocityY() {
 }
 
 /**
- * TODO:
+ * Creates an Asteroid object
  * @param posX
  * @param posY
  * @param mass
