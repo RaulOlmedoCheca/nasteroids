@@ -17,7 +17,8 @@ double checkDouble(char const *arg);
 
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed);
 
-void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray, const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
+void generateInitFile(int num_asteroids, int num_iterations, int num_planets, double pos_ray, unsigned int seed,
+                      std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
 void generateFinalFile(std::vector<Asteroid *> &asteroids);
 
@@ -206,7 +207,6 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
         outfile_init.close();
 }
 
-
 void generateFinalFile(std::vector<Asteroid *> &asteroids){
         double x;
         double y;
@@ -224,5 +224,4 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids){
         }
         //close the file
         outfile_final.close();
-
 }
