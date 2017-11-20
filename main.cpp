@@ -192,21 +192,21 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     double mass;
     std::ofstream outfile_init("init_conf.txt");
     // Write arguments in the first line of the file
-    outfile_init << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed
+    outfile_init << std::fixed << std::setprecision(3) <<  num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed
                  << std::endl;
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
         x = (round((asteroids[i]->getPosX()) * 1000) / 1000);
         y = (round((asteroids[i]->getPosY()) * 1000) / 1000);
         mass = (round((asteroids[i]->getMass()) * 1000) / 1000);
-        outfile_init << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
         x = (round((planets[i]->getPosX()) * 1000) / 1000);
         y = (round((planets[i]->getPosY()) * 1000) / 1000);
         mass = (round((planets[i]->getMass()) * 1000) / 1000);
-        outfile_init << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
     // Write pos_ray position
     x = 0.000; // Position x of the pos_ray will always be 0
