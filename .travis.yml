@@ -10,7 +10,8 @@
   script: make
 
   after_success:
-     - ssh a0346073@guernika.lab.inf.uc3m.es -p PASSWORD
+     - sudo apt-get install sshpass
+     - sshpass -p PASSWORD ssh a0346073@guernika.lab.inf.uc3m.es
      - ./nasteroids 0 0
      - ./nasteroids 0 0 0 0 0
      - ./nasteroids 1 2 3 4.65 876
