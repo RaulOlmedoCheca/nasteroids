@@ -1,30 +1,31 @@
-language: cpp
+  language: cpp
 
-compiler: gcc
+  compiler: gcc
 
-before_script:
-    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-    - sudo apt-get update
-    - sudo apt-get install gcc-4.9 -y
-    - sudo apt-get upgrade libstdc++6 -y
-    - mkdir build
-    - cd build
-    - cmake ..
-      
-script: make
+  before_script:
+      - mkdir build
+      - cd build
+      - cmake ..
 
-after_success:
-    - ./nasteroids 0 0		
-    - ./nasteroids 0 0 0 0 0		
-    - ./nasteroids 1 2 3 4.65 876
-    - ./nasteroids a 4 as 3 d
+  script: make
 
-    # Test that the values are equal than the base ones
-    - ./nasteroids 5 2 1 50.5 2000
-    - cd ..
-    - ./nasteroid-base 5 2 1 50.5 2000
-    - diff init_conf.txt build/init.conf.txt
-    - diff out.txt build/out.txt
+  after_success:
+     - ./nasteroids 0 0
+     - ./nasteroids 0 0 0 0 0
+     - ./nasteroids 1 2 3 4.65 876
+     - ./nasteroids a 4 as 3 d
 
-notifications:
+     # Test that the values are equal than the base ones
+     - ./nasteroids 5 2 1 50.5 2000
+     - cat out.txt
+     - cd ..
+     - ./nasteroid-base 5 2 1 50.5 2000
+     - diff init_conf.txt build/init.conf.txt
+     - diff out.txt build/out.txt
+
+  notifications:
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
+
+  env:
+    global:
+      secure: S8W4/u2yNsO969+XyejHwEcUbdEJZbka59ZeMA96G4bBCQQhyey8eGq19qSphtWQqW0dz9b3tLBYcG/uIAaivAtfIw9vaoFTMx5n1GPLO8d6mWDAmG25d97NvtqGeawiP3OXmBKZ4bHQkGOIllpSc2h4uLE1MZzjqhEcMhbYODp+ABbCQq6B1sHGNqHEsbdhmcvVp16A8ojUzxNT1P4tEHEfaGhfGJeXgd8KIVC8QmlLNLR0ZLi8en0OoITUmjrdvokfIBtvK38RXNKt2blwFADuUV3Kzto4j5emX+I+O70FYzasuShZANekb9Pv9vw55me1cAz2UjaIhUYrIhXRR+udliC9ZXljvlZgSo5Usfk7AVCHvZmMVeMrYiEb51wX011/MTAQhX//o9mwwzzYqXqS+ka51QGIEgx2ZnGfhPThPMqQ08idD2ARYQpPz/uggc6SWH0xXI6LKVTP0i4riGuvJWZy+jhndnmAXDstEZ2y+5ioEXvrao9H/cT7Z9R9qSSV1ivaRGCajjGP8Y3NlV2krhI6I3/AKDRmh8OWdJjfrKWaiJURQhlUy+oFjGQ/BPfjPTN6d1rOjE9h0kMnZKd8zD4jIyesXAQGni+zUACcAOY68vIFdL+zudN8MAgKdZcYw/R6UgsUeXm3mDwuCdEbLEBATTILCvxl8q309DI=
