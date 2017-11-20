@@ -201,16 +201,16 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
                  << std::endl;
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
-        x = (trunc((asteroids[i]->getPosX()) * 1000) / 1000);
-        y = (trunc((asteroids[i]->getPosY()) * 1000) / 1000);
-        mass = (trunc((asteroids[i]->getMass()) * 1000) / 1000);
+        x = (round((asteroids[i]->getPosX()) * 1000) / 1000);
+        y = (round((asteroids[i]->getPosY()) * 1000) / 1000);
+        mass = (round((asteroids[i]->getMass()) * 1000) / 1000);
         outfile_init << x << " " << y << " " << mass << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
-        x = (trunc((planets[i]->getPosX()) * 1000) / 1000);
-        y = (trunc((planets[i]->getPosY()) * 1000) / 1000);
-        mass = (trunc((planets[i]->getMass()) * 1000) / 1000);
+        x = (round((planets[i]->getPosX()) * 1000) / 1000);
+        y = (round((planets[i]->getPosY()) * 1000) / 1000);
+        mass = (round((planets[i]->getMass()) * 1000) / 1000);
         outfile_init << x << " " << y << " " << mass << std::endl;
     }
     // Write pos_ray position
@@ -236,11 +236,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     // Write asteroids
 
     for (auto &asteroid : asteroids) {
-        x = (trunc((asteroid->getPosX()) * 1000) / 1000);
-        y = (trunc((asteroid->getPosY()) * 1000) / 1000);
-        velX = (trunc((asteroid->getVelocityX()) * 1000) / 1000);
-        velY = (trunc((asteroid->getVelocityY()) * 1000) / 1000);
-        massFinal = (trunc((asteroid->getMass()) * 1000) / 1000);
+        x = (round((asteroid->getPosX()) * 1000) / 1000);
+        y = (round((asteroid->getPosY()) * 1000) / 1000);
+        velX = (round((asteroid->getVelocityX()) * 1000) / 1000);
+        velY = (round((asteroid->getVelocityY()) * 1000) / 1000);
+        massFinal = (round((asteroid->getMass()) * 1000) / 1000);
         outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " " << massFinal << std::endl;
     }
     // Close the file
