@@ -1,20 +1,29 @@
-language: cpp
-
 compiler: gcc
 
-script: make
+  before_script:
+ +    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+ +    - sudo apt-get update
+ +    - sudo apt-get install gcc-4.9
+ +    - sudo apt-get upgrade libstdc++6
+      - mkdir build
+      - cd build
+      - cmake ..
 
-after_success:
-  - ssh a0346073@guernika.lab.inf.uc3m.es -p PASSWORD
-  - "./nasteroids 0 0"
-  - "./nasteroids 0 0 0 0 0"
-  - "./nasteroids 1 2 3 4.65 876"
-  - "./nasteroids a 4 as 3 d"
-  - "./nasteroids 5 2 1 50.5 2000"
-  - cd ..
-  - "./nasteroid-base 5 2 1 50.5 2000"
-  - diff init_conf.txt build/init.conf.txt
-  - diff out.txt build/out.txt
+ script: make
+
+ after_success:
+     - ssh a0346073@guernika.lab.inf.uc3m.es -p PASSWORD
+     - ./nasteroids 0 0
+     - ./nasteroids 0 0 0 0 0
+     - ./nasteroids 1 2 3 4.65 876
+     - ./nasteroids a 4 as 3 d
+
+     # Test that the values are equal than the base ones
+     - ./nasteroids 5 2 1 50.5 2000
+     - cd ..
+     - ./nasteroid-base 5 2 1 50.5 2000
+     - diff init_conf.txt build/init.conf.txt
+     - diff out.txt build/out.txt
 
 notifications:
   slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
