@@ -156,19 +156,19 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
         // TODO: Revisar que los planetas esten bien generados de acuerdo con el paper
         switch (determineAxis) {
             case 0:
-                planet = new Planet(xdist(re), 0, mdist(re) * 10);
+                planet = new Planet(0, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 1:
-                planet = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                planet = new Planet(xdist(re), 0, mdist(re) * 10);
                 determineAxis++;
                 break;
             case 2:
-                planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                planet = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 3:
-                planet = new Planet(0, ydist(re), mdist(re) * 10);
+                planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
                 determineAxis = 0;
                 break;
             default:
