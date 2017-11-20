@@ -41,6 +41,7 @@
      - cd ..
      - ./nasteroid-base 5 2 1 50.5 2000
      - ./deploy-test-script.sh
+     - diff init_conf.txt build/init_conf.txt && diff -q out.txt build/out.txt
 
   notifications:
     email: false
