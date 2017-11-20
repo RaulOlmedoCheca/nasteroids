@@ -3,10 +3,6 @@ language: cpp
 compiler: gcc
 
 before_script:
-    - sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-    - sudo apt-get update
-    - sudo apt-get install gcc-4.9
-    - sudo apt-get upgrade libstdc++6
     - mkdir build
     - cd build
     - cmake ..
@@ -25,7 +21,6 @@ after_success:
     - ./nasteroid-base 5 2 1 50.5 2000
     - diff init_conf.txt build/init.conf.txt
     - diff out.txt build/out.txt
-    - strings /usr/lib/libstdc++.so.6 | grep GLIBC
 
 notifications:
     slack: lavendiciondevs:cdzfkpSMhUov1iMl6z1CiIs1#arcos
