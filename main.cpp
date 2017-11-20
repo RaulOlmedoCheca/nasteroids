@@ -3,6 +3,7 @@
 #include <cmath>
 #include <random>
 #include <chrono>
+#include <iomanip>
 #include "Planet.h"
 #include "Asteroid.h"
 #include "Constants.h"
@@ -58,11 +59,11 @@ int main(int argc, char const *argv[]) {
     }
 
     generateFinalFile(asteroids);
-  
+
     auto t2 = clk::now();
     auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
-    std::cout << "Time = " << diff.count() << "ms" << std::endl; 
-  
+    std::cout << "Time = " << diff.count() << "ms" << std::endl;
+
     return 0;
 }
 
@@ -94,7 +95,7 @@ bool checkParametersNumber(int numberOfParameters) {
 }
 
 /**
- * This function checks expected integer arguments 
+ * This function checks expected integer arguments
  * @param arg char const* argument integer value
  * @return integer value, exits with error code -1 if error
  */
@@ -115,7 +116,7 @@ int checkInteger(char const *arg) {
 }
 
 /**
- * This function checks expected double arguments 
+ * This function checks expected double arguments
  * @param arg char const* argument double value
  * @return value in double, exits with error code -1 if error
  */
@@ -215,7 +216,7 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     // Write pos_ray position
     x = 0.000; // Position x of the pos_ray will always be 0
     y = (round(pos_ray * 1000) / 1000);
-    outfile_init << x << " " << y << std::endl;
+    outfile_init << std::fixed << std::setprecision(3) << x << " " << y << std::endl;
 
     // Close the file
     outfile_init.close();
@@ -240,7 +241,7 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
         velX = (trunc((asteroid->getVelocityX()) * 1000) / 1000);
         velY = (trunc((asteroid->getVelocityY()) * 1000) / 1000);
         massFinal = (trunc((asteroid->getMass()) * 1000) / 1000);
-        outfile_final << x << " " << y << " " << velX << " " << velY << " " << massFinal << std::endl;
+        outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " " << massFinal << std::endl;
     }
     // Close the file
     outfile_final.close();
