@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include <iostream>
 
 /**
  * Sets the x component of the velocity of the Asteroid object

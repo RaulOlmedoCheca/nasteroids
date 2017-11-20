@@ -2,6 +2,7 @@
 #include <fstream>
 #include <cmath>
 #include <random>
+#include <vector>
 #include <chrono>
 #include <iomanip>
 #include "Planet.h"
@@ -22,49 +23,46 @@ void generateInitFile(int num_asteroids, int num_iterations, int num_planets, do
 
 void generateFinalFile(std::vector<Asteroid *> &asteroids);
 
-void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids);
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids);
 
 int main(int argc, char const *argv[]) {
-    using clk = std::chrono::high_resolution_clock;
+        using clk = std::chrono::high_resolution_clock;
+        auto t1 = clk::now();
 
-    auto t1 = clk::now();
-
-    // Check input parameters
-    if (!checkParametersNumber(argc)) {
-        return -1;
-    }
-
-    const int num_asteroids = checkInteger(argv[1]);
-    const int num_iterations = checkInteger(argv[2]);
-    const int num_planets = checkInteger(argv[3]);
-    const double pos_ray = checkDouble(argv[4]);
-    const auto seed = (unsigned int) checkInteger(argv[5]);
-
-    std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
-    std::vector<Planet *> planets((unsigned long) num_planets);
-
-    generateBodies(asteroids, planets, seed);
-
-
-    generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
-
-    for (int i = 0; i < num_iterations; ++i) {
-        for (int j = 0; j < num_asteroids; ++j) {
-            computePosition(*asteroids[j], asteroids, planets);
-            computeReboundEffect(*asteroids[j]);
-            std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " "
-                      << asteroids[j]->getPosY() << std::endl;
-            destroyerOfWorlds(pos_ray, asteroids);
+        // Check input parameters
+        if (!checkParametersNumber(argc)) {
+                return -1;
         }
-    }
 
-    generateFinalFile(asteroids);
+        const int num_asteroids = checkInteger(argv[1]);
+        const int num_iterations = checkInteger(argv[2]);
+        const int num_planets = checkInteger(argv[3]);
+        const double pos_ray = checkDouble(argv[4]);
+        const auto seed = (unsigned int) checkInteger(argv[5]);
 
-    auto t2 = clk::now();
-    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
-    std::cout << "Time = " << diff.count() << "ms" << std::endl;
+        std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
+        std::vector<Planet *> planets((unsigned long) num_planets);
 
-    return 0;
+        generateBodies(asteroids, planets, seed);
+
+        generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
+
+        for (int i = 0; i < num_iterations; ++i) {
+                for (int j = 0; j < num_asteroids; ++j) {
+                        computePosition(*asteroids[j], asteroids, planets);
+                        computeReboundEffect(*asteroids[j]);
+                        //std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
+                        destroyerOfWorlds(pos_ray, asteroids);
+                }
+        }
+        
+        generateFinalFile(asteroids);
+
+        auto t2 = clk::now();
+        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2-t1);
+        std::cout << "Time = " << diff.count() << "ms" << std::endl;
+
+        return 0;
 }
 
 /**
@@ -72,12 +70,12 @@ int main(int argc, char const *argv[]) {
  * @param position of the ray int pos
  * @param parameters pointer to the array with the asteroids
  */
-void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids) {
-    for (unsigned int i = 0; i < asteroids.size(); i++) {
-        if (asteroids[i]->getPosY() < pos + (RAY_WIDTH / 2) && asteroids[i]->getPosY() > pos - (RAY_WIDTH / 2)) {
-            asteroids.erase(asteroids.begin() + i);
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids){
+        for (unsigned int j = 0; j < asteroids.size(); ++j) {
+                if(asteroids[j]->getPosY() < pos + (RAY_WIDTH/2) && asteroids[j]->getPosY() > pos - (RAY_WIDTH/2)){
+                        asteroids.erase(asteroids.begin() + j);
+                }
         }
-    }
 }
 
 /**
@@ -86,12 +84,12 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> asteroids) {
  * @return false if error, true if none
  */
 bool checkParametersNumber(int numberOfParameters) {
-    if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-        return false;
-    }
-    return true;
+        if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
+                std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                          << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                return false;
+        }
+        return true;
 }
 
 /**
@@ -100,19 +98,19 @@ bool checkParametersNumber(int numberOfParameters) {
  * @return integer value, exits with error code -1 if error
  */
 int checkInteger(char const *arg) {
-    try {
-        if (std::stoi(arg) < 0) {
-            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-            std::exit(-1);
+        try {
+                if(std::stoi(arg) < 0) {
+                        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                        std::exit(-1);
+                }
+                return std::stoi(arg);
         }
-        return std::stoi(arg);
-    }
-    catch (...) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-        std::exit(-1);
-    }
+        catch (...) {
+                std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                          << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                std::exit(-1);
+        }
 }
 
 /**
@@ -121,19 +119,19 @@ int checkInteger(char const *arg) {
  * @return value in double, exits with error code -1 if error
  */
 double checkDouble(char const *arg) {
-    try {
-        if (std::stod(arg) < 0) {
-            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-            std::exit(-1);
+        try {
+                if(std::stod(arg) < 0) {
+                        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                        std::exit(-1);
+                }
+                return std::stod(arg);
         }
-        return std::stod(arg);
-    }
-    catch (...) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
-        std::exit(-1);
-    }
+        catch (...) {
+                std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                          << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+                std::exit(-1);
+        }
 }
 
 /**
@@ -174,9 +172,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
             default:
                 std::cerr << "Something went really wrong" << std::endl;
         }
-
     }
-
 }
 
 /**
@@ -240,9 +236,9 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
         velX = (round((asteroid->getVelocityX()) * 1000) / 1000);
         velY = (round((asteroid->getVelocityY()) * 1000) / 1000);
         massFinal = (round((asteroid->getMass()) * 1000) / 1000);
-        outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " " << massFinal << std::endl;
+        outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " "
+                      << massFinal << std::endl;
     }
     // Close the file
     outfile_final.close();
-
 }

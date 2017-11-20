@@ -10,9 +10,9 @@ private:
 
 public:
 
-    virtual void setPosX(double posX);
+    void virtual setPosX(double posX);
 
-    virtual void setPosY(double posY);
+    void virtual setPosY(double posY);
 
     double getPosX(void);
 
@@ -21,8 +21,6 @@ public:
     double getMass(void);
 
     Body(double posX, double posY, double mass);
-
-    ~Body();
 
 };
 
