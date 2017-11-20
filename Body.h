@@ -22,7 +22,7 @@ public:
 
     Body(double posX, double posY, double mass);
 
-    ~Body(); // TODO: implementamos destructores?
+    ~Body();
 
 };
 
