@@ -230,6 +230,7 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     double y;
     double velX;
     double velY;
+    double massFinal;
     std::ofstream outfile_final("out.txt");
     // Write asteroids
 
@@ -238,7 +239,8 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
         y = (trunc((asteroid->getPosY()) * 1000) / 1000);
         velX = (trunc((asteroid->getVelocityX()) * 1000) / 1000);
         velY = (trunc((asteroid->getVelocityY()) * 1000) / 1000);
-        outfile_final << x << " " << y << " " << velX << " " << velY << std::endl;
+        massFinal = (trunc((asteroid->getMass()) * 1000) / 1000);
+        outfile_final << x << " " << y << " " << velX << " " << velY << " " << massFinal << std::endl;
     }
     // Close the file
     outfile_final.close();
