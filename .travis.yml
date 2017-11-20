@@ -2,15 +2,8 @@ language: cpp
 
 compiler: gcc
 
-addons:
-  apt:
-    sources:
-    - ubuntu-toolchain-r-test
-    packages:
-    - gcc-6.3
-    - g++-6.3
-
 before_script:
+    - sudo apt-get install libstdc++
     - mkdir build
     - cd build
     - cmake ..
