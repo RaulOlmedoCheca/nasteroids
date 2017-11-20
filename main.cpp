@@ -230,7 +230,7 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     double y;
     double velX;
     double velY;
-    std::ofstream outfile_final("out.tx");
+    std::ofstream outfile_final("out.txt");
     // Write asteroids
 
     for (auto &asteroid : asteroids) {
