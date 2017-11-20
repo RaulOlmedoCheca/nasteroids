@@ -11,7 +11,7 @@
 
   after_success:
      - sudo apt-get install sshpass
-     - sshpass -p PASSWORD ssh a0346073@guernika.lab.inf.uc3m.es
+     - sshpass -p PASSWORD ssh a0346073@guernika.lab.inf.uc3m.es && ls
      - ./nasteroids 0 0
      - ./nasteroids 0 0 0 0 0
      - ./nasteroids 1 2 3 4.65 876
