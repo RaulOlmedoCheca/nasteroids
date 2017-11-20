@@ -40,15 +40,7 @@
      - ./nasteroids 5 2 1 50.5 2000
      - cd ..
      - ./nasteroid-base 5 2 1 50.5 2000
-     - diff -q init_conf.txt build/init_conf.txt
-     - diff -q out.txt build/out.txt
-     - if ! diff -q init_conf.txt build/init_conf.txt || ! diff out.txt build/out.txt; then
-     -
-  deploy:
-    provider: script
-    script: deploy-test-script.sh
-    on:
-      branch: forces
+     - ./deploy-test-script.sh
 
   notifications:
     email: false
