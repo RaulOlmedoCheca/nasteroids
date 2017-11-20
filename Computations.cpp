@@ -125,10 +125,8 @@ std::vector<double> computeAcceleration(Asteroid &a, std::vector<Asteroid *> &as
     }
 
     for (auto &planet : planets) {
-        if (computeDistance(a, *planet) > MINIMUM_DISTANCE) {
-            accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
-            accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
-        }
+        accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
+        accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
     }
 
     return accelerations;
