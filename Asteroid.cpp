@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include <iostream>
 
 /**
  * TODO:
