@@ -1,7 +1,7 @@
   language: cpp
   matrix:
     include:
-      # works on Precise and Trusty
+      # Works on Precise and Trusty
       - os: linux
         addons:
           apt:
@@ -11,11 +11,11 @@
               - g++-6
         env:
           - MATRIX_EVAL="CC=gcc-6 && CXX=g++-6"
+          # Set number of threads for OpenMP //CHECK:
+          - OMP_NUM_THREADS
 
   before_install:
     - eval "${MATRIX_EVAL}"
-
-  # For performance eval use OMP_NUM_THREADS
 
   before_script:
       - mkdir build
@@ -31,10 +31,10 @@
      - ./nasteroids a 4 as 3 d
 
      ## Structure of a test in travis ##
-     # - ./nasteroids num_asteroids num_iterations num_planets pos_ray seed
+     # - ./nasteroids X Y Z A B
      # - cd ..
-     # - ./nasteroids-base num_asteroids num_iterations num_planets pos_ray seed
-     #
+     # - ./nasteroids-base X Y Z A B
+     # - ./deploy-test-script.sh
 
      # Test that the values are equal than the base ones
      - ./nasteroids 5 2 1 50.5 2000
