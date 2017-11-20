@@ -30,12 +30,25 @@
      - ./nasteroids 1 2 3 4.65 876
      - ./nasteroids a 4 as 3 d
 
+     ## Structure of a test in travis ##
+     # - ./nasteroids num_asteroids num_iterations num_planets pos_ray seed
+     # - cd ..
+     # - ./nasteroids-base num_asteroids num_iterations num_planets pos_ray seed
+     #
+
      # Test that the values are equal than the base ones
      - ./nasteroids 5 2 1 50.5 2000
      - cd ..
      - ./nasteroid-base 5 2 1 50.5 2000
-     - diff init_conf.txt build/init_conf.txt
-     - diff out.txt build/out.txt
+     - diff -q init_conf.txt build/init_conf.txt
+     - diff -q out.txt build/out.txt
+     - if ! diff -q init_conf.txt build/init_conf.txt || ! diff out.txt build/out.txt; then
+     -
+  deploy:
+    provider: script
+    script: deploy-test-script.sh
+    on:
+      branch: forces
 
   notifications:
     email: false
