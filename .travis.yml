@@ -17,10 +17,8 @@ after_success:
 
     # Test that the values are equal than the base ones
     - ./nasteroids 5 2 1 50.5 2000
-    - ls
     - cd ..
-    - ls
-    - ./nasteroids-base 5 2 1 50.5 2000
+    - ./nasteroid-base 5 2 1 50.5 2000
     - diff init_conf.txt build/init.conf.txt
     - diff out.txt build/out.txt
 
