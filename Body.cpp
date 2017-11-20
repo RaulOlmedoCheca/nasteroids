@@ -45,8 +45,7 @@ double Body::getMass() {
  * TODO:
  * @param posX
  * @param posY
- * @param mass
- */
+ * @param mass{} */
 Body::Body(double posX, double posY, double mass) {
     if (posX < 0 || posY < 0 || mass < 0) {
         std::cerr << "Error: negative value in one of the fields" << std::endl;
@@ -55,12 +54,4 @@ Body::Body(double posX, double posY, double mass) {
         this->posY = posY;
         this->mass = mass;
     }
-
-}
-
-/**
- * TODO:
- */
-Body::~Body() {
-    // TODO: implementamos destructores?
 }

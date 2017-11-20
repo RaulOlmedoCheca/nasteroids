@@ -1,4 +1,5 @@
 #include "Asteroid.h"
+#include <iostream>
 
 /**
  * TODO:
@@ -43,3 +44,5 @@ Asteroid::Asteroid(double posX, double posY, double mass, double velocityX, doub
     this->velocityX = velocityX;
     this->velocityY = velocityY;
 }
+
+//Asteroid::~Asteroid(){std::cout << "Asteroid destroyed by THE MOTHERFUCKING LASER UUUUUUUUUUUUUUUU" << std::endl;}
