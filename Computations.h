@@ -17,6 +17,7 @@ void computePosition(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vecto
 
 void computeVelocity(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
-std::vector<double> computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
+std::vector<double>
+computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets);
 
 #endif //NASTEROIDS_COMPUTATIONS_H

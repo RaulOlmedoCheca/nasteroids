@@ -7,7 +7,8 @@
  * @param posX
  */
 void Planet::setPosX(double posX) {
-    std::cerr << "Error: the position" << posX << "cannot replace the previous position, planets do not move" << std::endl;
+    std::cerr << "Error: the position" << posX << "cannot replace the previous position, planets do not move"
+              << std::endl;
 }
 
 /**
@@ -15,7 +16,8 @@ void Planet::setPosX(double posX) {
  * @param posY
  */
 void Planet::setPosY(double posY) {
-    std::cerr << "Error: the position" << posY << "cannot replace the previous position, planets do not move" << std::endl;
+    std::cerr << "Error: the position" << posY << "cannot replace the previous position, planets do not move"
+              << std::endl;
 
 }
 
