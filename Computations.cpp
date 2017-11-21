@@ -28,12 +28,12 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
 }
 
 /**
- * Returns the attraction force exerted between @param a and @param b
+ * TODO:
  * @param a
  * @param b
  * @return vector with the two components of the force with [0] being the x axis and [1] being the y axis
  */
-std::vector<double> computeAttractionForce(Asteroid &a, Body b) {
+std::vector<double> computeAttractionForce(Asteroid a, Body b) {
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
@@ -81,52 +81,32 @@ void computeReboundEffect(Asteroid a) {
  * @param asteroids
  * @param planets
  */
-void computePosition(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
-    computeVelocity(a, asteroids, planets);
-
+void computePosition(Asteroid &a) {
     a.setPosX(a.getPosX() + a.getVelocityX() * TIME_INTERVAL);
     a.setPosY(a.getPosY() + a.getVelocityY() * TIME_INTERVAL);
 }
 
 /**
- * Computes the velocity of the @param a regarding the vector with the Asteroids @param asteroids and
- * the vector with the Planets @param planets storing it in @param a fields
+ * TODO:
  * @param a
  * @param asteroids
  * @param planets
  */
-void computeVelocity(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
-    double accelerationX = (computeAcceleration(a, asteroids, planets))[0];
-    double accelerationY = (computeAcceleration(a, asteroids, planets))[1];
-
-    a.setVelocityX(a.getVelocityX() + accelerationX * TIME_INTERVAL);
-    a.setVelocityY(a.getVelocityY() + accelerationY * TIME_INTERVAL);
+void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
+    a.setVelocityX(a.getVelocityX() + accelerations[0] * TIME_INTERVAL);
+    a.setVelocityY(a.getVelocityY() + accelerations[1] * TIME_INTERVAL);
 }
 
 /**
- * Computes the acceleration of the @param a regarding the vector with the Asteroids @param asteroids and
- * the vector with the Planets @param planets
+ * TODO:
  * @param a
  * @param asteroids
  * @param planets
  * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
  */
-std::vector<double>
-computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
-    std::vector<double> accelerations(2);
+double computeAcceleration(Asteroid a, double force) {
+    double acceleration;
+    acceleration = force/a.getMass();
 
-    for (auto &asteroid : asteroids) {
-        if (computeDistance(a, *asteroid) > MINIMUM_DISTANCE) {
-            // CHECK: "Slicing object from type 'Asteroid' to 'Body' discards 16 bytes of state", aun asi parece que no peta
-            accelerations[0] += (computeAttractionForce(a, *asteroid))[0] / a.getMass();
-            accelerations[1] += (computeAttractionForce(a, *asteroid))[1] / a.getMass();
-        }
-    }
-
-    for (auto &planet : planets) {
-        accelerations[0] += (computeAttractionForce(a, *planet))[0] / a.getMass();
-        accelerations[1] += (computeAttractionForce(a, *planet))[1] / a.getMass();
-    }
-
-    return accelerations;
+    return acceleration;
 }

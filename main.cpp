@@ -49,9 +49,24 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < num_iterations; ++i) {
         for (int j = 0; j < num_asteroids; ++j) {
-            computePosition(*asteroids[j], asteroids, planets);
+            std::vector<double> accelerations(2);
+            std::vector<double> forces(2);
+
+            for (int k = 0; k < num_asteroids; ++k) {
+                forces = computeAttractionForce(*asteroids[j], (Body)*asteroids[k]);
+                accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
+                accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
+                // TODO: computeAcceleration(*asteroids[k], -1*forces);
+            }
+
+            for (int l = 0; l < num_planets; ++l) {
+                forces = computeAttractionForce(*asteroids[j], (Body)*planets[l]);
+                accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
+                accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
+            }
+            computeVelocity(*asteroids[j], accelerations);
+            computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
-            //std::cout << "Position of asteroid: " << j << " " << asteroids[j]->getPosX() << " " << asteroids[j]->getPosY() << std::endl;
             destroyerOfWorlds(pos_ray, asteroids);
         }
     }
