@@ -50,4 +50,4 @@ rm -rf build/out.txt
 rm -rf out.txt
 rm -rf init_conf.txt
 rm -rf build/init_conf.txt
-echo "\nScript ended"
+echo -e "\nScript ended"
