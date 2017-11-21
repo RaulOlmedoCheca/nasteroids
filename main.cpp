@@ -58,6 +58,13 @@ int main(int argc, char const *argv[]) {
                     accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
                     accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
                     // TODO: computeAcceleration(*asteroids[k], -1*forces);
+                    /*
+                     * Additionally, I just want to remind you what was explained class about the possibility of computing
+                     * the force exerted by asteroid a on to b at the same time as the force exerted by asteroid b on to a
+                     * changing the sign (Section 2.2.3, 3. Normal movement, b)) . This implies that, if you are using a
+                     * double loop to compute all the forces, the second loop will be smaller as the first one advances
+                     * since these forces have already been computed. This way, you save iterations and computation
+                     */
                 }
 
             }

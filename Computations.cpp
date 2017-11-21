@@ -34,6 +34,7 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
  * @return vector with the two components of the force with [0] being the x axis and [1] being the y axis
  */
 std::vector<double> computeAttractionForce(Asteroid a, Body b) {
+    /* INFO: The maximum value of the force will be 200 */
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
@@ -41,6 +42,13 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 
     forces[0] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * cos(alfa);
     forces[1] = ((GRAVITY * a.getMass() * b.getMass()) / pow(distance, 2)) * sin(alfa);
+
+    if (forces[0] > MAXIMUM_FORCE) {
+        forces[0] = MAXIMUM_FORCE;
+    }
+    else if (forces[1] > MAXIMUM_FORCE) {
+        forces[1] = MAXIMUM_FORCE;
+    }
 
     return forces;
 }
@@ -106,7 +114,7 @@ void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
  */
 double computeAcceleration(Asteroid a, double force) {
     double acceleration;
-    acceleration = force/a.getMass();
+    acceleration = force / a.getMass();
 
     return acceleration;
 }
