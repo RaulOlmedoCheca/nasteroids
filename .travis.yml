@@ -31,7 +31,7 @@
      - ./nasteroids a 4 as 3 d
 
      # Test that the values are equal than the base ones
-     - ./deploy-test-script.sh 5 2 1 50.5 2000
+     - ./nasteroids/deploy-test-script.sh 5 2 1 50.5 2000
 
   notifications:
     email: false
