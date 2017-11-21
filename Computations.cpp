@@ -127,7 +127,9 @@ computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector
              * TODO: take care of the case in which the b Body is a planet */
 
             asteroid->setVelocityX(asteroid->getVelocityX() + computeAttractionForce(a, *asteroid)[0] * -1 / asteroid->getMass() * TIME_INTERVAL);
+            asteroid->setPosX(asteroid->getPosX() + asteroid->getVelocityX() * TIME_INTERVAL);
             asteroid->setVelocityY(asteroid->getVelocityY() + computeAttractionForce(a, *asteroid)[1] * -1 / asteroid->getMass() * TIME_INTERVAL);
+            asteroid->setPosY(asteroid->getPosY() + asteroid->getVelocityY() * TIME_INTERVAL);
         }
     }
 
