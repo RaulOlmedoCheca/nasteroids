@@ -33,7 +33,7 @@ int main(int argc, char const *argv[]) {
     if (!checkParametersNumber(argc)) {
         return -1;
     }
-
+    // TODO: if all the parameters are 0 print error showing there's nothing to calculate
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);

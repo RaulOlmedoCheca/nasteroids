@@ -44,7 +44,6 @@ std::vector<double> computeAttractionForce(Asteroid &a, Body b) {
 
     /*** THIS IS IMPORTANT ***/
     /* TODO: Apply the force positively for a and negatively for b
-     * CHECK: an element wont exert force to himself
      * TODO: take care of the case in which the b Body is a planet */
 
     return forces;
