@@ -33,7 +33,9 @@ echo -e "                  +-----------------------+
 echo -e "\n***************** Executing nasteroids-base ***********"
 ./nasteroid-base $1 $2 $3 $4 $5
 echo -e "\n***************** Executing nasteroids-seq ************"
-./build/nasteroids $1 $2 $3 $4 $5
+cd build
+./nasteroids $1 $2 $3 $4 $5
+cd ..
 echo -e "\n"
 echo -e "***************** Correct init file *******************"
 cat init_conf.txt
