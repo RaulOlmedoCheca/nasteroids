@@ -22,17 +22,17 @@
       - cd build
       - cmake ..
 
-  script: make
+  script: 
+      - make
+      - cd ..
+      - ./deploy-test-script.sh 5 2 1 50.5 2000
 
   after_success:
+     - cd build
      - ./nasteroids 0 0
      - ./nasteroids 0 0 0 0 0
      - ./nasteroids 1 2 3 4.65 876
      - ./nasteroids a 4 as 3 d
-     # Go to parent folder (/nasteroids)
-     - cd ..
-     # Begin testing
-     - ./deploy-test-script.sh 5 2 1 50.5 2000
 
   notifications:
     email: false
