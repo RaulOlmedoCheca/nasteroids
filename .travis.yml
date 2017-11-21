@@ -31,18 +31,8 @@
      - ./nasteroids 1 2 3 4.65 876
      - ./nasteroids a 4 as 3 d
 
-     ## Structure of a test in travis ##
-     # - ./nasteroids X Y Z A B
-     # - cd ..
-     # - ./nasteroids-base X Y Z A B
-     # - ./deploy-test-script.sh
-
      # Test that the values are equal than the base ones
-     - ./nasteroids 5 2 1 50.5 2000
-     - cd ..
-     - ./nasteroid-base 5 2 1 50.5 2000
-     - ./deploy-test-script.sh
-     - diff init_conf.txt build/init_conf.txt && diff out.txt build/out.txt
+     - ./deploy-test-script.sh 5 2 1 50.5 2000
 
   notifications:
     email: false
