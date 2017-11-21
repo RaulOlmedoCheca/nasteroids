@@ -29,9 +29,10 @@
      - ./nasteroids 0 0 0 0 0
      - ./nasteroids 1 2 3 4.65 876
      - ./nasteroids a 4 as 3 d
-
-     # Test that the values are equal than the base ones
-     - ./nasteroids/deploy-test-script.sh 5 2 1 50.5 2000
+     # Go to parent folder (/nasteroids)
+     - cd ..
+     # Begin testing
+     - ./deploy-test-script.sh 5 2 1 50.5 2000
 
   notifications:
     email: false
