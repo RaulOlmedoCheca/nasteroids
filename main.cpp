@@ -53,10 +53,13 @@ int main(int argc, char const *argv[]) {
             std::vector<double> forces(2);
 
             for (int k = 0; k < num_asteroids; ++k) {
-                forces = computeAttractionForce(*asteroids[j], (Body)*asteroids[k]);
-                accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
-                accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
-                // TODO: computeAcceleration(*asteroids[k], -1*forces);
+                if(computeDistance(*asteroids[j], (Body)*asteroids[k]) >= MINIMUM_DISTANCE){
+                    forces = computeAttractionForce(*asteroids[j], (Body)*asteroids[k]);
+                    accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
+                    accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
+                    // TODO: computeAcceleration(*asteroids[k], -1*forces);
+                }
+
             }
 
             for (int l = 0; l < num_planets; ++l) {
