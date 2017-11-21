@@ -40,41 +40,36 @@ int main(int argc, char const *argv[]) {
     const double pos_ray = checkDouble(argv[4]);
     const auto seed = (unsigned int) checkInteger(argv[5]);
 
-    std::vector<Asteroid *> asteroids((unsigned long) num_asteroids);
-    std::vector<Planet *> planets((unsigned long) num_planets);
+    std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
+    std::vector<Planet *> planets((unsigned int) num_planets);
 
     generateBodies(asteroids, planets, seed);
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
+        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids,std::vector<double>(2));
         for (int j = 0; j < num_asteroids; ++j) {
-            std::vector<double> accelerations(2);
             std::vector<double> forces(2);
-
+            // CHECK: check that it creates the vectors inside the vectors
             for (int k = 0; k < num_asteroids; ++k) {
-                if(computeDistance(*asteroids[j], (Body)*asteroids[k]) >= MINIMUM_DISTANCE){
-                    forces = computeAttractionForce(*asteroids[j], (Body)*asteroids[k]);
-                    accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
-                    accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
-                    // TODO: computeAcceleration(*asteroids[k], -1*forces);
-                    /*
-                     * Additionally, I just want to remind you what was explained class about the possibility of computing
-                     * the force exerted by asteroid a on to b at the same time as the force exerted by asteroid b on to a
-                     * changing the sign (Section 2.2.3, 3. Normal movement, b)) . This implies that, if you are using a
-                     * double loop to compute all the forces, the second loop will be smaller as the first one advances
-                     * since these forces have already been computed. This way, you save iterations and computation
-                     */
+                if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
+                    forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
+                    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+                    // Apply force negatively for b
+                    accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
+                    accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
                 }
 
             }
 
             for (int l = 0; l < num_planets; ++l) {
-                forces = computeAttractionForce(*asteroids[j], (Body)*planets[l]);
-                accelerations[0] += computeAcceleration(*asteroids[j], forces[0]);
-                accelerations[1] += computeAcceleration(*asteroids[j], forces[1]);
+                forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
+                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-            computeVelocity(*asteroids[j], accelerations);
+            computeVelocity(*asteroids[j], accelerations[j]); // CHECK: test that in the function it can access the two values
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
             destroyerOfWorlds(pos_ray, asteroids);
@@ -219,7 +214,8 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     double mass;
     std::ofstream outfile_init("init_conf.txt");
     // Write arguments in the first line of the file
-    outfile_init  << std::fixed << std::setprecision(3) << num_asteroids << " " << num_iterations << " " << num_planets << " " << pos_ray << " " << seed
+    outfile_init << std::fixed << std::setprecision(3) << num_asteroids << " " << num_iterations << " " << num_planets
+                 << " " << pos_ray << " " << seed
                  << std::endl;
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
@@ -228,7 +224,7 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
         y = (round((asteroids[i]->getPosY()) * 1000) / 1000);
         mass = (round((asteroids[i]->getMass()) * 1000) / 1000);
         //write the data on the file
-        outfile_init  << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
@@ -237,7 +233,7 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
         y = (round((planets[i]->getPosY()) * 1000) / 1000);
         mass = (round((planets[i]->getMass()) * 1000) / 1000);
         //write the data on the file
-        outfile_init  << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
     // Write pos_ray position
     x = 0.000; // Position x of the pos_ray will always be 0 (with 3 decimals)
