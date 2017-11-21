@@ -47,9 +47,11 @@ echo -e "***************** Tested output file ******************"
 cat build/out.txt
 echo -e "\n***************** Diff between all files **************"
 diff -q init_conf.txt build/init_conf.txt && diff -q out.txt build/out.txt
+e=$?
 echo -e "\nRemoving generated files..."
 rm -rf build/out.txt
 rm -rf out.txt
 rm -rf init_conf.txt
 rm -rf build/init_conf.txt
 echo -e "\nScript ended"
+exit $e
