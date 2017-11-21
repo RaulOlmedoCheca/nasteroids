@@ -120,16 +120,6 @@ computeAcceleration(Asteroid &a, std::vector<Asteroid *> &asteroids, std::vector
             // CHECK: "Slicing object from type 'Asteroid' to 'Body' discards 16 bytes of state", aun asi parece que no peta
             accelerations[0] += (computeAttractionForce(a, *asteroid))[0] / a.getMass();
             accelerations[1] += (computeAttractionForce(a, *asteroid))[1] / a.getMass();
-
-            // INFO: Apply negatively the force to the other asteroid involved
-            /*** THIS IS IMPORTANT ***/
-            /* TODO: Apply the force positively for a and negatively for b
-             * TODO: take care of the case in which the b Body is a planet */
-
-            asteroid->setVelocityX(asteroid->getVelocityX() + computeAttractionForce(a, *asteroid)[0] * -1 / asteroid->getMass() * TIME_INTERVAL);
-            asteroid->setPosX(asteroid->getPosX() + asteroid->getVelocityX() * TIME_INTERVAL);
-            asteroid->setVelocityY(asteroid->getVelocityY() + computeAttractionForce(a, *asteroid)[1] * -1 / asteroid->getMass() * TIME_INTERVAL);
-            asteroid->setPosY(asteroid->getPosY() + asteroid->getVelocityY() * TIME_INTERVAL);
         }
     }
 
