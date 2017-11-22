@@ -11,7 +11,7 @@ double computeAngleOfInfluence(Asteroid a, Body b);
 
 std::vector<double> computeAttractionForce(Asteroid a, Body b);
 
-void computeReboundEffect(Asteroid a);
+void computeReboundEffect(Asteroid &a);
 
 void computePosition(Asteroid &a);
 

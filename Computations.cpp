@@ -57,7 +57,7 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
  * Applies the rebound effect to the @param a once checked if necessary
  * @param a
  */
-void computeReboundEffect(Asteroid a) {
+void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
 
