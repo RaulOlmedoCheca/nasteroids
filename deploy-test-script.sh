@@ -56,7 +56,7 @@ drow ninit.You’refu    ckingdead,kiddo .Whatthefuckdidyoujus
 echo -e "\n***************** Executing nasteroids-base ***********"
 ./nasteroid-base $1 $2 $3 $4 $5
 echo -e "\n***************** Executing nasteroids-seq ************"
-cd nasteroids-seq/
+cd build/nasteroids-seq/
 ./nasteroids-seq $1 $2 $3 $4 $5
 cd ../nasteroids-par/
 ./nasteroids-par $1 $2 $3 $4 $5
