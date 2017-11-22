@@ -82,7 +82,7 @@ diff -q init_conf.txt init_conf_seq.txt && diff -q out.txt out_seq.txt
 e=$?
 echo -e "\n***************** Diff between seq and par files **************"
 diff -q init_conf_seq.txt init_conf_par.txt && diff -q out_seq.txt out_par.txt
-e=$?
+e=e+$?
 echo -e "\nRemoving generated files..."
 rm -rf build/
 rm -rf out.txt
