@@ -57,10 +57,14 @@ echo -e "\n***************** Executing nasteroids-base ***********"
 ./nasteroid-base $1 $2 $3 $4 $5
 echo -e "\n***************** Executing nasteroids-seq ************"
 cd build
+cd nasteroids-seq
 ./nasteroids-seq $1 $2 $3 $4 $5
+cd ..
 cp init_conf.txt ../init_conf_seq.txt
 cp out.txt ../out_seq.txt
+cd nasteroids-par
 ./nasteroids-par $1 $2 $3 $4 $5
+cd ..
 cp init_conf.txt ../init_conf_par.txt
 cp out.txt ../out_par.txt
 cd ..
