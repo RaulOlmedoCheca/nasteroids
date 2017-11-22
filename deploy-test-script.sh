@@ -88,4 +88,4 @@ rm -rf build/
 rm -rf out.txt
 rm -rf init_conf.txt
 echo -e "\nScript ended"
-exit ${e}
+exit $e
