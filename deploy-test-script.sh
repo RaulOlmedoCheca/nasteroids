@@ -56,40 +56,34 @@ drow ninit.You’refu    ckingdead,kiddo .Whatthefuckdidyoujus
 echo -e "\n***************** Executing nasteroids-base ***********"
 ./nasteroid-base $1 $2 $3 $4 $5
 echo -e "\n***************** Executing nasteroids-seq ************"
-cd build
-cd nasteroids-seq
+cd nasteroids-seq/
 ./nasteroids-seq $1 $2 $3 $4 $5
-cd ..
-cp init_conf.txt ../init_conf_seq.txt
-cp out.txt ../out_seq.txt
-cd nasteroids-par
+cd ../nasteroids-par/
 ./nasteroids-par $1 $2 $3 $4 $5
 cd ..
-cp init_conf.txt ../init_conf_par.txt
-cp out.txt ../out_par.txt
 cd ..
 echo -e "\n"
 echo -e "***************** Correct init file *******************"
 cat init_conf.txt
 echo -e "***************** Tested init seq file ********************"
-cat init_conf_seq.txt
+cat build/nasteroids-seq/init_conf.txt
 echo -e "***************** Tested init par file ********************"
-cat init_conf_par.txt
+cat build/nasteroids-par/init_conf.txt
 echo -e "\n***************** Correct output file *****************"
 cat out.txt
 echo -e "***************** Tested output seq file ******************"
-cat out_seq.txt
+cat build/nasteroids-seq/out.txt
 echo -e "***************** Tested output par file ******************"
-cat out_par.txt
+cat build/nasteroids-par/out.txt
 echo -e "\n***************** Diff between correct and seq files **************"
-diff -q init_conf.txt init_conf_seq.txt && diff -q out.txt out_seq.txt
+diff -q init_conf.txt build/nasteroids-seq/init_conf.txt && diff -q out.txt build/nasteroids-seq/out.txt
 e=$?
 echo -e "\n***************** Diff between seq and par files **************"
-diff -q init_conf_seq.txt init_conf_par.txt && diff -q out_seq.txt out_par.txt
+diff -q build/nasteroids-seq/init_conf.txt build/nasteroids-par/init_conf.txt && diff -q build/nasteroids-seq/out.txt build/nasteroids-seq/out.txt
 e=$(($e+$?))
 echo -e "\nRemoving generated files..."
 rm -rf build/
 rm -rf out.txt
 rm -rf init_conf.txt
 echo -e "\nScript ended"
-exit $e
+exit ${e}
