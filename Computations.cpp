@@ -45,8 +45,7 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 
     if (forces[0] > MAXIMUM_FORCE) {
         forces[0] = MAXIMUM_FORCE;
-    }
-    else if (forces[1] > MAXIMUM_FORCE) {
+    } else if (forces[1] > MAXIMUM_FORCE) {
         forces[1] = MAXIMUM_FORCE;
     }
 
@@ -62,7 +61,7 @@ void computeReboundEffect(Asteroid &a) {
     double posY = a.getPosY();
 
     if (posX <= 0) {
-        a.setPosX(posX - 2);
+        a.setPosX(2);
         a.setVelocityX(a.getVelocityX() * -1);
 
     } else if (posX >= SPACE_WIDTH) {
@@ -70,7 +69,7 @@ void computeReboundEffect(Asteroid &a) {
         a.setVelocityX(a.getVelocityX() * -1);
 
     } else if (posY <= 0) {
-        a.setPosY(posY - 2);
+        a.setPosY(2);
         a.setVelocityX(a.getVelocityY() * -1);
 
     } else if (posY >= SPACE_HEIGHT) {
