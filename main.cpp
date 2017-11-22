@@ -45,11 +45,6 @@ int main(int argc, char const *argv[]) {
 
     generateBodies(asteroids, planets, seed);
 
-    asteroids[0]->setPosX(200);
-//    asteroids[0]->setPosX(2010);
-//    asteroids[0]->setPosY(200);
-//    asteroids[0]->setPosY(205);
-
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
