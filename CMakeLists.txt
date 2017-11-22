@@ -5,5 +5,7 @@ set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Release) #INFO: uncomment this to test performance, leave it commented otherwise
 set(CMAKE_CXX_FLAGS " -Wall -Wextra -Wno-deprecated -Werror -pedantic -pedantic-errors")
 
-set(SOURCE_FILES main.cpp Body.cpp Body.h Planet.h Asteroid.h Planet.cpp Asteroid.cpp Constants.h Computations.h Computations.cpp)
-add_executable(nasteroids ${SOURCE_FILES})
+set(SOURCE_FILES_SEQ nasteroids-seq/main.cpp nasteroids-seq/Body.cpp nasteroids-seq/Body.h nasteroids-seq/Planet.h nasteroids-seq/Asteroid.h nasteroids-seq/Planet.cpp nasteroids-seq/Asteroid.cpp nasteroids-seq/Constants.h nasteroids-seq/Computations.h nasteroids-seq/Computations.cpp)
+set(SOURCE_FILES_PAR nasteroids-par/main.cpp nasteroids-par/Body.cpp nasteroids-par/Body.h nasteroids-par/Planet.h nasteroids-par/Asteroid.h nasteroids-par/Planet.cpp nasteroids-par/Asteroid.cpp nasteroids-par/Constants.h nasteroids-par/Computations.h nasteroids-par/Computations.cpp)
+add_executable(nasteroids-seq ${SOURCE_FILES_SEQ})
+add_executable(nasteroids-par ${SOURCE_FILES_PAR})
