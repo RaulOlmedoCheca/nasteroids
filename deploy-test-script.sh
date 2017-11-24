@@ -83,8 +83,5 @@ echo -e "\n***************** Diff between seq and par files **************"
 diff -q build/nasteroids-seq/init_conf.txt build/nasteroids-par/init_conf.txt && diff -q build/nasteroids-seq/out.txt build/nasteroids-seq/out.txt
 e=$(($e+$?))
 echo -e "\nRemoving generated files..."
-rm -rf build/
-rm -rf out.txt
-rm -rf init_conf.txt
 echo -e "\nScript ended"
 exit ${e}
