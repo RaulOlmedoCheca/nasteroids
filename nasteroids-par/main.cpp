@@ -45,11 +45,12 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
+    omp_set_num_threads(num_asteroids + num_planets);
+
     generateBodies(asteroids, planets, seed);
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
-    omp_set_num_threads(num_asteroids);
 
     for (int i = 0; i < num_iterations; ++i) {
 
@@ -57,8 +58,8 @@ int main(int argc, char const *argv[]) {
         for (int j = 0; j < num_asteroids; ++j) {
             std::vector<double> forces(2);
             // CHECK: check that it creates the vectors inside the vectors
-#pragma omp parallel
-#pragma omp for nowait
+            // ERROR: is it allowed to use more than one parallel section
+
             for (int k = 0; k < num_asteroids; ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
@@ -70,21 +71,19 @@ int main(int argc, char const *argv[]) {
                 }
 
             }
-#pragma omp parallel
-#pragma omp for nowait
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-#pragma omp barrier
+
             // INFO: critical section!
             computeVelocity(*asteroids[j], accelerations[j]);
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
             destroyerOfWorlds(pos_ray, asteroids);
-
         }
+
     }
 
     generateFinalFile(asteroids);
@@ -94,6 +93,7 @@ int main(int argc, char const *argv[]) {
     std::cout << "Time = " << diff.count() << "ms" << std::endl;
 
     return 0;
+
 
 }
 
@@ -181,32 +181,41 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
                                                  std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-    for (auto &asteroid : asteroids) {
-        asteroid = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+#pragma omp parallel
+    {
+#pragma omp for ordered
+        for (unsigned int i = 0; i < asteroids.size(); ++i) {
+#pragma omp ordered
+            asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+        }
     }
+
     int determineAxis = 0;
-    for (auto &planet : planets) {
+#pragma omp for ordered
+    for (unsigned int j = 0; j < planets.size(); ++j) {
+#pragma omp ordered
         switch (determineAxis) {
             case 0:
-                planet = new Planet(0, ydist(re), mdist(re) * 10);
+                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 1:
-                planet = new Planet(xdist(re), 0, mdist(re) * 10);
+                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
                 determineAxis++;
                 break;
             case 2:
-                planet = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 3:
-                planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
                 determineAxis = 0;
                 break;
             default:
                 std::cerr << "Something went really wrong" << std::endl;
         }
     }
+
 }
 
 /**
