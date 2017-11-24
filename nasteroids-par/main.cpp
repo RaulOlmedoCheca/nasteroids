@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
-    omp_set_num_threads(num_asteroids + num_planets);
+    omp_set_num_threads(4);
 
     generateBodies(asteroids, planets, seed);
 
