@@ -57,11 +57,9 @@ int main(int argc, char const *argv[]) {
 
         for (int j = 0; j < num_asteroids; ++j) {
             std::vector<double> forces(2);
-            // CHECK: check that it creates the vectors inside the vectors
-            // ERROR: is it allowed to use more than one parallel section
 #pragma omp parallel
             {
-#pragma omp for nowait
+#pragma omp for nowait private(forces)
                 for (int k = 0; k < num_asteroids; ++k) {
                     if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                         forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
@@ -73,7 +71,7 @@ int main(int argc, char const *argv[]) {
                     }
 
                 }
-#pragma omp for nowait
+#pragma omp for nowait private(forces)
                 for (int l = 0; l < num_planets; ++l) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
