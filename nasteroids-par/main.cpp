@@ -188,31 +188,30 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 #pragma omp ordered
             asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
         }
-    }
-
-    int determineAxis = 0;
+        int determineAxis = 0;
 #pragma omp for ordered
-    for (unsigned int j = 0; j < planets.size(); ++j) {
+        for (unsigned int j = 0; j < planets.size(); ++j) {
 #pragma omp ordered
-        switch (determineAxis) {
-            case 0:
-                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 1:
-                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 2:
-                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 3:
-                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
-                determineAxis = 0;
-                break;
-            default:
-                std::cerr << "Something went really wrong" << std::endl;
+            switch (determineAxis) {
+                case 0:
+                    planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
+                    determineAxis++;
+                    break;
+                case 1:
+                    planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
+                    determineAxis++;
+                    break;
+                case 2:
+                    planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                    determineAxis++;
+                    break;
+                case 3:
+                    planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                    determineAxis = 0;
+                    break;
+                default:
+                    std::cerr << "Something went really wrong" << std::endl;
+            }
         }
     }
 
