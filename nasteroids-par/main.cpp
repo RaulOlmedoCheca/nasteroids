@@ -85,16 +85,16 @@ int main(int argc, char const *argv[]) {
             destroyerOfWorlds(pos_ray, asteroids);
 
         }
-
-
-        generateFinalFile(asteroids);
-
-        auto t2 = clk::now();
-        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
-        std::cout << "Time = " << diff.count() << "ms" << std::endl;
-
-        return 0;
     }
+
+    generateFinalFile(asteroids);
+
+    auto t2 = clk::now();
+    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+    std::cout << "Time = " << diff.count() << "ms" << std::endl;
+
+    return 0;
+
 }
 
 /**
