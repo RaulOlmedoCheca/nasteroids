@@ -51,47 +51,50 @@ int main(int argc, char const *argv[]) {
 
     omp_set_num_threads(num_asteroids);
 
-    #pragma omp parallel
-    {
-        #pragma omp for
-        for (int i = 0; i < num_iterations; ++i) {
-            std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
-            for (int j = 0; j < num_asteroids; ++j) {
-                std::vector<double> forces(2);
-                // CHECK: check that it creates the vectors inside the vectors
-                for (int k = 0; k < num_asteroids; ++k) {
-                    if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
-                        forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
-                        accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-                        accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-                        // Apply force negatively for b
-                        accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
-                        accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
-                    }
+    for (int i = 0; i < num_iterations; ++i) {
 
-                }
-
-                for (int l = 0; l < num_planets; ++l) {
-                    forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
+        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
+        for (int j = 0; j < num_asteroids; ++j) {
+            std::vector<double> forces(2);
+            // CHECK: check that it creates the vectors inside the vectors
+#pragma omp parallel
+#pragma omp for nowait
+            for (int k = 0; k < num_asteroids; ++k) {
+                if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
+                    forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+                    // Apply force negatively for b
+                    accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
+                    accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
                 }
-                computeVelocity(*asteroids[j],
-                                accelerations[j]); // CHECK: test that in the function it can access the two values
-                computePosition(*asteroids[j]);
-                computeReboundEffect(*asteroids[j]);
-                destroyerOfWorlds(pos_ray, asteroids);
+
             }
+#pragma omp parallel
+#pragma omp for nowait
+            for (int l = 0; l < num_planets; ++l) {
+                forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
+                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+            }
+#pragma omp barrier
+            // INFO: critical section!
+            computeVelocity(*asteroids[j], accelerations[j]);
+            computePosition(*asteroids[j]);
+            computeReboundEffect(*asteroids[j]);
+            destroyerOfWorlds(pos_ray, asteroids);
+
         }
+
+
+        generateFinalFile(asteroids);
+
+        auto t2 = clk::now();
+        auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
+        std::cout << "Time = " << diff.count() << "ms" << std::endl;
+
+        return 0;
     }
-
-    generateFinalFile(asteroids);
-
-    auto t2 = clk::now();
-    auto diff = std::chrono::duration_cast<std::chrono::microseconds>(t2 - t1);
-    std::cout << "Time = " << diff.count() << "ms" << std::endl;
-
-    return 0;
 }
 
 /**
