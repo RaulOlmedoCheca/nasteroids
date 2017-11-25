@@ -34,7 +34,6 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
  * @return vector with the two components of the force with [0] being the x axis and [1] being the y axis
  */
 std::vector<double> computeAttractionForce(Asteroid a, Body b) {
-    /* INFO: The maximum value of the force will be 200 */
     double distance = computeDistance(a, b);
     double alfa = computeAngleOfInfluence(a, b);
 
@@ -59,7 +58,7 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
-
+// INFO: ponemos aqui otra region paralela?
     if (posX <= 0) {
         a.setPosX(2);
         a.setVelocityX(a.getVelocityX() * -1);

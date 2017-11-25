@@ -9,6 +9,7 @@
 #include "Asteroid.h"
 #include "Constants.h"
 #include "Computations.h"
+#include "omp.h"
 
 bool checkParametersNumber(int numberOfParameters);
 
@@ -26,6 +27,7 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids);
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids);
 
 int main(int argc, char const *argv[]) {
+
     using clk = std::chrono::high_resolution_clock;
     auto t1 = clk::now();
 
@@ -43,15 +45,19 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
+    omp_set_num_threads(4);
+
     generateBodies(asteroids, planets, seed);
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
+
     for (int i = 0; i < num_iterations; ++i) {
-        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids,std::vector<double>(2));
+        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
+
         for (int j = 0; j < num_asteroids; ++j) {
             std::vector<double> forces(2);
-            // CHECK: check that it creates the vectors inside the vectors
+#pragma omp parallel for private(forces)
             for (int k = 0; k < num_asteroids; ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
@@ -60,19 +66,25 @@ int main(int argc, char const *argv[]) {
                     // Apply force negatively for b
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
+                    std::cout << "Thread number: " << omp_get_thread_num() << " Forces[0] value: " << forces[0] <<" Accelerations[0] value: " << accelerations[j][0] << " Iteration number: " << j << " Asteroid number: " << k << std::endl;
                 }
 
             }
 
-            for (int l = 0; l < num_planets; ++l) {
-                forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
-                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-            }
-            computeVelocity(*asteroids[j], accelerations[j]); // CHECK: test that in the function it can access the two values
+//#pragma omp parallel for private(forces)
+//            for (int l = 0; l < num_planets; ++l) {
+//                forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
+//                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+//                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+//            }
+
+            // INFO: critical section! the functions access mem inside
+            computeVelocity(*asteroids[j], accelerations[j]);
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
             destroyerOfWorlds(pos_ray, asteroids);
+
+
         }
     }
 
@@ -83,6 +95,8 @@ int main(int argc, char const *argv[]) {
     std::cout << "Time = " << diff.count() << "ms" << std::endl;
 
     return 0;
+
+
 }
 
 /**
@@ -105,8 +119,8 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
  */
 bool checkParametersNumber(int numberOfParameters) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
+                  << "seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
     return true;
@@ -120,15 +134,15 @@ bool checkParametersNumber(int numberOfParameters) {
 int checkInteger(char const *arg) {
     try {
         if (std::stoi(arg) < 0) {
-            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+            std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
+                      << "seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
             std::exit(-1);
         }
         return std::stoi(arg);
     }
     catch (...) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
+                  << "seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
@@ -141,15 +155,15 @@ int checkInteger(char const *arg) {
 double checkDouble(char const *arg) {
     try {
         if (std::stod(arg) < 0) {
-            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+            std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
+                      << "seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
             std::exit(-1);
         }
         return std::stod(arg);
     }
     catch (...) {
-        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
+                  << "seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
@@ -163,36 +177,46 @@ double checkDouble(char const *arg) {
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
-    std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
-    std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> xdist{0.0,
+                                                 std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> ydist{0.0,
+                                                 std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-    for (auto &asteroid : asteroids) {
-        asteroid = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+
+#pragma omp parallel for ordered
+    for (unsigned int i = 0; i < asteroids.size(); ++i) {
+#pragma omp ordered
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
     int determineAxis = 0;
-    for (auto &planet : planets) {
+#pragma omp parallel for ordered
+    for (unsigned int j = 0; j < planets.size(); ++j) {
+#pragma omp ordered
         switch (determineAxis) {
             case 0:
-                planet = new Planet(0, ydist(re), mdist(re) * 10);
+                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 1:
-                planet = new Planet(xdist(re), 0, mdist(re) * 10);
+                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
                 determineAxis++;
                 break;
             case 2:
-                planet = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
                 determineAxis++;
                 break;
             case 3:
-                planet = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
                 determineAxis = 0;
                 break;
             default:
                 std::cerr << "Something went really wrong" << std::endl;
         }
+
     }
+
+
 }
 
 /**
@@ -214,7 +238,8 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     double mass;
     std::ofstream outfile_init("init_conf.txt");
     // Write arguments in the first line of the file
-    outfile_init << std::fixed << std::setprecision(3) << num_asteroids << " " << num_iterations << " " << num_planets
+    outfile_init << std::fixed << std::setprecision(3) << num_asteroids << " " << num_iterations << " "
+                 << num_planets
                  << " " << pos_ray << " " << seed
                  << std::endl;
     // Write asteroids
