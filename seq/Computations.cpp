@@ -45,7 +45,8 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 
     if (forces[0] > MAXIMUM_FORCE) {
         forces[0] = MAXIMUM_FORCE;
-    } else if (forces[1] > MAXIMUM_FORCE) {
+    }
+    if (forces[1] > MAXIMUM_FORCE) {
         forces[1] = MAXIMUM_FORCE;
     }
 
