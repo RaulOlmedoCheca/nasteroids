@@ -78,7 +78,6 @@ int main(int argc, char const *argv[]) {
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                 }
 
-                std::cout << omp_get_thread_num() << std::endl;
                 // INFO: critical section!
                 computeVelocity(*asteroids[j], accelerations[j]);
                 computePosition(*asteroids[j]);
@@ -184,39 +183,39 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
                                                  std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel
-    {
-#pragma omp for ordered
-        for (unsigned int i = 0; i < asteroids.size(); ++i) {
+
+#pragma omp parallel for ordered
+    for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
-            asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
-        }
-        int determineAxis = 0;
-#pragma omp for ordered
-        for (unsigned int j = 0; j < planets.size(); ++j) {
-#pragma omp ordered
-            switch (determineAxis) {
-                case 0:
-                    planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-                    determineAxis++;
-                    break;
-                case 1:
-                    planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-                    determineAxis++;
-                    break;
-                case 2:
-                    planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-                    determineAxis++;
-                    break;
-                case 3:
-                    planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
-                    determineAxis = 0;
-                    break;
-                default:
-                    std::cerr << "Something went really wrong" << std::endl;
-            }
-        }
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
+    int determineAxis = 0;
+#pragma omp parallel for ordered
+    for (unsigned int j = 0; j < planets.size(); ++j) {
+#pragma omp ordered
+        switch (determineAxis) {
+            case 0:
+                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 1:
+                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 2:
+                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 3:
+                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                determineAxis = 0;
+                break;
+            default:
+                std::cerr << "Something went really wrong" << std::endl;
+        }
+
+    }
+
 
 }
 
