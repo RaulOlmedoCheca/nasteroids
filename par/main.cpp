@@ -57,8 +57,9 @@ int main(int argc, char const *argv[]) {
 
         for (int j = 0; j < num_asteroids; ++j) {
             std::vector<double> forces(2);
-//#pragma omp parallel for private(forces)
+#pragma omp parallel for ordered private(forces)
             for (int k = 0; k < num_asteroids; ++k) {
+#pragma omp ordered
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
@@ -70,8 +71,9 @@ int main(int argc, char const *argv[]) {
 
             }
 
-//#pragma omp parallel for private(forces)
+#pragma omp parallel for ordered private(forces)
             for (int l = 0; l < num_planets; ++l) {
+#pragma omp ordered
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
