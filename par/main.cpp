@@ -53,9 +53,9 @@ int main(int argc, char const *argv[]) {
 
 
     for (int i = 0; i < num_iterations; ++i) {
+        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
 
         for (int j = 0; j < num_asteroids; ++j) {
-            std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
             std::vector<double> forces(2);
 //#pragma omp parallel for private(forces)
             for (int k = 0; k < num_asteroids; ++k) {
