@@ -1,4 +1,5 @@
 #include <cmath>
+#include <iostream>
 #include "Computations.h"
 #include "Constants.h"
 
@@ -44,7 +45,8 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 
     if (forces[0] > MAXIMUM_FORCE) {
         forces[0] = MAXIMUM_FORCE;
-    } else if (forces[1] > MAXIMUM_FORCE) {
+    }
+    if (forces[1] > MAXIMUM_FORCE) {
         forces[1] = MAXIMUM_FORCE;
     }
 
@@ -58,7 +60,7 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
-// INFO: ponemos aqui otra region paralela?
+// INFO: ponemos aqui otra section paralela?
     if (posX <= 0) {
         a.setPosX(2);
         a.setVelocityX(a.getVelocityX() * -1);
