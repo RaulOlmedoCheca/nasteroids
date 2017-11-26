@@ -52,7 +52,7 @@ int main(int argc, char const *argv[]) {
 
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
-            for (unsigned int k = 0; k < asteroids.size(); ++k) {
+            for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
