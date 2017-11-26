@@ -21,11 +21,14 @@ double computeDistance(Asteroid a, Body b) {
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
+    if (std::isinf(slope)) {
+        return atan(slope);
+    }
     if (slope < -1 || slope > 1) {
         slope = slope - trunc(slope);
     }
-    double alfa = atan(slope);
-    return alfa;
+    return atan(slope);
+
 }
 
 /**

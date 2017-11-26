@@ -20,7 +20,6 @@ double computeDistance(Asteroid a, Body b) {
  * @return angle of influence
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
-    //ERROR: si la posicion x o y es la misma, esto es -infinito o mas infinito
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
     if (std::isinf(slope)) {
         return atan(slope);
