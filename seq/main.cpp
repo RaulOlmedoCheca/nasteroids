@@ -49,6 +49,7 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
+
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
             for (unsigned int k = 0; k < asteroids.size(); ++k) {
@@ -71,12 +72,10 @@ int main(int argc, char const *argv[]) {
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-
-        }
-        for (unsigned int m = 0; m < asteroids.size(); ++m) {
-            computeVelocity(*asteroids[m], accelerations[m]);
-            computePosition(*asteroids[m]);
-            computeReboundEffect(*asteroids[m]);
+            //INFO: creo que esto no va aqui
+            computeVelocity(*asteroids[j], accelerations[j]);
+            computePosition(*asteroids[j]);
+            computeReboundEffect(*asteroids[j]);
             destroyerOfWorlds(pos_ray, asteroids);
         }
 
@@ -98,7 +97,7 @@ int main(int argc, char const *argv[]) {
  */
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
     for (unsigned int j = 0; j < asteroids.size(); ++j) {
-        if (asteroids[j]->getPosY() < pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() > pos - (RAY_WIDTH / 2)) {
+        if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
             asteroids.erase(asteroids.begin() + j);
         }
     }

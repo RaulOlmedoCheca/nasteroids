@@ -72,7 +72,8 @@ void computeReboundEffect(Asteroid &a) {
         a.setPosX(SPACE_WIDTH - 2);
         a.setVelocityX(a.getVelocityX() * -1);
 
-    } else if (posY <= 0) {
+    }
+    if (posY <= 0) {
         a.setPosY(2);
         a.setVelocityX(a.getVelocityY() * -1);
 
