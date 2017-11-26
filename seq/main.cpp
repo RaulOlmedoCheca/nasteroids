@@ -23,7 +23,7 @@ void generateInitFile(int num_asteroids, int num_iterations, int num_planets, do
 
 void generateFinalFile(std::vector<Asteroid *> &asteroids);
 
-void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids, std::vector<std::vector<double>>&accelerations);
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids);
 
 int main(int argc, char const *argv[]) {
     using clk = std::chrono::high_resolution_clock;
@@ -47,8 +47,8 @@ int main(int argc, char const *argv[]) {
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
-    std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
     for (int i = 0; i < num_iterations; ++i) {
+        std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
             for (unsigned int k = 0; k < asteroids.size(); ++k) {
@@ -77,7 +77,7 @@ int main(int argc, char const *argv[]) {
             computeVelocity(*asteroids[m], accelerations[m]);
             computePosition(*asteroids[m]);
             computeReboundEffect(*asteroids[m]);
-            destroyerOfWorlds(pos_ray, asteroids, accelerations);
+            destroyerOfWorlds(pos_ray, asteroids);
         }
 
     }
@@ -96,11 +96,10 @@ int main(int argc, char const *argv[]) {
  * @param position of the ray int pos
  * @param parameters pointer to the array with the asteroids
  */
-void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids, std::vector<std::vector<double>>&accelerations) {
+void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
     for (unsigned int j = 0; j < asteroids.size(); ++j) {
         if (asteroids[j]->getPosY() < pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() > pos - (RAY_WIDTH / 2)) {
             asteroids.erase(asteroids.begin() + j);
-            accelerations.erase(accelerations.begin() + j);
         }
     }
 }
