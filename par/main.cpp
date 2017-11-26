@@ -58,7 +58,7 @@ int main(int argc, char const *argv[]) {
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
 #pragma omp parallel for ordered private(forces)
-            for (unsigned int k = 0; k < asteroids.size(); ++k) {
+            for (unsigned int k = j; k < asteroids.size(); ++k) {
 #pragma omp ordered
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
@@ -83,10 +83,9 @@ int main(int argc, char const *argv[]) {
             computeVelocity(*asteroids[j], accelerations[j]);
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
-            destroyerOfWorlds(pos_ray, asteroids);
-
 
         }
+        destroyerOfWorlds(pos_ray, asteroids);
     }
 
     generateFinalFile(asteroids);

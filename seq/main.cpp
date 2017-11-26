@@ -72,11 +72,9 @@ int main(int argc, char const *argv[]) {
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-        }
-        for (unsigned int m = 0; m < asteroids.size(); ++m) {
-            computeVelocity(*asteroids[m], accelerations[m]);
-            computePosition(*asteroids[m]);
-            computeReboundEffect(*asteroids[m]);
+            computeVelocity(*asteroids[j], accelerations[j]);
+            computePosition(*asteroids[j]);
+            computeReboundEffect(*asteroids[j]);
         }
         destroyerOfWorlds(pos_ray, asteroids);
     }
