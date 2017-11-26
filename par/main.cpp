@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
-    omp_set_num_threads(4);
+    omp_set_num_threads(2);
 
     generateBodies(asteroids, planets, seed);
 
@@ -57,12 +57,13 @@ int main(int argc, char const *argv[]) {
 
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
-#pragma omp parallel for ordered private(forces)
+#pragma omp parallel for private(forces)
             for (unsigned int k = j; k < asteroids.size(); ++k) {
-#pragma omp ordered
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
+#pragma omp atomic
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+#pragma omp atomic
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                     // Apply force negatively for b
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
@@ -71,11 +72,12 @@ int main(int argc, char const *argv[]) {
 
             }
 
-#pragma omp parallel for ordered private(forces)
+#pragma omp parallel for private(forces)
             for (int l = 0; l < num_planets; ++l) {
-#pragma omp ordered
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
+#pragma omp atomic
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+#pragma omp atomic
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
 
