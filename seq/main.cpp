@@ -72,13 +72,13 @@ int main(int argc, char const *argv[]) {
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-            //INFO: creo que esto no va aqui
-            computeVelocity(*asteroids[j], accelerations[j]);
-            computePosition(*asteroids[j]);
-            computeReboundEffect(*asteroids[j]);
-            destroyerOfWorlds(pos_ray, asteroids);
         }
-
+        for (unsigned int m = 0; m < asteroids.size(); ++m) {
+            computeVelocity(*asteroids[m], accelerations[m]);
+            computePosition(*asteroids[m]);
+            computeReboundEffect(*asteroids[m]);
+        }
+        destroyerOfWorlds(pos_ray, asteroids);
     }
 
     generateFinalFile(asteroids);
@@ -268,11 +268,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     // We will go through the asteroids vector and store for each position the position, velocity, and mass
     for (auto &asteroid : asteroids) {
         // In order to get a 3 decimal precision, we will multyply by 1000, round, and then divide by 1000
-        x = (round((asteroid->getPosX()) * 1000) / 1000);
-        y = (round((asteroid->getPosY()) * 1000) / 1000);
-        velX = (round((asteroid->getVelocityX()) * 1000) / 1000);
-        velY = (round((asteroid->getVelocityY()) * 1000) / 1000);
-        massFinal = (round((asteroid->getMass()) * 1000) / 1000);
+        x = (asteroid->getPosX());
+        y = (asteroid->getPosY());
+        velX = (asteroid->getVelocityX());
+        velY = (asteroid->getVelocityY());
+        massFinal = (asteroid->getMass());
         // Then, just write the contents on the final output file
         outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " "
                       << massFinal << std::endl;
