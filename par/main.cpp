@@ -245,18 +245,18 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
         //we will make sure we store 3 decimals in the file by multyplying by 1000, rounding, and dividing by 1000
-        x = (round((asteroids[i]->getPosX()) * 1000) / 1000);
-        y = (round((asteroids[i]->getPosY()) * 1000) / 1000);
-        mass = (round((asteroids[i]->getMass()) * 1000) / 1000);
+        x = asteroids[i]->getPosX();
+        y = asteroids[i]->getPosY();
+        mass = asteroids[i]->getMass();
         //write the data on the file
         outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
         //we will make sure we store 3 decimals in the file by multyplying by 1000, rounding, and dividing by 1000
-        x = (round((planets[i]->getPosX()) * 1000) / 1000);
-        y = (round((planets[i]->getPosY()) * 1000) / 1000);
-        mass = (round((planets[i]->getMass()) * 1000) / 1000);
+        x = planets[i]->getPosX();
+        y = planets[i]->getPosY();
+        mass = planets[i]->getMass();
         //write the data on the file
         outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
     }
@@ -288,11 +288,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     // We will go through the asteroids vector and store for each position the position, velocity, and mass
     for (auto &asteroid : asteroids) {
         // In order to get a 3 decimal precision, we will multyply by 1000, round, and then divide by 1000
-        x = (asteroid->getPosX());
-        y = (asteroid->getPosY());
-        velX = (asteroid->getVelocityX());
-        velY = (asteroid->getVelocityY());
-        massFinal = (asteroid->getMass());
+        x = asteroid->getPosX();
+        y = asteroid->getPosY();
+        velX = asteroid->getVelocityX();
+        velY = asteroid->getVelocityY();
+        massFinal = asteroid->getMass();
         // Then, just write the contents on the final output file
         outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " "
                       << massFinal << std::endl;
