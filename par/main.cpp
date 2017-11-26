@@ -288,11 +288,11 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     // We will go through the asteroids vector and store for each position the position, velocity, and mass
     for (auto &asteroid : asteroids) {
         // In order to get a 3 decimal precision, we will multyply by 1000, round, and then divide by 1000
-        x = (round((asteroid->getPosX()) * 1000) / 1000);
-        y = (round((asteroid->getPosY()) * 1000) / 1000);
-        velX = (round((asteroid->getVelocityX()) * 1000) / 1000);
-        velY = (round((asteroid->getVelocityY()) * 1000) / 1000);
-        massFinal = (round((asteroid->getMass()) * 1000) / 1000);
+        x = (asteroid->getPosX());
+        y = (asteroid->getPosY());
+        velX = (asteroid->getVelocityX());
+        velY = (asteroid->getVelocityY());
+        massFinal = (asteroid->getMass());
         // Then, just write the contents on the final output file
         outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " "
                       << massFinal << std::endl;
