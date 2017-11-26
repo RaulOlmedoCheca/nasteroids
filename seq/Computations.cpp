@@ -9,7 +9,8 @@
  * @return distance
  */
 double computeDistance(Asteroid a, Body b) {
-    return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
+    float test = sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
+    return test;
 }
 
 /**
@@ -19,12 +20,15 @@ double computeDistance(Asteroid a, Body b) {
  * @return angle of influence
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
+    //ERROR: si la posicion x o y es la misma, esto es -infinito o mas infinito
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
+    if (std::isinf(slope)) {
+        return atan(slope);
+    }
     if (slope < -1 || slope > 1) {
         slope = slope - trunc(slope);
     }
-    double alfa = atan(slope);
-    return alfa;
+    return atan(slope);
 }
 
 /**

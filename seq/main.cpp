@@ -48,11 +48,11 @@ int main(int argc, char const *argv[]) {
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
-        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids,std::vector<double>(2));
-        for (int j = 0; j < num_asteroids; ++j) {
+        std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
+        // ERROR: hay mas aceleraciones que asteroides, WTF
+        for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
-            // CHECK: check that it creates the vectors inside the vectors
-            for (int k = 0; k < num_asteroids; ++k) {
+            for (unsigned int k = 0; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
@@ -64,16 +64,22 @@ int main(int argc, char const *argv[]) {
 
             }
 
+            /**
+             * -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ usr/local/bin/
+             */
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
             }
-            computeVelocity(*asteroids[j], accelerations[j]); // CHECK: test that in the function it can access the two values
-            computePosition(*asteroids[j]);
-            computeReboundEffect(*asteroids[j]);
+        }
+        for (unsigned int m = 0; m < asteroids.size(); ++m) {
+            computeVelocity(*asteroids[m], accelerations[m]);
+            computePosition(*asteroids[m]);
+            computeReboundEffect(*asteroids[m]);
             destroyerOfWorlds(pos_ray, asteroids);
         }
+
     }
 
     generateFinalFile(asteroids);
