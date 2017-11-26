@@ -55,10 +55,10 @@ int main(int argc, char const *argv[]) {
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
 
-        for (int j = 0; j < num_asteroids; ++j) {
+        for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
 #pragma omp parallel for ordered private(forces)
-            for (int k = 0; k < num_asteroids; ++k) {
+            for (unsigned int k = 0; k < asteroids.size(); ++k) {
 #pragma omp ordered
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
