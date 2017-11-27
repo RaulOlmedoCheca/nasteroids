@@ -45,15 +45,14 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
-    omp_set_num_threads(2);
+    omp_set_num_threads(4);
 
     generateBodies(asteroids, planets, seed);
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
-
     for (int i = 0; i < num_iterations; ++i) {
-        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
+        std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
 
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
@@ -61,25 +60,28 @@ int main(int argc, char const *argv[]) {
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
-#pragma omp atomic
-                    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-#pragma omp atomic
-                    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-                    // Apply force negatively for b
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
-                }
+#pragma omp critical
+                    {
+                        accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                        accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+                        // Apply force negatively for b
+                    }
+
+	            }
 
             }
 
 #pragma omp parallel for private(forces)
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
-#pragma omp atomic
-                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-#pragma omp atomic
-                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-            }
+#pragma omp critical
+                {
+                    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+                }
+	}
 
             // INFO: critical section! the functions access mem inside
             computeVelocity(*asteroids[j], accelerations[j]);
@@ -154,7 +156,7 @@ int checkInteger(char const *arg) {
  * @param arg char const* argument double value
  * @return value in double, exits with error code -1 if error
  */
-double checkDouble(char const *arg) {
+double checkDouble(char const *arg){
     try {
         if (std::stod(arg) < 0) {
             std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
@@ -179,46 +181,42 @@ double checkDouble(char const *arg) {
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
-    std::uniform_real_distribution<double> xdist{0.0,
-                                                 std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
-    std::uniform_real_distribution<double> ydist{0.0,
-                                                 std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
+#pragma omp for nowait
+            for (unsigned int i = 0; i < asteroids.size(); ++i) {
+                asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+            }
 
-#pragma omp parallel for ordered
-    for (unsigned int i = 0; i < asteroids.size(); ++i) {
-#pragma omp ordered
-        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
-    }
-    int determineAxis = 0;
-#pragma omp parallel for ordered
-    for (unsigned int j = 0; j < planets.size(); ++j) {
-#pragma omp ordered
-        switch (determineAxis) {
-            case 0:
-                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 1:
-                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 2:
-                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-                determineAxis++;
-                break;
-            case 3:
-                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
-                determineAxis = 0;
-                break;
-            default:
-                std::cerr << "Something went really wrong" << std::endl;
-        }
-
-    }
-
-
+            int determineAxis = 0;
+#pragma omp for nowait
+            for (unsigned int j = 0; j < planets.size(); ++j) {
+      		    switch (determineAxis) {
+                    case 0:
+                        planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
+#pragma omp atomic
+                        determineAxis++;
+                        break;
+                    case 1:
+                        planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
+#pragma omp atomic
+                        determineAxis++;
+                        break;
+                    case 2:
+                        planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+#pragma omp atomic
+                        determineAxis++;
+                        break;
+                    case 3:
+                        planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                        determineAxis = 0;
+                        break;
+                    default:
+                        std::cerr << "Something went really wrong" << std::endl;
+                }
+            }
 }
 
 /**
