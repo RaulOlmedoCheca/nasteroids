@@ -231,10 +231,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
  */
 void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray,
                       const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
-    //declare the initial variables to use as well as the output file
-    double x;
-    double y;
-    double mass;
+
     std::ofstream outfile_init("init_conf.txt");
     // Write arguments in the first line of the file
     outfile_init << std::fixed << std::setprecision(3) << num_asteroids << " " << num_iterations << " "
@@ -243,28 +240,18 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
                  << std::endl;
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
-        //we will make sure we store 3 decimals in the file by multyplying by 1000, rounding, and dividing by 1000
-        x = asteroids[i]->getPosX();
-        y = asteroids[i]->getPosY();
-        mass = asteroids[i]->getMass();
         //write the data on the file
-        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << asteroids[i]->getPosX() << " " << asteroids[i]->getPosY() << " " << asteroids[i]->getMass() << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
-        //we will make sure we store 3 decimals in the file by multyplying by 1000, rounding, and dividing by 1000
-        x = planets[i]->getPosX();
-        y = planets[i]->getPosY();
-        mass = planets[i]->getMass();
         //write the data on the file
-        outfile_init << std::fixed << std::setprecision(3) << x << " " << y << " " << mass << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << planets[i]->getPosX() << " " << planets[i]->getPosY() << " " << planets[i]->getMass() << std::endl;
     }
     // Write pos_ray position
-    x = 0.000; // Position x of the pos_ray will always be 0 (with 3 decimals)
-    //we will make sure we store 3 decimals in the file by multyplying by 1000, rounding, and dividing by 1000
-    y = (round(pos_ray * 1000) / 1000);
     //write the data on the file
-    outfile_init << std::fixed << std::setprecision(3) << x << " " << y << std::endl;
+    //make sure it prints 3 decimal digits
+    outfile_init << std::fixed << std::setprecision(3) << 0.000 << " " << pos_ray << std::endl;
 
     // Close the file
     outfile_init.close();
