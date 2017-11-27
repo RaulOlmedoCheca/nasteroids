@@ -64,10 +64,7 @@ int main(int argc, char const *argv[]) {
 
             }
 
-            /**
-             * -D CMAKE_C_COMPILER=gcc-7 -D CMAKE_CXX_COMPILER=g++-7 /usr/local/Cellar/gcc/7.2.0/bin
-             */
-            for (int l = 0; l < num_planets; ++l) {
+            for (unsigned int l = 0; l < planets.size(); ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
