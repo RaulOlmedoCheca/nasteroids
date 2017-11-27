@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
-#pragma omp parallel for
+#pragma omp parallel for shared(accelerations)
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
             for (unsigned int k = j; k < asteroids.size(); ++k) {
@@ -179,28 +179,27 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp for nowait
+#pragma omp parallel for ordered shared(xdist,ydist,mdist, seed, re)
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
+#pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
 
     int determineAxis = 0;
-#pragma omp for nowait
+#pragma omp parallel for ordered shared(determineAxis)
     for (unsigned int j = 0; j < planets.size(); ++j) {
+#pragma omp ordered
         switch (determineAxis) {
             case 0:
                 planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-#pragma omp atomic update
                 determineAxis++;
                 break;
             case 1:
                 planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-#pragma omp atomic update
                 determineAxis++;
                 break;
             case 2:
                 planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-#pragma omp atomic update
                 determineAxis++;
                 break;
             case 3:
