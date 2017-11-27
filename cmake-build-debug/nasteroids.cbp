@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="nasteroids"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\par\;CMake Files\seq\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nasteroids-par">
+				<Option output="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/nasteroids-par.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 nasteroids-par"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nasteroids-par/fast">
+				<Option output="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/nasteroids-par.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 nasteroids-par/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nasteroids-seq">
+				<Option output="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/nasteroids-seq.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 nasteroids-seq"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="nasteroids-seq/fast">
+				<Option output="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/nasteroids-seq.exe" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/x86_64-pc-cygwin"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include/c++/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/include"/>
+					<Add directory="/usr/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-pc-cygwin/6.4.0/../../../../lib/../include/w32api"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 nasteroids-seq/fast"/>
+					<CompileFile command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make.exe -j8 -f &quot;/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Asteroid.cpp">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Asteroid.h">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Body.cpp">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Body.h">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Computations.cpp">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Computations.h">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Constants.h">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Planet.cpp">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/Planet.h">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/main.cpp">
+			<Option target="nasteroids-par"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Asteroid.cpp">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Asteroid.h">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Body.cpp">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Body.h">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Computations.cpp">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Computations.h">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Constants.h">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Planet.cpp">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/Planet.h">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/main.cpp">
+			<Option target="nasteroids-seq"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/par/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\par\"/>
+		</Unit>
+		<Unit filename="/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/seq/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\seq\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
