@@ -52,7 +52,7 @@ int main(int argc, char const *argv[]) {
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
-        std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
+        std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
 
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
