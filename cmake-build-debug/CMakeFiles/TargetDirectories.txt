@@ -1,8 +1,0 @@
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/CMakeFiles/edit_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/CMakeFiles/edit_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/par/CMakeFiles/nasteroids-par.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/CMakeFiles/rebuild_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/CMakeFiles/edit_cache.dir
-/cygdrive/c/Users/gaabu/Desktop/Parallel/nasteroids/cmake-build-debug/seq/CMakeFiles/nasteroids-seq.dir

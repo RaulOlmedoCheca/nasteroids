@@ -45,7 +45,7 @@ int main(int argc, char const *argv[]) {
     std::vector<Asteroid *> asteroids((unsigned int) num_asteroids);
     std::vector<Planet *> planets((unsigned int) num_planets);
 
-    omp_set_num_threads(4);
+    omp_set_num_threads(2);
 
     generateBodies(asteroids, planets, seed);
 
@@ -61,14 +61,12 @@ int main(int argc, char const *argv[]) {
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
-#pragma omp atomic update
+#pragma omp atomic
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-#pragma omp atomic update
+#pragma omp atomic
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                     // Apply force negatively for b
-#pragma omp atomic update
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
-#pragma omp atomic update
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
                 }
 
@@ -181,42 +179,46 @@ double checkDouble(char const *arg) {
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
-    std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
-    std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> xdist{0.0,
+                                                 std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> ydist{0.0,
+                                                 std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp for nowait
-            for (unsigned int i = 0; i < asteroids.size(); ++i) {
-                asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
-            }
 
-            int determineAxis = 0;
-#pragma omp for nowait
-            for (unsigned int j = 0; j < planets.size(); ++j) {
-                switch (determineAxis) {
-                    case 0:
-                        planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-#pragma omp atomic update
-                        determineAxis++;
-                        break;
-                    case 1:
-                        planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-#pragma omp atomic update
-                        determineAxis++;
-                        break;
-                    case 2:
-                        planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-#pragma omp atomic update
-                        determineAxis++;
-                        break;
-                    case 3:
-                        planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
-                        determineAxis = 0;
-                        break;
-                    default:
-                        std::cerr << "Something went really wrong" << std::endl;
-                }
-            }
+#pragma omp parallel for ordered
+    for (unsigned int i = 0; i < asteroids.size(); ++i) {
+#pragma omp ordered
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+    }
+    int determineAxis = 0;
+#pragma omp parallel for ordered
+    for (unsigned int j = 0; j < planets.size(); ++j) {
+#pragma omp ordered
+        switch (determineAxis) {
+            case 0:
+                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 1:
+                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 2:
+                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 3:
+                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                determineAxis = 0;
+                break;
+            default:
+                std::cerr << "Something went really wrong" << std::endl;
+        }
+
+    }
+
+
 }
 
 /**
