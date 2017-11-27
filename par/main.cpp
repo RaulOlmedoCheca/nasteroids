@@ -51,7 +51,6 @@ int main(int argc, char const *argv[]) {
 
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
-
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) num_asteroids, std::vector<double>(2));
 
@@ -61,30 +60,24 @@ int main(int argc, char const *argv[]) {
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
-//#pragma omp atomic update
 #pragma omp critical
 		    { 
 		    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-//#pragma omp atomic update
 		    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                     // Apply force negatively for b
-//#pragma omp atomic update
 		    accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
-//#pragma omp atomic update
      		    accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
-                }
+              }
 	    }
 
             }
 
-#pragma omp parallel for private(forces)
+#pragma omp parallel for private(forces) 
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
-//#pragma omp atomic update
 #pragma omp critical
 		{
                 accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-//#pragma omp atomic update
 	    	accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
 		}
 	}
@@ -162,7 +155,7 @@ int checkInteger(char const *arg) {
  * @param arg char const* argument double value
  * @return value in double, exits with error code -1 if error
  */
-double checkDouble(char const *arg) {
+double checkDouble(char const *arg){
     try {
         if (std::stod(arg) < 0) {
             std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
@@ -204,17 +197,14 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
       		    switch (determineAxis) {
                     case 0:
                         planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
-//#pragma omp atomic update
                         determineAxis++;
                         break;
                     case 1:
                         planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
-//#pragma omp atomic update
                         determineAxis++;
                         break;
                     case 2:
                         planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
-//#pragma omp atomic update
                         determineAxis++;
                         break;
                     case 3:
