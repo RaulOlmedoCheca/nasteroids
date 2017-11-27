@@ -53,7 +53,7 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
-#pragma omp parallel for shared(accelerations)
+#pragma omp parallel for //shared(accelerations)
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
 
@@ -181,7 +181,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel for ordered shared(xdist,ydist,mdist, seed, re)
+#pragma omp parallel for ordered //shared(xdist,ydist,mdist, seed, re)
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
