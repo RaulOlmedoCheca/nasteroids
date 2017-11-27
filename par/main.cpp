@@ -276,25 +276,13 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
  * @param asteroids
  */
 void generateFinalFile(std::vector<Asteroid *> &asteroids) {
-    //declare the variable we will use as well as the output file
-    double x;
-    double y;
-    double velX;
-    double velY;
-    double massFinal;
     std::ofstream outfile_final("out.txt");
 
     // We will go through the asteroids vector and store for each position the position, velocity, and mass
     for (auto &asteroid : asteroids) {
-        // In order to get a 3 decimal precision, we will multyply by 1000, round, and then divide by 1000
-        x = asteroid->getPosX();
-        y = asteroid->getPosY();
-        velX = asteroid->getVelocityX();
-        velY = asteroid->getVelocityY();
-        massFinal = asteroid->getMass();
         // Then, just write the contents on the final output file
-        outfile_final << std::fixed << std::setprecision(3) << x << " " << y << " " << velX << " " << velY << " "
-                      << massFinal << std::endl;
+        outfile_final << std::fixed << std::setprecision(3) << asteroid->getPosX() << " " << asteroid->getPosY() << " " << asteroid->getVelocityX() << " " << asteroid->getVelocityY() << " "
+                      << asteroid->getMass() << std::endl;
     }
     // Close the file
     outfile_final.close();
