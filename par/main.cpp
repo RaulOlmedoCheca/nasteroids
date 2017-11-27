@@ -69,8 +69,7 @@ int main(int argc, char const *argv[]) {
                         // Apply force negatively for b
                     }
 
-	            }
-
+                }
             }
 
 #pragma omp parallel for private(forces)
@@ -81,7 +80,7 @@ int main(int argc, char const *argv[]) {
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                 }
-	}
+            }
 
             // INFO: critical section! the functions access mem inside
             computeVelocity(*asteroids[j], accelerations[j]);
@@ -156,7 +155,7 @@ int checkInteger(char const *arg) {
  * @param arg char const* argument double value
  * @return value in double, exits with error code -1 if error
  */
-double checkDouble(char const *arg){
+double checkDouble(char const *arg) {
     try {
         if (std::stod(arg) < 0) {
             std::cerr << "seq: Wrong arguments.\nCorrect use:\n"
@@ -186,37 +185,37 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
 #pragma omp for nowait
-            for (unsigned int i = 0; i < asteroids.size(); ++i) {
-                asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
-            }
+    for (unsigned int i = 0; i < asteroids.size(); ++i) {
+        asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
+    }
 
-            int determineAxis = 0;
+    int determineAxis = 0;
 #pragma omp for nowait
-            for (unsigned int j = 0; j < planets.size(); ++j) {
-      		    switch (determineAxis) {
-                    case 0:
-                        planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
+    for (unsigned int j = 0; j < planets.size(); ++j) {
+        switch (determineAxis) {
+            case 0:
+                planets[j] = new Planet(0, ydist(re), mdist(re) * 10);
 #pragma omp atomic
-                        determineAxis++;
-                        break;
-                    case 1:
-                        planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 1:
+                planets[j] = new Planet(xdist(re), 0, mdist(re) * 10);
 #pragma omp atomic
-                        determineAxis++;
-                        break;
-                    case 2:
-                        planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
+                determineAxis++;
+                break;
+            case 2:
+                planets[j] = new Planet(SPACE_WIDTH, ydist(re), mdist(re) * 10);
 #pragma omp atomic
-                        determineAxis++;
-                        break;
-                    case 3:
-                        planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
-                        determineAxis = 0;
-                        break;
-                    default:
-                        std::cerr << "Something went really wrong" << std::endl;
-                }
-            }
+                determineAxis++;
+                break;
+            case 3:
+                planets[j] = new Planet(xdist(re), SPACE_HEIGHT, mdist(re) * 10);
+                determineAxis = 0;
+                break;
+            default:
+                std::cerr << "Something went really wrong" << std::endl;
+        }
+    }
 }
 
 /**
