@@ -68,7 +68,7 @@ int main(int argc, char const *argv[]) {
 
                 }
             }
-
+            forces.clear();
             for (unsigned int l = 0; l < planets.size(); ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
 
@@ -82,6 +82,7 @@ int main(int argc, char const *argv[]) {
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
             accelerations.clear();
+            forces.clear();
         }
         destroyerOfWorlds(pos_ray, asteroids);
     }
