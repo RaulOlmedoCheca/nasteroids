@@ -9,8 +9,7 @@
  * @return distance
  */
 double computeDistance(Asteroid a, Body b) {
-    float test = sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
-    return test;
+    return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
 /**
@@ -117,8 +116,5 @@ void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
  * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
  */
 double computeAcceleration(Asteroid a, double force) {
-    double acceleration;
-    acceleration = force / a.getMass();
-
-    return acceleration;
+    return force / a.getMass();
 }

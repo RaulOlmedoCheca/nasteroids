@@ -117,8 +117,5 @@ void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
  * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
  */
 double computeAcceleration(Asteroid a, double force) {
-    double acceleration;
-    acceleration = force / a.getMass();
-
-    return acceleration;
+    return force / a.getMass();
 }
