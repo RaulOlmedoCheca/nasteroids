@@ -53,32 +53,27 @@ int main(int argc, char const *argv[]) {
 
     for (int i = 0; i < num_iterations; ++i) {
         std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
+#pragma omp parallel for
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
             std::vector<double> forces(2);
-            #pragma omp parallel for private(forces)
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
-                    #pragma omp critical
-                    {
-                        accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-                        accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+                    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                         // Apply force negatively for b
-                    }
 
                 }
             }
 
-            #pragma omp parallel for private(forces)
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
-                #pragma omp critical
-                {
-                    accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-                    accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-                }
+
+                accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
+                accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
+
             }
 
             // INFO: critical section! the functions access mem inside
