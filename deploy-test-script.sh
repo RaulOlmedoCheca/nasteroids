@@ -65,18 +65,20 @@ cd ..
 cd ..
 echo -e "\n"
 echo -e "***************** Correct init file *******************"
-cat init_conf.txt
+#cat init_conf.txt
 echo -e "***************** Tested init seq file ********************"
-cat build/seq/init_conf.txt
+#cat build/seq/init_conf.txt
 echo -e "***************** Tested init par file ********************"
-cat build/par/init_conf.txt
+#cat build/par/init_conf.txt
 echo -e "\n***************** Correct output file *****************"
-cat out.txt
+#cat out.txt
 echo -e "***************** Tested output seq file ******************"
-cat build/seq/out.txt
+#cat build/seq/out.txt
 echo -e "***************** Tested output par file ******************"
-cat build/par/out.txt
+#cat build/par/out.txt
 echo -e "\n***************** Diff between correct and seq files **************"
+diff out.txt build/seq/out.txt
+diff build/seq/out.txt build/par/out.txt
 diff -q init_conf.txt build/seq/init_conf.txt && diff -q out.txt build/seq/out.txt
 e=$?
 echo -e "\n***************** Diff between seq and par files **************"
