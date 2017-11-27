@@ -61,14 +61,14 @@ int main(int argc, char const *argv[]) {
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
-#pragma omp atomic
+#pragma omp atomic update
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
-#pragma omp atomic
+#pragma omp atomic update
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
                     // Apply force negatively for b
-#pragma omp atomic
+#pragma omp atomic update
                     accelerations[k][0] += computeAcceleration(*asteroids[k], forces[0] * -1);
-#pragma omp atomic
+#pragma omp atomic update
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
                 }
 
