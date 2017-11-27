@@ -52,11 +52,10 @@ int main(int argc, char const *argv[]) {
     generateInitFile(num_asteroids, num_iterations, num_planets, pos_ray, seed, asteroids, planets);
 
     for (int i = 0; i < num_iterations; ++i) {
-        std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
-#pragma omp parallel for //shared(accelerations)
+#pragma omp parallel for
         for (unsigned int j = 0; j < asteroids.size(); ++j) {
+            std::vector<std::vector<double> > accelerations((unsigned int) asteroids.size(), std::vector<double>(2));
             std::vector<double> forces(2);
-
             for (unsigned int k = j; k < asteroids.size(); ++k) {
                 if (computeDistance(*asteroids[j], (Body) *asteroids[k]) >= MINIMUM_DISTANCE) {
                     forces = computeAttractionForce(*asteroids[j], (Body) *asteroids[k]);
@@ -65,7 +64,7 @@ int main(int argc, char const *argv[]) {
                     accelerations[k][1] += computeAcceleration(*asteroids[k], forces[1] * -1);
                     accelerations[j][0] += computeAcceleration(*asteroids[j], forces[0]);
                     accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
-                        // Apply force negatively for b
+                    // Apply force negatively for b
 
                 }
             }
@@ -82,7 +81,7 @@ int main(int argc, char const *argv[]) {
             computeVelocity(*asteroids[j], accelerations[j]);
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
-
+            accelerations.clear();
         }
         destroyerOfWorlds(pos_ray, asteroids);
     }
@@ -181,7 +180,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel for ordered //shared(xdist,ydist,mdist, seed, re)
+#pragma omp parallel for ordered shared(xdist,ydist,mdist, seed, re)
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
