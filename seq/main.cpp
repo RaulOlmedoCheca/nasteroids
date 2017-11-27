@@ -65,7 +65,7 @@ int main(int argc, char const *argv[]) {
             }
 
             /**
-             * -D CMAKE_C_COMPILER=gcc -D CMAKE_CXX_COMPILER=g++ usr/local/bin/
+             * -D CMAKE_C_COMPILER=gcc-7 -D CMAKE_CXX_COMPILER=g++-7 /usr/local/Cellar/gcc/7.2.0/bin
              */
             for (int l = 0; l < num_planets; ++l) {
                 forces = computeAttractionForce(*asteroids[j], (Body) *planets[l]);
