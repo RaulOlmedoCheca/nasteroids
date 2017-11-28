@@ -64,26 +64,27 @@ echo -e "\n***************** Executing par ************"
 cd ..
 cd ..
 echo -e "\n"
-echo -e "***************** Correct init file *******************"
+#echo -e "***************** Correct init file *******************"
 #cat init_conf.txt
-echo -e "***************** Tested init seq file ********************"
+#echo -e "***************** Tested init seq file ********************"
 #cat build/seq/init_conf.txt
-echo -e "***************** Tested init par file ********************"
+#echo -e "***************** Tested init par file ********************"
 #cat build/par/init_conf.txt
-echo -e "\n***************** Correct output file *****************"
+#echo -e "\n***************** Correct output file *****************"
 #cat out.txt
-echo -e "***************** Tested output seq file ******************"
+#echo -e "***************** Tested output seq file ******************"
 #cat build/seq/out.txt
-echo -e "***************** Tested output par file ******************"
+#echo -e "***************** Tested output par file ******************"
 #cat build/par/out.txt
 echo -e "\n***************** Diff between correct and seq files **************"
-diff out.txt build/seq/out.txt
-diff build/seq/out.txt build/par/out.txt
-diff -q init_conf.txt build/seq/init_conf.txt && diff -q out.txt build/seq/out.txt
-e=$?
-echo -e "\n***************** Diff between seq and par files **************"
-diff -q build/seq/init_conf.txt build/par/init_conf.txt && diff -q build/seq/out.txt build/par/out.txt
-e=$(($e+$?))
-echo -e "\nRemoving generated files..."
-echo -e "\nScript ended"
-exit ${e}
+diff -y out.txt build/seq/out.txt
+echo -e "\n\n\n***************** Diff between seq and par files **************"
+diff -y build/seq/out.txt build/par/out.txt
+#diff -q init_conf.txt build/seq/init_conf.txt && diff -q out.txt build/seq/out.txt
+#e=$?
+#echo -e "\n***************** Diff between seq and par files **************"
+#diff -q build/seq/init_conf.txt build/par/init_conf.txt && diff -q build/seq/out.txt build/par/out.txt
+#e=$(($e+$?))
+#echo -e "\nRemoving generated files..."
+#echo -e "\nScript ended"
+#exit ${e}
