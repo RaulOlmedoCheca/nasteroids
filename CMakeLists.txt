@@ -4,5 +4,5 @@ project(nasteroids)
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_BUILD_TYPE Release)
 
-add_subdirectory(nasteroids-par)
-add_subdirectory(nasteroids-seq)
+add_subdirectory(par)
+add_subdirectory(seq)

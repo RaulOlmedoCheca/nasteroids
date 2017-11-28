@@ -20,11 +20,13 @@ double computeDistance(Asteroid a, Body b) {
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
+    if (std::isinf(slope)) {
+        return atan(slope);
+    }
     if (slope < -1 || slope > 1) {
         slope = slope - trunc(slope);
     }
-    double alfa = atan(slope);
-    return alfa;
+    return atan(slope);
 }
 
 /**
@@ -45,7 +47,8 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 
     if (forces[0] > MAXIMUM_FORCE) {
         forces[0] = MAXIMUM_FORCE;
-    } else if (forces[1] > MAXIMUM_FORCE) {
+    }
+    if (forces[1] > MAXIMUM_FORCE) {
         forces[1] = MAXIMUM_FORCE;
     }
 
@@ -64,21 +67,23 @@ void computeReboundEffect(Asteroid &a) {
         a.setPosX(2);
         a.setVelocityX(a.getVelocityX() * -1);
 
-    } else if (posX >= SPACE_WIDTH) {
+    }
+    if (posX >= SPACE_WIDTH) {
         a.setPosX(SPACE_WIDTH - 2);
         a.setVelocityX(a.getVelocityX() * -1);
 
-    } else if (posY <= 0) {
+    }
+    if (posY <= 0) {
         a.setPosY(2);
         a.setVelocityX(a.getVelocityY() * -1);
 
-    } else if (posY >= SPACE_HEIGHT) {
+    }
+    if (posY >= SPACE_HEIGHT) {
         a.setPosY(SPACE_HEIGHT - 2);
         a.setVelocityX(a.getVelocityY() * -1);
 
-    } else {
-        // The asteroid is not in a border, do nothing
     }
+    // Do nothing
 }
 
 /**
@@ -112,8 +117,5 @@ void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
  * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
  */
 double computeAcceleration(Asteroid a, double force) {
-    double acceleration;
-    acceleration = force / a.getMass();
-
-    return acceleration;
+    return force / a.getMass();
 }
