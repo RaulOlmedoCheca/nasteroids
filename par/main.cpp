@@ -11,6 +11,8 @@
 #include "Computations.h"
 #include "omp.h"
 
+void computeReboundEffect(Asteroid &a);
+
 bool checkParametersNumber(int numberOfParameters);
 
 int checkInteger(char const *arg);
@@ -76,14 +78,15 @@ int main(int argc, char const *argv[]) {
                 accelerations[j][1] += computeAcceleration(*asteroids[j], forces[1]);
 
             }
-
-            // INFO: critical section! the functions access mem inside
+            forces.clear();
             computeVelocity(*asteroids[j], accelerations[j]);
             computePosition(*asteroids[j]);
             computeReboundEffect(*asteroids[j]);
             accelerations.clear();
-            forces.clear();
+
         }
+
+        // ERROR: las aceleraciones parece que se calculan bien, donde esta el cout
         destroyerOfWorlds(pos_ray, asteroids);
     }
 
@@ -104,7 +107,7 @@ int main(int argc, char const *argv[]) {
  * @param parameters pointer to the array with the asteroids
  */
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
-#pragma omp parallel for
+
     for (unsigned int j = 0; j < asteroids.size(); ++j) {
         if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
             asteroids.erase(asteroids.begin() + j);
@@ -181,7 +184,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel for ordered shared(xdist,ydist,mdist, seed, re)
+#pragma omp parallel for ordered shared(xdist, ydist, mdist, seed, re) // CHECK: esto parece que es el comportamiento por defecto
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
@@ -237,12 +240,14 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
     // Write asteroids
     for (int i = 0; i < num_asteroids; ++i) {  // for (auto &asteroid : asteroids) { & we could skip argument 1
         //write the data on the file
-        outfile_init << std::fixed << std::setprecision(3) << asteroids[i]->getPosX() << " " << asteroids[i]->getPosY() << " " << asteroids[i]->getMass() << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << asteroids[i]->getPosX() << " " << asteroids[i]->getPosY()
+                     << " " << asteroids[i]->getMass() << std::endl;
     }
     // Write planets
     for (int i = 0; i < num_planets; ++i) { // for (auto i : planets) {  & we could skip argument 3
         //write the data on the file
-        outfile_init << std::fixed << std::setprecision(3) << planets[i]->getPosX() << " " << planets[i]->getPosY() << " " << planets[i]->getMass() << std::endl;
+        outfile_init << std::fixed << std::setprecision(3) << planets[i]->getPosX() << " " << planets[i]->getPosY()
+                     << " " << planets[i]->getMass() << std::endl;
     }
     // Write pos_ray position
     //write the data on the file
@@ -264,7 +269,8 @@ void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     // We will go through the asteroids vector and store for each position the position, velocity, and mass
     for (auto &asteroid : asteroids) {
         // Then, just write the contents on the final output file
-        outfile_final << std::fixed << std::setprecision(3) << asteroid->getPosX() << " " << asteroid->getPosY() << " " << asteroid->getVelocityX() << " " << asteroid->getVelocityY() << " "
+        outfile_final << std::fixed << std::setprecision(3) << asteroid->getPosX() << " " << asteroid->getPosY() << " "
+                      << asteroid->getVelocityX() << " " << asteroid->getVelocityY() << " "
                       << asteroid->getMass() << std::endl;
     }
     // Close the file

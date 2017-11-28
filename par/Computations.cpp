@@ -2,6 +2,7 @@
 #include <iostream>
 #include "Computations.h"
 #include "Constants.h"
+#include "omp.h"
 
 /**
  * Returns the distance between the @param a and @param b
@@ -63,27 +64,37 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
-// INFO: ponemos aqui otra section paralela?
-    if (posX <= 0) {
-        a.setPosX(2);
-        a.setVelocityX(a.getVelocityX() * -1);
-
-    } else if (posX >= SPACE_WIDTH) {
-        a.setPosX(SPACE_WIDTH - 2);
-        a.setVelocityX(a.getVelocityX() * -1);
-
-    }
-    if (posY <= 0) {
-        a.setPosY(2);
-        a.setVelocityX(a.getVelocityY() * -1);
-
-    } else if (posY >= SPACE_HEIGHT) {
-        a.setPosY(SPACE_HEIGHT - 2);
-        a.setVelocityX(a.getVelocityY() * -1);
-
-    } else {
-        // The asteroid is not in a border, do nothing
-    }
+//#pragma omp parallel sections
+//    {
+//#pragma omp section
+//        {
+            if (posX <= 0) {
+                a.setPosX(2);
+                a.setVelocityX(a.getVelocityX() * -1);
+            }
+//        }
+//#pragma omp section
+//        {
+            if (posX >= SPACE_WIDTH) {
+                a.setPosX(SPACE_WIDTH - 2);
+                a.setVelocityX(a.getVelocityX() * -1);
+            }
+//        }
+//#pragma omp section
+//        {
+            if (posY <= 0) {
+                a.setPosY(2);
+                a.setVelocityX(a.getVelocityY() * -1);
+            }
+//        }
+//#pragma omp section
+//        {
+            if (posY >= SPACE_HEIGHT) {
+                a.setPosY(SPACE_HEIGHT - 2);
+                a.setVelocityX(a.getVelocityY() * -1);
+            }
+//        }
+//    }
 }
 
 /**
