@@ -104,13 +104,20 @@ int main(int argc, char const *argv[]) {
  * @param parameters pointer to the array with the asteroids
  */
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
+  std::vector<int> deleteA;
 #pragma omp parallel for
-    for (unsigned int j = 0; j < asteroids.size(); ++j) {
-        if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
-            asteroids.erase(asteroids.begin() + j);
-        }
+  for (unsigned int j = 0; j < asteroids.size(); j++) {
+    if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
+      deleteA.push_back(j);
     }
+  }
+  //Delete
+  for (unsigned int i = 0; i < deleteA.size(); i++) {
+    asteroids[deleteA[i]].erase(asteroids.begin() + deleteA[i]);
+  }
+  deleteA.clear();
 }
+
 
 /**
  * This function checks the parameters used in the call to the program
