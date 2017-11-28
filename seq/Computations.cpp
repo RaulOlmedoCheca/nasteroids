@@ -67,7 +67,8 @@ void computeReboundEffect(Asteroid &a) {
         a.setPosX(2);
         a.setVelocityX(a.getVelocityX() * -1);
 
-    } else if (posX >= SPACE_WIDTH) {
+    }
+    if (posX >= SPACE_WIDTH) {
         a.setPosX(SPACE_WIDTH - 2);
         a.setVelocityX(a.getVelocityX() * -1);
 
@@ -76,13 +77,13 @@ void computeReboundEffect(Asteroid &a) {
         a.setPosY(2);
         a.setVelocityX(a.getVelocityY() * -1);
 
-    } else if (posY >= SPACE_HEIGHT) {
+    }
+    if (posY >= SPACE_HEIGHT) {
         a.setPosY(SPACE_HEIGHT - 2);
         a.setVelocityX(a.getVelocityY() * -1);
 
-    } else {
-        // The asteroid is not in a border, do nothing
     }
+    // Do nothing
 }
 
 /**
