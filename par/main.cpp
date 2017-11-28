@@ -11,8 +11,6 @@
 #include "Computations.h"
 #include "omp.h"
 
-void computeReboundEffect(Asteroid &a);
-
 bool checkParametersNumber(int numberOfParameters);
 
 int checkInteger(char const *arg);
@@ -111,8 +109,8 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
     for (unsigned int j = 0; j < asteroids.size(); ++j) {
         if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
             asteroids.erase(asteroids.begin() + j);
-        }
     }
+  }
 }
 
 /**
