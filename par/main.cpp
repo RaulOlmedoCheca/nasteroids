@@ -182,14 +182,14 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
     std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel for ordered shared(xdist, ydist, mdist, seed, re) // CHECK: esto parece que es el comportamiento por defecto
+#pragma omp parallel for ordered // CHECK: esto parece que es el comportamiento por defecto
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
     }
 
     int determineAxis = 0;
-#pragma omp parallel for ordered shared(determineAxis)
+#pragma omp parallel for ordered
     for (unsigned int j = 0; j < planets.size(); ++j) {
 #pragma omp ordered
         switch (determineAxis) {

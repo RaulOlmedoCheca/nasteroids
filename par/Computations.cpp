@@ -65,36 +65,36 @@ void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
 //#pragma omp parallel sections
-//    {
+    {
 //#pragma omp section
-//        {
+        {
             if (posX <= 0) {
                 a.setPosX(2);
                 a.setVelocityX(a.getVelocityX() * -1);
             }
-//        }
+        }
 //#pragma omp section
-//        {
+        {
             if (posX >= SPACE_WIDTH) {
                 a.setPosX(SPACE_WIDTH - 2);
                 a.setVelocityX(a.getVelocityX() * -1);
             }
-//        }
+        }
 //#pragma omp section
-//        {
+        {
             if (posY <= 0) {
                 a.setPosY(2);
                 a.setVelocityX(a.getVelocityY() * -1);
             }
-//        }
+        }
 //#pragma omp section
-//        {
+        {
             if (posY >= SPACE_HEIGHT) {
                 a.setPosY(SPACE_HEIGHT - 2);
                 a.setVelocityX(a.getVelocityY() * -1);
             }
-//        }
-//    }
+        }
+    }
 }
 
 /**
