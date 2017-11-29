@@ -108,8 +108,8 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
  */
 bool checkParametersNumber(int numberOfParameters) {
     if (numberOfParameters < PARAMETERS_REQUIRED + 1) {
-        std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         return false;
     }
     return true;
@@ -123,15 +123,15 @@ bool checkParametersNumber(int numberOfParameters) {
 int checkInteger(char const *arg) {
     try {
         if (std::stoi(arg) < 0) {
-            std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
             std::exit(-1);
         }
         return std::stoi(arg);
     }
     catch (...) {
-        std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
@@ -144,15 +144,15 @@ int checkInteger(char const *arg) {
 double checkDouble(char const *arg) {
     try {
         if (std::stod(arg) < 0 || std::stod(arg) > SPACE_WIDTH) {
-            std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
-                      << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+            std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                      << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
             std::exit(-1);
         }
         return std::stod(arg);
     }
     catch (...) {
-        std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
-                  << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
+        std::cerr << "nasteroids-seq: Wrong arguments.\nCorrect use:\n"
+                  << "nasteroids-seq num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
         std::exit(-1);
     }
 }
