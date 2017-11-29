@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <cmath>
+#include <algorithm>
 #include <random>
 #include <vector>
 #include <chrono>
@@ -103,11 +104,18 @@ int main(int argc, char const *argv[]) {
  * @param parameters pointer to the array with the asteroids
  */
 void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
+    std::vector<unsigned int> asteroidsToErase(0);
+#pragma omp parallel for
     for (unsigned int j = 0; j < asteroids.size(); ++j) {
         if (asteroids[j]->getPosY() <= pos + (RAY_WIDTH / 2) && asteroids[j]->getPosY() >= pos - (RAY_WIDTH / 2)) {
-            asteroids.erase(asteroids.begin() + j);
-            j--;
+#pragma omp critical
+            asteroidsToErase.push_back(j);
         }
+    }
+    std::sort(asteroidsToErase.begin(), asteroidsToErase.end());
+    for (unsigned int i = 0; i < asteroidsToErase.size(); ++i) {
+        // TODO: delete asteroids[asteroidsToErase];
+        asteroids.erase(asteroids.begin() + asteroidsToErase[i] - i);
     }
 }
 
@@ -176,8 +184,10 @@ double checkDouble(char const *arg) {
 void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets, unsigned int seed) {
     // Random distributions
     std::default_random_engine re{seed};
-    std::uniform_real_distribution<double> xdist{0.0, std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
-    std::uniform_real_distribution<double> ydist{0.0, std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> xdist{0.0,
+                                                 std::nextafter(SPACE_WIDTH, std::numeric_limits<double>::max())};
+    std::uniform_real_distribution<double> ydist{0.0,
+                                                 std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
 #pragma omp parallel for ordered // CHECK: esto parece que es el comportamiento por defecto
