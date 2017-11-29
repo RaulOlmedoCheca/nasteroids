@@ -36,7 +36,6 @@ int main(int argc, char const *argv[]) {
     if (!checkParametersNumber(argc)) {
         return -1;
     }
-    // TODO: if all the parameters are 0 print error showing there's nothing to calculate
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
@@ -85,7 +84,6 @@ int main(int argc, char const *argv[]) {
 
         }
 
-        // ERROR: las aceleraciones parece que se calculan bien, donde esta el cout
         destroyerOfWorlds(pos_ray, asteroids);
     }
 
@@ -114,7 +112,6 @@ void destroyerOfWorlds(double pos, std::vector<Asteroid *> &asteroids) {
     }
     std::sort(asteroidsToErase.begin(), asteroidsToErase.end());
     for (unsigned int i = 0; i < asteroidsToErase.size(); ++i) {
-        // TODO: delete asteroids[asteroidsToErase];
         asteroids.erase(asteroids.begin() + asteroidsToErase[i] - i);
     }
 }
@@ -190,7 +187,7 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
                                                  std::nextafter(SPACE_HEIGHT, std::numeric_limits<double>::max())};
     std::normal_distribution<double> mdist{MASS, SD_MASS};
 
-#pragma omp parallel for ordered // CHECK: esto parece que es el comportamiento por defecto
+#pragma omp parallel for ordered
     for (unsigned int i = 0; i < asteroids.size(); ++i) {
 #pragma omp ordered
         asteroids[i] = new Asteroid(xdist(re), ydist(re), mdist(re), 0, 0);
@@ -224,15 +221,14 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 }
 
 /**
- * TODO:
  * Generate a text file with the initial arguments, as well as the position and mass of the planets, asteroids and ray
  * @param num_asteroids
  * @param num_iterations
  * @param num_planets
  * @param pos_ray
  * @param seed
- * @param asteroids
- * @param planets
+ * @param Vector asteroids
+ * @param Vector planets
  */
 void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray,
                       const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
@@ -265,9 +261,8 @@ void generateInitFile(const int num_asteroids, const int num_iterations, const i
 }
 
 /**
- * TODO:
  * Generate a text file with the results of our iterations (including positions, velocities and mass) for the asteroids left
- * @param asteroids
+ * @param Vector asteroids
  */
 void generateFinalFile(std::vector<Asteroid *> &asteroids) {
     std::ofstream outfile_final("out.txt");

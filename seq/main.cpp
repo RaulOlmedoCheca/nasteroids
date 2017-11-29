@@ -33,7 +33,6 @@ int main(int argc, char const *argv[]) {
     if (!checkParametersNumber(argc)) {
         return -1;
     }
-    // TODO: if all the parameters are 0 print error showing there's nothing to calculate
     const int num_asteroids = checkInteger(argv[1]);
     const int num_iterations = checkInteger(argv[2]);
     const int num_planets = checkInteger(argv[3]);
@@ -199,15 +198,14 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
 }
 
 /**
- * TODO:
  * Generate a text file with the initial arguments, as well as the position and mass of the planets, asteroids and ray
  * @param num_asteroids
  * @param num_iterations
  * @param num_planets
  * @param pos_ray
  * @param seed
- * @param asteroids
- * @param planets
+ * @param Vector asteroids
+ * @param Vector planets
  */
  void generateInitFile(const int num_asteroids, const int num_iterations, const int num_planets, double pos_ray,
                        const unsigned int seed, std::vector<Asteroid *> &asteroids, std::vector<Planet *> &planets) {
@@ -238,9 +236,8 @@ void generateBodies(std::vector<Asteroid *> &asteroids, std::vector<Planet *> &p
  }
 
 /**
- * TODO:
  * Generate a text file with the results of our iterations (including positions, velocities and mass) for the asteroids left
- * @param asteroids
+ * @param Vector asteroids
  */
  void generateFinalFile(std::vector<Asteroid *> &asteroids) {
      std::ofstream outfile_final("out.txt");
