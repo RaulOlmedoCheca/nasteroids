@@ -143,7 +143,7 @@ int checkInteger(char const *arg) {
  */
 double checkDouble(char const *arg) {
     try {
-        if (std::stod(arg) < 0) {
+        if (std::stod(arg) < 0 || std::stod(arg) > SPACE_WIDTH) {
             std::cerr << "nasteroids-par: Wrong arguments.\nCorrect use:\n"
                       << "nasteroids-par num_asteroids num_iterations num_planets pos_ray seed" << std::endl;
             std::exit(-1);
