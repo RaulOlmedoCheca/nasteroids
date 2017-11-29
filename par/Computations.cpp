@@ -2,7 +2,7 @@
 #include <iostream>
 #include "Computations.h"
 #include "Constants.h"
-#include "omp.h"
+//#include "omp.h"
 
 /**
  * Returns the distance between the @param a and @param b
