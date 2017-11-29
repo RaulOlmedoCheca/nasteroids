@@ -1,24 +1,23 @@
 #include <cmath>
-#include <iostream>
 #include "Computations.h"
 #include "Constants.h"
-//#include "omp.h"
 
 /**
- * Returns the distance between the @param a and @param b
- * @param a body object
- * @param b body object
- * @return distance
+ * Calculates the distance between an Asteroid and a Body (either a Planet or another Asteroid)
+ * @param Asteroid a
+ * @param Body b
+ * @return double with the module of the distance
  */
 double computeDistance(Asteroid a, Body b) {
     return sqrt(pow((a.getPosX() - b.getPosX()), 2) + pow((a.getPosY() - b.getPosY()), 2));
 }
 
 /**
- * Returns the angle of influence between @param a and @param b
- * @param a
- * @param b
- * @return angle of influence
+ * This method computes the angle of influence between an Asteroid and a Body (either an Asteroid or a Body)
+ * by computing the slope and then applying the arctangent to it.
+ * @param Asteroid a
+ * @param Body b
+ * @return double with the angle of influence of the two bodies
  */
 double computeAngleOfInfluence(Asteroid a, Body b) {
     double slope = (a.getPosY() - b.getPosY()) / (a.getPosX() - b.getPosX());
@@ -29,14 +28,14 @@ double computeAngleOfInfluence(Asteroid a, Body b) {
         slope = slope - trunc(slope);
     }
     return atan(slope);
-
 }
 
 /**
- * TODO:
- * @param a
- * @param b
- * @return vector with the two components of the force with [0] being the x axis and [1] being the y axis
+ * This methods calculates the attraction force exerted between an Asteroid and
+ * a Body (either a Planet or an Asteroid)
+ * @param Asteroid a
+ * @param Body b
+ * @return
  */
 std::vector<double> computeAttractionForce(Asteroid a, Body b) {
     double distance = computeDistance(a, b);
@@ -58,42 +57,29 @@ std::vector<double> computeAttractionForce(Asteroid a, Body b) {
 }
 
 /**
- * Applies the rebound effect to the @param a once checked if necessary
- * @param a
+ * This method checks if the Asteroid is out of bounds with respect to the size
+ * of the map and changes its position and velocity according to it
+ * @param Asteroid a (passed by reference)
  */
 void computeReboundEffect(Asteroid &a) {
     double posX = a.getPosX();
     double posY = a.getPosY();
-//#pragma omp parallel sections
-    {
-//#pragma omp section
-        {
-            if (posX <= 0) {
-                a.setPosX(2);
-                a.setVelocityX(a.getVelocityX() * -1);
-            }
-        }
-//#pragma omp section
-        {
-            if (posX >= SPACE_WIDTH) {
-                a.setPosX(SPACE_WIDTH - 2);
-                a.setVelocityX(a.getVelocityX() * -1);
-            }
-        }
-//#pragma omp section
-        {
-            if (posY <= 0) {
-                a.setPosY(2);
-                a.setVelocityX(a.getVelocityY() * -1);
-            }
-        }
-//#pragma omp section
-        {
-            if (posY >= SPACE_HEIGHT) {
-                a.setPosY(SPACE_HEIGHT - 2);
-                a.setVelocityX(a.getVelocityY() * -1);
-            }
-        }
+
+    if (posX <= 0) {
+        a.setPosX(2);
+        a.setVelocityX(a.getVelocityX() * -1);
+    }
+    if (posX >= SPACE_WIDTH) {
+        a.setPosX(SPACE_WIDTH - 2);
+        a.setVelocityX(a.getVelocityX() * -1);
+    }
+    if (posY <= 0) {
+        a.setPosY(2);
+        a.setVelocityX(a.getVelocityY() * -1);
+    }
+    if (posY >= SPACE_HEIGHT) {
+        a.setPosY(SPACE_HEIGHT - 2);
+        a.setVelocityX(a.getVelocityY() * -1);
     }
 }
 
@@ -110,10 +96,10 @@ void computePosition(Asteroid &a) {
 }
 
 /**
- * TODO:
- * @param a
- * @param asteroids
- * @param planets
+ * This method calculates the velocity based on the vector with the accelerations passed to it
+ * @param Asteroid a
+ * @param Vector accelerations containing the two components of
+ * the acceleration ([0] for x axis, [1] for y axis)
  */
 void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
     a.setVelocityX(a.getVelocityX() + accelerations[0] * TIME_INTERVAL);
@@ -121,11 +107,10 @@ void computeVelocity(Asteroid &a, std::vector<double> accelerations) {
 }
 
 /**
- * TODO:
- * @param a
- * @param asteroids
- * @param planets
- * @return vector with the two components of the acceleration with [0] being the x axis and [1] being the y axis
+ * This function computes the acceleration of the Asteroid using the value of the force exerted to it
+ * @param Asteroid a
+ * @param Vector force with the two components of the forces exerted to it ([0] for x axis, [1] for y axis)
+ * @return
  */
 double computeAcceleration(Asteroid a, double force) {
     return force / a.getMass();
