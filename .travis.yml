@@ -24,7 +24,6 @@
       - make
       - cd ..
       - ./deploy-test-script.sh 5 2000 1 50.5 2000
-      - ./deploy-test-script.sh 1000 200 1000 5 1
 
   after_success:
      - cd build
